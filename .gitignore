@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Senshost/.vs/ProjectEvaluation
+/Senshost/bin/Debug
+/Senshost/obj
+/Senshost.Common/bin
+/Senshost.Common/obj
+/Senshost.Models/bin
+/Senshost.Services/bin
+/Senshost.Services/obj

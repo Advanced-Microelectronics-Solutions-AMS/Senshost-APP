@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Senshost.Views.ContactUsPage"
+             Title="Contact Us">
+    <AbsoluteLayout>
+        <WebView x:Name="contactUs" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All" Opacity="0"
+                 Source="https://www.amsolutions.my/contact" Navigating="WebView_Navigating"  Navigated="WebView_Navigated">
+        </WebView>
+        <StackLayout
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    HorizontalOptions="Center" VerticalOptions="Center">
+            <ActivityIndicator 
+                           x:Name="loading"
+                           HorizontalOptions="Center"
+                           Color="{StaticResource Primary}"
+                           VerticalOptions="Center"/>
+        </StackLayout>
+    </AbsoluteLayout>
+</ContentPage>

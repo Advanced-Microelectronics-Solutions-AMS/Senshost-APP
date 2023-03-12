@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Senshost.Views.NotificationListPage"
+             xmlns:viewModel="clr-namespace:Senshost.ViewModels"
+             x:DataType="viewModel:NotificationListPageViewModel"
+             xmlns:mct ="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:Senshost.Controls"
+             xmlns:template="clr-namespace:Senshost.Views.Templates"
+             Title="Notifications">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="controls:SkeletonView">
+                <Setter Property="Color" Value="#E4E4E4"/>
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+            </Style>
+
+            <Style TargetType="BoxView" x:Key="SeparatorLine">
+                <Setter Property="Color" Value="LightGray"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HeightRequest" Value="1" />
+            </Style>
+
+            <DataTemplate x:Key="EmptyUserTemplate">
+                <Grid ColumnDefinitions="Auto, *"
+                          RowDefinitions="Auto, Auto, Auto, 1"
+                          ColumnSpacing="10"
+                          RowSpacing="5"
+                          Padding="0,10">
+
+                    <controls:SkeletonView Grid.Column="0"
+                                                   Grid.Row="0"
+                                                   Grid.RowSpan="3"
+                                                   Margin="20,0,0,10"
+                                                   HeightRequest="70"
+                                                   WidthRequest="70"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center">
+                        <controls:SkeletonView.Clip>
+                            <EllipseGeometry
+                                                Center="35,35"
+                                                RadiusX="35"
+                                                RadiusY="35"/>
+                        </controls:SkeletonView.Clip>
+
+                    </controls:SkeletonView>
+
+                    <controls:SkeletonView Grid.Column="1"
+                                                   Grid.Row="0"
+                                                   HeightRequest="16"
+                                                   WidthRequest="150"/>
+
+                    <controls:SkeletonView Grid.Column="1"
+                                                   Grid.Row="1"
+                                                   HeightRequest="16"
+                                                   WidthRequest="250"/>
+
+                    <controls:SkeletonView Grid.Column="1"
+                                                   Grid.Row="2"
+                                                   WidthRequest="150"
+                                                   HeightRequest="16"
+                                                   VerticalOptions="Start"/>
+
+                    <BoxView Style="{StaticResource SeparatorLine}"
+                                     Grid.Column="0"
+                                     Grid.Row="3"
+                                     Grid.ColumnSpan="2"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+        <Grid RowDefinitions="*"
+          IgnoreSafeArea="True">
+            <ScrollView HorizontalScrollBarVisibility="Never">
+                <Grid RowDefinitions="160,*"
+                  RowSpacing="15"
+                  Padding="20,10,20,15">
+                    <Grid x:Name="Stats">
+                        <Border StrokeThickness="0" StrokeShape="RoundRectangle 20">
+                            <Border.Shadow>
+                                <Shadow Radius="60" Opacity="0.3" />
+                            </Border.Shadow>
+                            <StackLayout mct:StateContainer.CurrentState="{Binding CurrentState}">
+                                <mct:StateContainer.StateViews>
+                                    <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
+                                    Padding="20" RowSpacing="5" mct:StateView.StateKey="Loading">
+                                        <controls:SkeletonView Grid.Column="0"
+                                                   Grid.Row="0"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100"
+                                                   HorizontalOptions="Center" CornerRadius="50">
+                                        </controls:SkeletonView>
+                                        <controls:SkeletonView Grid.Column="1"
+                                                   Grid.Row="0"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100"
+                                                   HorizontalOptions="Center" CornerRadius="50">
+                                        </controls:SkeletonView>
+                                        <controls:SkeletonView Grid.Column="2"
+                                                   Grid.Row="0"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100"
+                                                   HorizontalOptions="Center" CornerRadius="50">
+                                        </controls:SkeletonView>
+                                        <controls:SkeletonView Grid.Row="1" 
+                                                   Grid.Column="0"
+                                                   WidthRequest="50"
+                                                   HeightRequest="16"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        <controls:SkeletonView Grid.Row="1" 
+                                                   Grid.Column="1"
+                                                   WidthRequest="50"
+                                                   HeightRequest="16"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        <controls:SkeletonView Grid.Row="1" 
+                                                   Grid.Column="2"
+                                                   WidthRequest="50"
+                                                   HeightRequest="16"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                    </Grid>
+                                    <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
+                                    Padding="20" RowSpacing="5" mct:StateView.StateKey="Success">
+                                        <StackLayout Grid.Column="0"  x:Name="CriticalCount" Scale="0">
+                                            <Border 
+                                HeightRequest="100" WidthRequest="100"
+                                StrokeShape="RoundRectangle 50"
+                                HorizontalOptions="Center">
+                                                <Border.Shadow>
+                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                                                </Border.Shadow>
+                                                <Border.Background>
+                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                                        <GradientStop Color="Red" Offset="0.2" />
+                                                        <GradientStop Color="Yellow" Offset="1.0" />
+                                                    </RadialGradientBrush>
+                                                </Border.Background>
+                                                <Label Text="{Binding PendingCritialNotificationCount}"
+                                   FontAttributes="Bold" 
+                                   VerticalTextAlignment="Center" FontSize="30"
+                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
+                                            </Border>
+                                        </StackLayout>
+                                        <Label Grid.Row="1" 
+                               Grid.Column="0" Text="Critical" FontSize="15" 
+                               VerticalTextAlignment="Center" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+
+                                        <StackLayout Grid.Column="1"  x:Name="WarningCount" Scale="0">
+                                            <Border HeightRequest="100"
+                                WidthRequest="100"
+                                StrokeShape="RoundRectangle 50"
+                                HorizontalOptions="Center">
+                                                <Border.Shadow>
+                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                                                </Border.Shadow>
+                                                <Border.Background>
+                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                                        <GradientStop Color="LightGreen" Offset="0.1" />
+                                                        <GradientStop Color="Yellow" Offset="1.0" />
+                                                    </RadialGradientBrush>
+                                                </Border.Background>
+                                                <Label  Text="{Binding PendingWarningNotificationCount}" 
+                                    FontAttributes="Bold" 
+                                   VerticalTextAlignment="Center" FontSize="30"
+                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
+                                            </Border>
+                                        </StackLayout>
+                                        <Label Grid.Row="1" Grid.Column="1" Text="Warning" FontSize="15" 
+                               VerticalTextAlignment="Center" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+
+                                        <StackLayout Grid.Column="2" x:Name="InfoCount" Scale="0">
+                                            <Border  HeightRequest="100"
+                                WidthRequest="100"
+                                StrokeShape="RoundRectangle 50"
+                                HorizontalOptions="Center">
+                                                <Border.Shadow>
+                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                                                </Border.Shadow>
+                                                <Border.Background>
+                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                                        <GradientStop Color="BlueViolet" Offset="0.1" />
+                                                        <GradientStop Color="AliceBlue" Offset="1.0" />
+                                                    </RadialGradientBrush>
+                                                </Border.Background>
+                                                <Label  Text="{Binding PendingInfoNotificationCount}" 
+                                    FontAttributes="Bold" 
+                                   VerticalTextAlignment="Center" FontSize="30"
+                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
+                                            </Border>
+                                        </StackLayout>
+                                        <Label Grid.Row="1" Grid.Column="2" Text="Info" FontSize="15" 
+                               VerticalTextAlignment="Center" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+                                    </Grid>
+                                </mct:StateContainer.StateViews>
+                            </StackLayout>
+                        </Border>
+                    </Grid>
+
+                    <StackLayout mct:StateContainer.CurrentState="{Binding CurrentState}" Grid.Row="1">
+                        <mct:StateContainer.StateViews>
+                            <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}" mct:StateView.StateKey="Loading">
+                                <BindableLayout.ItemsSource>
+                                    <x:Array  Type="{x:Type x:Int32}">
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>0</x:Int32>
+                                        <x:Int32>0</x:Int32>
+                                    </x:Array>
+                                </BindableLayout.ItemsSource>
+                            </StackLayout>
+
+                            <CollectionView SelectionMode="Single" ItemsSource="{Binding Notifications}" mct:StateView.StateKey="Success"
+                                RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                                RemainingItemsThreshold="{Binding ItemThreshold}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="{x:Type viewModel:NotificationDetailPageViewModel}">
+                                        <template:NotificationTemplate>
+                                            <template:NotificationTemplate.Triggers>
+                                                <DataTrigger
+                                                    TargetType="template:NotificationTemplate"
+			                                        Binding="{Binding Status}"
+			                                        Value="Read">
+                                                    <Setter Property="Opacity" Value="0.7" />
+                                                </DataTrigger>
+                                            </template:NotificationTemplate.Triggers>
+                                        </template:NotificationTemplate>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+
+                                <CollectionView.Footer>
+                                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}"
+                                 IsVisible="{Binding IsLoadingMore}">
+                                        <BindableLayout.ItemsSource>
+                                            <x:Array  Type="{x:Type x:Int32}">
+                                                <x:Int32>0</x:Int32>
+                                            </x:Array>
+                                        </BindableLayout.ItemsSource>
+                                    </StackLayout>
+                                </CollectionView.Footer>
+                            </CollectionView>
+                        </mct:StateContainer.StateViews>
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+            <!--<ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center"
+			   Color="{StaticResource Primary}"
+                           Grid.RowSpan="2"
+                           Grid.ColumnSpan="2"/>-->
+        </Grid>
+    </RefreshView>
+</ContentPage>

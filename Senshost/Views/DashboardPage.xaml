@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Senshost.Views.DashboardPage"
+             xmlns:viewModel="clr-namespace:Senshost.ViewModels"
+             x:DataType="viewModel:DashboardPageViewModel"
+             Title="Dashboard">
+    <AbsoluteLayout>
+        <WebView x:Name="dashboard" AbsoluteLayout.LayoutBounds="0,0,1,1"
+              Opacity="0" AbsoluteLayout.LayoutFlags="All" Navigating="WebView_Navigating"  Navigated="WebView_Navigated">
+        </WebView>
+
+        <Button CornerRadius="25"
+                Margin="0,0,10,10"
+                BackgroundColor="{StaticResource Primary}"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                Clicked="ImageButton_Clicked"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                HeightRequest="50"
+                TextColor="White"
+                Padding="5,5"
+                FontSize="20"
+                ImageSource="refresh.png"
+                WidthRequest="50">
+        </Button>
+        <StackLayout
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    HorizontalOptions="Center" VerticalOptions="Center">
+            <ActivityIndicator 
+                           IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="Center"
+                           Color="{StaticResource Primary}"
+                           VerticalOptions="Center"/>
+        </StackLayout>
+    </AbsoluteLayout>
+</ContentPage>

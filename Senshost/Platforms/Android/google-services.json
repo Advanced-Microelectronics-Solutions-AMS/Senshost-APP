@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "633569641939",
+    "project_id": "senshost-b0fd1",
+    "storage_bucket": "senshost-b0fd1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633569641939:android:9b2e3b21e1fdaac2fd1b26",
+        "android_client_info": {
+          "package_name": "com.AMS.senshost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633569641939-egkhsaeii8usj55d690epj75v1h4gcvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo2HGTPdoy-KuGiGaoy50IkSyze2U3qcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633569641939-egkhsaeii8usj55d690epj75v1h4gcvc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
