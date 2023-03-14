@@ -3,7 +3,9 @@ using System.Reflection.Metadata;
 using CommunityToolkit.Maui.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Senshost.Common.Interfaces;
+using Senshost.Models.Account;
 using Senshost.Models.Common;
 using Senshost.Models.Notification;
 using Senshost.Views;
@@ -55,6 +57,22 @@ namespace Senshost.ViewModels
             IsInitialized = true;
             IsBusy = false;
         }
+
+        public void OnAppearing()
+        {
+            // Register a message in some module
+            WeakReferenceMessenger.Default.Register<Dictionary<string, string>>(this, async (r, m) =>
+            {
+                await Refresh();
+            });
+
+        }
+
+        public void OnDisappearing()
+        {
+            WeakReferenceMessenger.Default.Unregister<Dictionary<string, string>>(this);
+        }
+
 
         [RelayCommand]
         public async Task LoadMore()

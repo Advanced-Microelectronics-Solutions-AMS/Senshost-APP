@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using AndroidX.Core.App;
+using CommunityToolkit.Mvvm.Messaging;
 using Firebase.Messaging;
 using AppConst = Senshost.Constants;
 
@@ -31,6 +32,13 @@ namespace Senshost.Platforms.Android.Services
             var notification = message.GetNotification();
 
             SendNotification(notification.Body, notification.Title, message.Data);
+
+            var data = new Dictionary<string, string>(message.Data);
+            data.Add("body", notification.Body);
+            data.Add("title", notification.Title);
+
+            // Send a message from some other module
+            WeakReferenceMessenger.Default.Send(data);
         }
 
         private void SendNotification(string messageBody, string title, IDictionary<string, string> data)

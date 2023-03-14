@@ -20,6 +20,15 @@ public partial class NotificationListPage : ContentPage
 
         if (!vm.IsInitialized)
             await vm.Initialize();
+
+        vm.OnAppearing();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        vm.OnDisappearing();
     }
 
     private void VM_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
