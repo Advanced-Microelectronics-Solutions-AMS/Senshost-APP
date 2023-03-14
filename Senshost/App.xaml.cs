@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Platform;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Platform;
 using Senshost.Common.Interfaces;
 using Senshost.Handlers;
 using Senshost.Models.Account;
@@ -10,6 +11,12 @@ public partial class App : Application
 {
     public static LogedInUserDetails UserDetails;
     public static string ApiToken;
+
+    //public App()
+    //{
+    //    MainPage = new ContentPage();
+
+    //}
 
     public App(IServiceProvider serviceProvider)
     {
@@ -29,6 +36,7 @@ public partial class App : Application
             }
         });
 
+        //MainPage = new ContentPage();
         MainPage = new AppShell(serviceProvider.GetService<AppShellViewModel>());
     }
 }

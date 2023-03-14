@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Senshost.Views.LoginPage"
@@ -53,7 +53,8 @@
                                     HeightRequest="55"
                                     Opacity="0.7"
                                     BackgroundColor="Transparent"
-                                    HorizontalOptions="FillAndExpand">
+                                    HorizontalOptions="FillAndExpand"
+                               >
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="6" />
                                 </Border.StrokeShape>
@@ -75,7 +76,8 @@
                                     BackgroundColor="Transparent"
                                     Placeholder="Enter User Name or Email"  FontSize="18"
                                     TextColor="{StaticResource White}"
-                                    PlaceholderColor="#e9f0ea" ReturnType="Next" Completed="BorderlessEntry_Completed" />
+                                    PlaceholderColor="#e9f0ea" ReturnType="Next" Completed="BorderlessEntry_Completed"
+                                 Margin="8"/>
                         </Grid>
 
                         <Grid Margin="0,10">
@@ -110,7 +112,8 @@
                                     Placeholder="Enter Password"  FontSize="18"
                                     TextColor="{StaticResource White}"
                                     ReturnCommand="{Binding LoginCommand}"
-                                    PlaceholderColor="#e9f0ea" ReturnType="Done" Completed="password_Completed">
+                                    PlaceholderColor="#e9f0ea" ReturnType="Done" Completed="password_Completed"
+                                 Margin="8">
                             </hadlers:BorderlessEntry>
                         </Grid>
 
