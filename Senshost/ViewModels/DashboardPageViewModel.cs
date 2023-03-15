@@ -12,6 +12,8 @@ namespace Senshost.ViewModels
         {
             userStateContext.PropertyChanged += OnUserStatePropertyChanged;
             this.userStateContext = userStateContext;
+
+            
         }
 
         private void OnUserStatePropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -15,7 +15,12 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         private bool isInitialized;
 
+        [ObservableProperty]
+        private string badgeCount = "";
+
+
         public bool IsNotBusy => !IsBusy;
+
 
         public virtual void ApplyQueryAttributes(IDictionary<string, object> query)
         {
@@ -35,6 +40,9 @@ namespace Senshost.ViewModels
         private bool isInitialized;
 
         public bool IsNotBusy => !IsBusy;
+
+        [ObservableProperty]
+        private string badgeCount = "";
     }
 
     public partial class BaseObservableValidatorViewModel : ObservableValidator, IQueryAttributable

@@ -15,6 +15,7 @@ public class MainActivity : MauiAppCompatActivity
         base.OnCreate(savedInstanceState);
         if (Intent.Extras != null)
         {
+            var keySet = Intent.Extras.KeySet();
             foreach (var key in Intent.Extras.KeySet())
             {
                 if (key == "NavigationID")
@@ -26,6 +27,10 @@ public class MainActivity : MauiAppCompatActivity
                     Preferences.Set("NavigationID", idValue);
                 }
             }
+
+            Senshost.App.IsNotificationReceived = true;
+            Shell.Current.GoToAsync($"//NotificationListPage", true);
+
         }
         CreateNotificationChannel();
     }

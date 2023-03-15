@@ -20,6 +20,8 @@ namespace Senshost.ViewModels
         public NotificationListPageViewModel(INotificationService notificationService)
         {
             this.notificationService = notificationService;
+
+            InitializeNotificationCount();
         }
 
         [ObservableProperty]
@@ -53,9 +55,15 @@ namespace Senshost.ViewModels
             await InitializeNotifications();
             await InitializeNotificationCount();
 
-            CurrentState = LayoutState.Success;
-            IsInitialized = true;
-            IsBusy = false;
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                // Code to run on the main thread
+                CurrentState = LayoutState.Success;
+
+                IsInitialized = true;
+                IsBusy = false;
+
+            });
         }
 
         public void OnAppearing()
@@ -91,7 +99,7 @@ namespace Senshost.ViewModels
              {
                  Notification = x,
                  Status = x.Status,
-                 UserNotificationId= x.UserNotificationId
+                 UserNotificationId = x.UserNotificationId
              }
             ));
 
@@ -111,7 +119,7 @@ namespace Senshost.ViewModels
         {
             await App.Current.MainPage.Navigation.PushAsync(new NotificationDetailPage { BindingContext = notificationsDetail.Notification });
 
-                if (notificationsDetail.Status == Models.Constants.NotificationStatus.Pending)
+            if (notificationsDetail.Status == Models.Constants.NotificationStatus.Pending)
             {
                 notificationsDetail.Status = Models.Constants.NotificationStatus.Read;
 
@@ -159,6 +167,9 @@ namespace Senshost.ViewModels
             PendingInfoNotificationCount = notificationCount.Info;
             PendingWarningNotificationCount = notificationCount.Warning;
             PendingCritialNotificationCount = notificationCount.Critical;
+
+            BadgeCount = "" + PendingAllNotificationCount;
+
         }
 
         private async Task InitializeNotifications()
@@ -170,9 +181,10 @@ namespace Senshost.ViewModels
              {
                  Notification = x,
                  Status = x.Status,
-                 UserNotificationId= x.UserNotificationId
+                 UserNotificationId = x.UserNotificationId
              }
             ));
+
         }
     }
 }

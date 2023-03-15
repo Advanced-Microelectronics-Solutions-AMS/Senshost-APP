@@ -61,6 +61,8 @@
 		<None Remove="Resources\Images\contact_us.svg" />
 		<None Remove="Resources\.DS_Store" />
 		<None Remove="Platforms\Android\google-services.json" />
+		<None Remove="CustomView\" />
+		<None Remove="Converters\" />
 	</ItemGroup>
 	<ItemGroup>
 		<BundleResource Include="Resources\Images\about_us.svg" />
@@ -88,9 +90,6 @@
 		<BundleResource Include="Resources\Images\about_us.svg" />
 		<BundleResource Include="Resources\Images\events.svg" />
 		<BundleResource Include="Resources\Images\login_logo.png" />
-		<BundleResource Include="Resources\Images\dashboard.svg" />
-		<BundleResource Include="Resources\Images\refresh.svg" />
-		<BundleResource Include="Resources\Images\notification.svg" />
 		<BundleResource Include="Resources\Images\contact_us.svg" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
@@ -103,5 +102,9 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Senshost.Services\Senshost.Services.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="CustomView\" />
+	  <Folder Include="Converters\" />
 	</ItemGroup>
 </Project>

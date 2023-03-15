@@ -11,6 +11,7 @@ public partial class App : Application
 {
     public static LogedInUserDetails UserDetails;
     public static string ApiToken;
+    public static bool IsNotificationReceived;
 
     //public App()
     //{

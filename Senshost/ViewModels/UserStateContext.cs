@@ -67,7 +67,8 @@ namespace Senshost.ViewModels
 
         public async Task CheckUserLoginDetails()
         {
-            string userDetailsStr = Preferences.Get(nameof(App.UserDetails), default(string));
+            var name = nameof(App.UserDetails);
+            string userDetailsStr = Preferences.Get(name, default(string));
             var token = await storageService.GetAsync(Const.Constants.ApiSecureStorageToken);
 
             if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(userDetailsStr))
@@ -109,8 +110,14 @@ namespace Senshost.ViewModels
                         AppShell.Current.FlyoutHeader = new FlyoutHeaderControl();
                         
                         await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
+
+                        if (Senshost.App.IsNotificationReceived)
+                        {
+                            await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}/{nameof(NotificationListPage)}", true);
+                        }
                     }
                 }
+                
             }
             else
                 await LogoutAsync();
@@ -137,17 +144,18 @@ namespace Senshost.ViewModels
 
         private async Task SaveUserDetailsLocally(LogedInUserDetails user, string token)
         {
+            var name = nameof(App.UserDetails);
+
+            string userDetailStr = JsonSerializer.Serialize(user);
+            if (Preferences.ContainsKey(name))
+                Preferences.Remove(name);
+            Preferences.Set(name, userDetailStr);
+
             var apiToken = await storageService.GetAsync(Const.Constants.ApiSecureStorageToken);
 
             if (!string.IsNullOrEmpty(apiToken))
                 storageService.Remove(Const.Constants.ApiSecureStorageToken);
-            await storageService.SetAsync(Const.Constants.ApiSecureStorageToken, token);
-
-            string userDetailStr = JsonSerializer.Serialize(user);
-
-            if (Preferences.ContainsKey(nameof(App.UserDetails)))
-                Preferences.Remove(nameof(App.UserDetails));
-            Preferences.Set(nameof(App.UserDetails), userDetailStr);
+            await storageService.SetAsync(Const.Constants.ApiSecureStorageToken, token);           
         }
 
         private async Task SendDeviceTokenToSever()
