@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Senshost.Models.Account;
 
 namespace Senshost.Converters
 {	
@@ -9,7 +10,12 @@ namespace Senshost.Converters
         {
             if (value != null && value is DateTime dateTime)
             {
-                return dateTime.ToString("dd-MMM-yyyy");
+
+                //DateTime startTimeFormate = x.Startdate; // This  is utc date time
+                TimeZoneInfo systemTimeZone = TimeZoneInfo.Local;
+                DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, systemTimeZone);
+
+                return localDateTime.ToString("dd-MMM-yyyy h:mm tt");
             }
             return "";
         }

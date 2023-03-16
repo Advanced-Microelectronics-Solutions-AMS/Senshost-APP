@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection.Metadata;
+using AndroidX.Startup;
 using CommunityToolkit.Maui.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -21,7 +22,9 @@ namespace Senshost.ViewModels
         {
             this.notificationService = notificationService;
 
-            InitializeNotificationCount();
+            Initialize();
+
+            //InitializeNotificationCount();
         }
 
         [ObservableProperty]
@@ -43,22 +46,25 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         int itemThreshold = 2;
 
-        [RelayCommand]
+        //[RelayCommand]
         public async void Initialize()
         {
-            IsBusy = true;
-            CurrentState = LayoutState.Loading;
-            paginationData = new(20);
-            Notifications = new ObservableCollection<NotificationDetailPageViewModel>();
-            ItemThreshold = 2;
+            if (Notifications.Count == 0)
+            {
+                IsBusy = true;
+                CurrentState = LayoutState.Loading;
+                paginationData = new(20);
+                Notifications = new ObservableCollection<NotificationDetailPageViewModel>();
+                ItemThreshold = 2;
 
-            await InitializeNotifications();
-            await InitializeNotificationCount();
+                await InitializeNotifications();
+                await InitializeNotificationCount();
 
-            CurrentState = LayoutState.Success;
+                CurrentState = LayoutState.Success;
 
-            IsInitialized = true;
-            IsBusy = false;           
+                IsInitialized = true;
+                IsBusy = false;
+            }
         }
 
         public void OnAppearing()
@@ -183,7 +189,7 @@ namespace Senshost.ViewModels
 
             if (notificationsTmp != null)
             {
-                foreach(var item in notificationsTmp)
+                foreach (var item in notificationsTmp)
                 {
                     Notifications.Add(new NotificationDetailPageViewModel()
                     {

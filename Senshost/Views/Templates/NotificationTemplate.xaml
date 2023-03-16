@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Senshost.Views.Templates.NotificationTemplate"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:viewmodel="clr-namespace:Senshost.ViewModels">
-    <ContentView.Resources>
+             xmlns:viewmodel="clr-namespace:Senshost.ViewModels"
+             xmlns:converter="clr-namespace:Senshost.Converters">
+     <ContentView.Resources>
         <ResourceDictionary>
-
+            <converter:DateToStringConverter x:Key="DateToStringConverter" />
+        
             <Style x:Key="ImageContainerStyle" TargetType="Grid">
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="HeightRequest" Value="72" />
@@ -156,7 +158,7 @@
                     Grid.Column="1"
                     Grid.Row="1"
                     HorizontalTextAlignment="End"
-                    Text="{Binding Notification.CreationDate}"
+                    Text="{Binding Notification.CreationDate, Converter={StaticResource DateToStringConverter}}"
                     Style="{StaticResource TimeTextStyle}"/>
             </Grid>
         </Grid>

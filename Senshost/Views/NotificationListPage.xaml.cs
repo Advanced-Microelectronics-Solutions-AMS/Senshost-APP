@@ -18,8 +18,8 @@ public partial class NotificationListPage : ContentPage
     {
         base.OnAppearing();
 
-        if (!vm.IsInitialized)
-            vm.Initialize();
+        //if (!vm.IsInitialized)
+        //    vm.Initialize();
 
         vm.OnAppearing();
     }

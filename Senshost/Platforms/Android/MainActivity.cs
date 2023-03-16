@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Senshost.Models.Constants;
 //using Plugin.Firebase.CloudMessaging;
 using Senshost.Models.Notification;
 using Senshost.Views;
@@ -24,12 +25,48 @@ public class MainActivity : MauiAppCompatActivity
 
             var extra = Intent.GetStringExtra("NotificationContent");
 
-            
+            //var notificationID = "";
+
+            var notiFic = new Models.Notification.Notification();
 
             foreach (var key in Intent.Extras.KeySet())
             {
                 string idValue = Intent.Extras.GetString(key);
                 Console.WriteLine(idValue);
+                if(key.ToUpper() == "Severity".ToUpper())
+                {
+                    SeverityLevel tmpVal;                    
+                    if(Enum.TryParse<SeverityLevel>(idValue, out tmpVal))
+                    {
+                        notiFic.Severity = tmpVal;
+                    }
+                }
+                else if (key.ToUpper() == "Date".ToUpper())
+                {
+                    DateTime tmpVal;
+                    if (DateTime.TryParse(idValue, out tmpVal))
+                    {
+                        notiFic.CreationDate = tmpVal;
+                    }
+                }
+                else if (key.ToUpper() == "AccountId".ToUpper())
+                {
+                    notiFic.AccountId = new Guid(idValue);
+                }
+                else if (key.ToUpper() == "ID".ToUpper())
+                {
+                    notiFic.Id = new Guid(idValue);
+                }
+                else if (key.ToUpper() == "Title".ToUpper())
+                {
+                    notiFic.Title = idValue;
+                }
+                else if (key.ToUpper() == "Body".ToUpper())
+                {
+                    notiFic.Body = idValue;
+                }
+                
+
                 if (key == "NavigationID")
                 {
                     //string idValue = Intent.Extras.GetString(key);
@@ -46,7 +83,7 @@ public class MainActivity : MauiAppCompatActivity
             var cities = new Dictionary<string, object>();
             //Shell.Current.GoToAsync($"//tabPages/NotificationDetailPage", true);
 
-            Shell.Current.Navigation.PushAsync(new NotificationDetailPage(new ViewModels.NotificationDetailPageViewModel()));
+            Shell.Current.Navigation.PushAsync(new NotificationDetailPage(new ViewModels.NotificationDetailPageViewModel() { Notification = notiFic}));
         }
 
         //HandleIntent(Intent);

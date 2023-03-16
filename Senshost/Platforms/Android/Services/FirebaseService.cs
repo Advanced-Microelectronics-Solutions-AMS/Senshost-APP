@@ -36,6 +36,11 @@ namespace Senshost.Platforms.Android.Services
             var data = new Dictionary<string, string>(message.Data);
             data.Add("body", notification.Body);
             data.Add("title", notification.Title);
+            data.Add("creationDate", DateTime.Now.ToString());
+
+            Senshost.App.PushData = data;
+
+            Preferences.Set("pushTitle", notification.Title);
 
             // Send a message from some other module
             WeakReferenceMessenger.Default.Send(data);
@@ -46,6 +51,10 @@ namespace Senshost.Platforms.Android.Services
 
             var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
+
+            intent.PutExtra("title", title);
+            intent.PutExtra("body", messageBody);
+
 
             foreach (var key in data.Keys)
             {

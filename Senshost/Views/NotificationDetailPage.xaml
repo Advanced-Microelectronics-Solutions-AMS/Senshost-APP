@@ -11,8 +11,44 @@
      <ContentPage.Resources>
         <ResourceDictionary>
             <converter:DateToStringConverter x:Key="DateToStringConverter" />
+        
+            <Style x:Key="ImageContainerStyle" TargetType="Grid">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="72" />
+                <Setter Property="WidthRequest" Value="72" />
+            </Style>
+
+            <Style x:Key="EllipseStyle" TargetType="Border">
+                <Setter Property="HeightRequest" Value="72" />
+                <Setter Property="WidthRequest" Value="72" />
+            </Style>
+
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="35" />
+                <Setter Property="Margin" Value="10" />
+            </Style>
+
+            <Color x:Key="TimeColor">#B2ACBE</Color>
+            
+            <Style TargetType="Grid">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor"
+                                Value="Gray" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
+
     <Grid Padding="20" RowDefinitions="auto, *">
         <HorizontalStackLayout>
             <Grid HeightRequest="80" WidthRequest="80"
