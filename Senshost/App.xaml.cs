@@ -13,9 +13,6 @@ public partial class App : Application
     public static string ApiToken;
     public static bool IsNotificationReceived;
 
-    public static Dictionary<string, string> PushData { get; internal set; }
-
-
     //public App()
     //{
     //    MainPage = new ContentPage();

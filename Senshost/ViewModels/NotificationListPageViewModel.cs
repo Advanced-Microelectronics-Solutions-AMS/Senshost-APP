@@ -23,8 +23,6 @@ namespace Senshost.ViewModels
             this.notificationService = notificationService;
 
             Initialize();
-
-            //InitializeNotificationCount();
         }
 
         [ObservableProperty]
@@ -49,22 +47,20 @@ namespace Senshost.ViewModels
         //[RelayCommand]
         public async void Initialize()
         {
-            if (Notifications.Count == 0)
-            {
-                IsBusy = true;
-                CurrentState = LayoutState.Loading;
-                paginationData = new(20);
-                Notifications = new ObservableCollection<NotificationDetailPageViewModel>();
-                ItemThreshold = 2;
+            IsBusy = true;
+            CurrentState = LayoutState.Loading;
+            paginationData = new(20);
+            Notifications = new ObservableCollection<NotificationDetailPageViewModel>();
+            ItemThreshold = 2;
 
-                await InitializeNotifications();
-                await InitializeNotificationCount();
+            await InitializeNotifications();
+            await InitializeNotificationCount();
 
-                CurrentState = LayoutState.Success;
+            CurrentState = LayoutState.Success;
 
-                IsInitialized = true;
-                IsBusy = false;
-            }
+            IsInitialized = true;
+            IsBusy = false;
+            IsRefreshing = false;
         }
 
         public void OnAppearing()
@@ -112,7 +108,6 @@ namespace Senshost.ViewModels
         {
             IsRefreshing = true;
             Initialize();
-            IsRefreshing = false;
         }
 
         [RelayCommand]

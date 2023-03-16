@@ -1,10 +1,13 @@
-﻿using Android.App;
+﻿using System.Globalization;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Senshost.Common.Interfaces;
 using Senshost.Models.Constants;
 //using Plugin.Firebase.CloudMessaging;
 using Senshost.Models.Notification;
+using Senshost.Services;
 using Senshost.Views;
 
 namespace Senshost;
@@ -44,7 +47,9 @@ public class MainActivity : MauiAppCompatActivity
                 else if (key.ToUpper() == "Date".ToUpper())
                 {
                     DateTime tmpVal;
-                    if (DateTime.TryParse(idValue, out tmpVal))
+                    string[] formats = {"MM/dd/yyyy HH:mm:ss" };
+                    if (DateTime.TryParseExact(idValue, formats,
+                        null, DateTimeStyles.None, out tmpVal))
                     {
                         notiFic.CreationDate = tmpVal;
                     }
@@ -78,7 +83,7 @@ public class MainActivity : MauiAppCompatActivity
             }
 
             Senshost.App.IsNotificationReceived = true;
-            Shell.Current.GoToAsync($"//NotificationListPage", false);
+            Shell.Current.GoToAsync($"//NotificationListPage?isToReloadPage=true", false);
 
             var cities = new Dictionary<string, object>();
             //Shell.Current.GoToAsync($"//tabPages/NotificationDetailPage", true);

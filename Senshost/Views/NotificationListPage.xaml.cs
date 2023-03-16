@@ -2,9 +2,26 @@ using Senshost.ViewModels;
 
 namespace Senshost.Views;
 
+
+[XamlCompilation(XamlCompilationOptions.Compile)]
+
+[QueryProperty("IsToReloadPage", "isToReloadPage")]
 public partial class NotificationListPage : ContentPage
 {
     private readonly NotificationListPageViewModel vm;
+
+    bool isToReloadPage;
+    public bool IsToReloadPage
+    {
+        set
+        {
+            if(value)
+            {
+                vm.Initialize();
+            }
+            isToReloadPage = value;
+        }
+    }
 
     public NotificationListPage(NotificationListPageViewModel notificationListPageViewModel)
     {

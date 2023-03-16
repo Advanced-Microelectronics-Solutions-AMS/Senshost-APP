@@ -38,10 +38,6 @@ namespace Senshost.Platforms.Android.Services
             data.Add("title", notification.Title);
             data.Add("creationDate", DateTime.Now.ToString());
 
-            Senshost.App.PushData = data;
-
-            Preferences.Set("pushTitle", notification.Title);
-
             // Send a message from some other module
             WeakReferenceMessenger.Default.Send(data);
         }

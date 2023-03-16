@@ -10,35 +10,35 @@ public partial class NotificationDetailPage : ContentPage
         InitializeComponent();
         BindingContext = notificationsDetail;
 
-        notificationsDetail.InitializeComponents();
+        //notificationsDetail.InitializeComponents();
     }
 
-    public NotificationDetailPage()
-    {
-        InitializeComponent();
+    //public NotificationDetailPage()
+    //{
+    //    InitializeComponent();
 
-        var title = Preferences.Get("pushTitle", "no");
+    //    var title = Preferences.Get("pushTitle", "no");
 
-        var bindCntxt = new NotificationDetailPageViewModel();
-        if (Senshost.App.PushData is Dictionary<string, string> pushDict)
-        {
-            var notification = new Notification()
-            {
-                Title = pushDict["title"],
-                Body = pushDict["body"],
-                CreationDate = DateTime.Parse(pushDict["creationDate"])
-            };
-            bindCntxt.Notification = notification;
+    //    var bindCntxt = new NotificationDetailPageViewModel();
+    //    if (Senshost.App.PushData is Dictionary<string, string> pushDict)
+    //    {
+    //        var notification = new Notification()
+    //        {
+    //            Title = pushDict["title"],
+    //            Body = pushDict["body"],
+    //            CreationDate = DateTime.Parse(pushDict["creationDate"])
+    //        };
+    //        bindCntxt.Notification = notification;
 
-            Senshost.App.PushData = null;
-        }
-        BindingContext = bindCntxt;
+    //        Senshost.App.PushData = null;
+    //    }
+    //    BindingContext = bindCntxt;
 
         
 
 
-        //notificationsDetail.InitializeComponents();
-    }
+    //    //notificationsDetail.InitializeComponents();
+    //}
 
 
 
