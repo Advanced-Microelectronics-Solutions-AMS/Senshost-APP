@@ -11,5 +11,16 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         public NotificationStatus status;
         public string UserNotificationId { get; set; }
+
+
+        public NotificationDetailPageViewModel()
+        {
+
+        }
+
+        public void InitializeComponents()
+        {
+
+        }
     }
 }

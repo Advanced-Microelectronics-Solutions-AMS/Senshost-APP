@@ -41,37 +41,32 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         bool isRefreshing;
         [ObservableProperty]
-        int itemThreshold = 5;
+        int itemThreshold = 2;
 
         [RelayCommand]
-        public async Task Initialize()
+        public async void Initialize()
         {
             IsBusy = true;
             CurrentState = LayoutState.Loading;
             paginationData = new(20);
             Notifications = new ObservableCollection<NotificationDetailPageViewModel>();
-            ItemThreshold = 5;
+            ItemThreshold = 2;
 
             await InitializeNotifications();
             await InitializeNotificationCount();
 
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                // Code to run on the main thread
-                CurrentState = LayoutState.Success;
+            CurrentState = LayoutState.Success;
 
-                IsInitialized = true;
-                IsBusy = false;
-
-            });
+            IsInitialized = true;
+            IsBusy = false;           
         }
 
         public void OnAppearing()
         {
             // Register a message in some module
-            WeakReferenceMessenger.Default.Register<Dictionary<string, string>>(this, async (r, m) =>
+            WeakReferenceMessenger.Default.Register<Dictionary<string, string>>(this, (r, m) =>
             {
-                await Refresh();
+                Refresh();
             });
 
         }
@@ -85,16 +80,16 @@ namespace Senshost.ViewModels
         [RelayCommand]
         public async Task LoadMore()
         {
-            if (IsLoadingMore)
+            if (IsLoadingMore || Notifications.Count == 0)
                 return;
 
             IsLoadingMore = true;
             paginationData.PageNumber++;
             await Task.Delay(2000);
 
-            var notifications = await GetNotifications(paginationData);
+            var notificationsTmp = await GetNotifications(paginationData);
 
-            notifications.ToList().ForEach(x => Notifications.Add(
+            notificationsTmp.ToList().ForEach(x => Notifications.Add(
              new NotificationDetailPageViewModel()
              {
                  Notification = x,
@@ -107,17 +102,17 @@ namespace Senshost.ViewModels
         }
 
         [RelayCommand]
-        public async Task Refresh()
+        public void Refresh()
         {
             IsRefreshing = true;
-            await Initialize();
+            Initialize();
             IsRefreshing = false;
         }
 
         [RelayCommand]
         public async Task Detail(NotificationDetailPageViewModel notificationsDetail)
         {
-            await App.Current.MainPage.Navigation.PushAsync(new NotificationDetailPage { BindingContext = notificationsDetail.Notification });
+            await App.Current.MainPage.Navigation.PushAsync(new NotificationDetailPage(notificationsDetail));
 
             if (notificationsDetail.Status == Models.Constants.NotificationStatus.Pending)
             {
@@ -145,13 +140,20 @@ namespace Senshost.ViewModels
 
         private async Task<IEnumerable<NotificationsDetail>> GetNotifications(Pagination pagination)
         {
-            var result = await notificationService.GetNotifications(App.UserDetails.AccountId, App.UserDetails.UserId, pagination.PageSize, pagination.PageNumber, pagination.Sort.ToString());
-            paginationData = result.Pagination;
+            var task = await Task.Run(async () =>
+            {
+                var result = await notificationService.GetNotifications(App.UserDetails.AccountId, App.UserDetails.UserId, pagination.PageSize, pagination.PageNumber, pagination.Sort.ToString());
 
-            if (paginationData.NumberOfPage == pagination.PageNumber)
-                ItemThreshold = -1;
+                paginationData = result.Pagination;
 
-            return result.Data;
+                if (paginationData.NumberOfPage == pagination.PageNumber)
+                    ItemThreshold = -1;
+
+                //return result.Data;
+                return result;
+            });
+
+            return task.Data;
         }
 
         private async Task<NotificationCount> GetNotificationCount()
@@ -170,21 +172,39 @@ namespace Senshost.ViewModels
 
             BadgeCount = "" + PendingAllNotificationCount;
 
+            return;
         }
 
         private async Task InitializeNotifications()
         {
-            var notifications = await GetNotifications(paginationData);
+            var notificationsTmp = await GetNotifications(paginationData);
 
-            Notifications = new ObservableCollection<NotificationDetailPageViewModel>(notifications.Select(x =>
-             new NotificationDetailPageViewModel()
-             {
-                 Notification = x,
-                 Status = x.Status,
-                 UserNotificationId = x.UserNotificationId
-             }
-            ));
+            Notifications = new ObservableCollection<NotificationDetailPageViewModel>();
 
+            if (notificationsTmp != null)
+            {
+                foreach(var item in notificationsTmp)
+                {
+                    Notifications.Add(new NotificationDetailPageViewModel()
+                    {
+                        Notification = item,
+                        Status = item.Status,
+                        UserNotificationId = item.UserNotificationId
+                    });
+                }
+            }
+
+
+            //Notifications = new ObservableCollection<NotificationDetailPageViewModel>(notifications.Select(x =>
+            // new NotificationDetailPageViewModel()
+            // {
+            //     Notification = x,
+            //     Status = x.Status,
+            //     UserNotificationId = x.UserNotificationId
+            // }
+            //));
+
+            return;
         }
     }
 }

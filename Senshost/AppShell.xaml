@@ -27,7 +27,8 @@
         ContentTemplate="{DataTemplate views:LoginPage}"
         Route="LoginPage" />
 
-    <FlyoutItem FlyoutIcon="dashboard.png" Title="Dashboard" FlyoutDisplayOptions="AsMultipleItems" >
+    <FlyoutItem FlyoutIcon="dashboard.png" Title="Dashboard" FlyoutDisplayOptions="AsMultipleItems" Route="tabPages">
+
         <ShellContent
         Title="Dashboard"
         Icon="dashboard.png"
@@ -63,6 +64,19 @@
         ContentTemplate="{DataTemplate views:ContactUsPage}"
         Route="ContactUsPage"
         />
+
+    <!--<ShellContent 
+        Icon="contact_us.png" 
+        Title="Notification Details" 
+        ContentTemplate="{DataTemplate views:NotificationDetailPage}"
+        Route="NotificationDetailPage"
+        />-->
+
+    <ShellContent FlyoutItemIsVisible="False" Shell.TabBarIsVisible="False"
+                  Shell.NavBarIsVisible="True" Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate views:NotificationDetailPage}" Route="tabPages/NotificationDetailPage" >
+
+    </ShellContent>
 
     <!--<Shell.ToolbarItems>
         <ToolbarItem Text="test" IconImageSource="notification" Priority="10">

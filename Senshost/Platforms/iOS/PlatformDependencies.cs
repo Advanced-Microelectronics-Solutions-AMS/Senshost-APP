@@ -58,7 +58,8 @@ namespace Senshost.Platforms
                             .AddSingleton<DashboardPageViewModel>()
                             .AddSingleton<EventListPageViewModel>()
                             .AddSingleton<NotificationListPageViewModel>()
-                            .AddSingleton<UserStateContext>();
+                            .AddSingleton<UserStateContext>()
+                            .AddSingleton<NotificationDetailPage>();
 
             services.RegisterServiceDependencies();
             return services;

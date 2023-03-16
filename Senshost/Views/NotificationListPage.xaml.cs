@@ -14,12 +14,12 @@ public partial class NotificationListPage : ContentPage
         notificationListPageViewModel.PropertyChanged += VM_PropertyChanged;
     }
 
-    protected async override void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
 
         if (!vm.IsInitialized)
-            await vm.Initialize();
+            vm.Initialize();
 
         vm.OnAppearing();
     }
