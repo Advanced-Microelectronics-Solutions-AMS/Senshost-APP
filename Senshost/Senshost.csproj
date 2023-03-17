@@ -29,9 +29,14 @@
 		<CreatePackage>false</CreatePackage>
 		<CodesignProvision>Automatic</CodesignProvision>
 		<CodesignKey>iPhone Developer</CodesignKey>
+		<MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
 		<CreatePackage>false</CreatePackage>
+		<MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -101,7 +106,9 @@
 		<GoogleServicesJson Include="Platforms\Android\google-services.json" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Senshost.Services\Senshost.Services.csproj" />
+	  <ProjectReference Include="..\Senshost.Services\Senshost.Services.csproj">
+	    <ReferenceSourceTarget></ReferenceSourceTarget>
+	  </ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="CustomView\" />

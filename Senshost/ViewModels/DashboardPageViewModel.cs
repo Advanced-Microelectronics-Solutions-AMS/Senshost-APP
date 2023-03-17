@@ -26,5 +26,11 @@ namespace Senshost.ViewModels
                 }
             }
         }
+
+        private async void GetNotificationCount()
+        {
+            var notificationCount = await userStateContext.GetNotificationCount();
+            BadgeCount = "" + notificationCount.TotalPending;
+        }
     }
 }

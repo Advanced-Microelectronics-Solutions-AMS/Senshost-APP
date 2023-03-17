@@ -235,5 +235,10 @@ namespace Senshost.ViewModels
 
             return user;
         }
+
+        public async Task<NotificationCount> GetNotificationCount()
+        {
+            return await notificationService.GetNotificationCount(App.UserDetails.AccountId, App.UserDetails.UserId);
+        }
     }
 }

@@ -82,13 +82,13 @@ public class MainActivity : MauiAppCompatActivity
                 }
             }
 
-            Senshost.App.IsNotificationReceived = true;
-            Shell.Current.GoToAsync($"//NotificationListPage?isToReloadPage=true", false);
+            if(!string.IsNullOrEmpty(notiFic.Title) && !string.IsNullOrEmpty(notiFic.Body))
+            {
+                Senshost.App.IsNotificationReceived = true;
+                Shell.Current.GoToAsync($"//NotificationListPage?isToReloadPage=true", false);
 
-            var cities = new Dictionary<string, object>();
-            //Shell.Current.GoToAsync($"//tabPages/NotificationDetailPage", true);
-
-            Shell.Current.Navigation.PushAsync(new NotificationDetailPage(new ViewModels.NotificationDetailPageViewModel() { Notification = notiFic}));
+                Shell.Current.Navigation.PushAsync(new NotificationDetailPage(new ViewModels.NotificationDetailPageViewModel() { Notification = notiFic }));
+            }
         }
 
         //HandleIntent(Intent);
@@ -109,39 +109,4 @@ public class MainActivity : MauiAppCompatActivity
         }
     }
 
-    //protected override void OnCreate(Bundle savedInstanceState)
-    //{
-    //    base.OnCreate(savedInstanceState);
-    //    HandleIntent(Intent);
-    //    CreateNotificationChannelIfNeeded();
-    //}
-
-    //protected override void OnNewIntent(Intent intent)
-    //{
-    //    base.OnNewIntent(intent);
-    //    HandleIntent(intent);
-    //}
-
-    //private static void HandleIntent(Intent intent)
-    //{
-    //    FirebaseCloudMessagingImplementation.OnNewIntent(intent);
-    //}
-
-    //private void CreateNotificationChannelIfNeeded()
-    //{
-    //    if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-    //    {
-    //        CreateNotificationChannel();
-    //    }
-    //}
-
-    //private void CreateNotificationChannel()
-    //{
-    //    var channelId = $"{PackageName}.general";
-    //    var notificationManager = (NotificationManager)GetSystemService(NotificationService);
-    //    var channel = new NotificationChannel(channelId, "General", NotificationImportance.Default);
-    //    notificationManager.CreateNotificationChannel(channel);
-    //    FirebaseCloudMessagingImplementation.ChannelId = channelId;
-    //    //FirebaseCloudMessagingImplementation.SmallIconRef = Resource.Drawable.ic_push_small;
-    //}
 }

@@ -18,8 +18,11 @@ namespace Senshost.ViewModels
             this.userStateContext = userStateContext;
             this.ErrorsChanged += new EventHandler<DataErrorsChangedEventArgs>(ValidationBase_ErrorsChanged);
 
+#if DEBUG
             email = "Demo@gmail.com";
             password = "M@ster12345";
+
+#endif
         }
 
 

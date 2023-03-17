@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection.Metadata;
-using AndroidX.Startup;
+//using AndroidX.Startup;
 using CommunityToolkit.Maui.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
