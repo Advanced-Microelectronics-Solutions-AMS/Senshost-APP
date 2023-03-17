@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New/Senshost.Models/Senshost.Models.csproj",
+      "projectUniqueName": "/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/Senshost.Models.csproj",
       "projectName": "Senshost.Models",
-      "projectPath": "/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New/Senshost.Models/Senshost.Models.csproj",
+      "projectPath": "/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/Senshost.Models.csproj",
       "packagesPath": "/Users/rakeshjyoti/.nuget/packages/",
-      "outputPath": "/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New/Senshost.Models/obj/",
+      "outputPath": "/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/rakeshjyoti/.nuget/NuGet/NuGet.Config"

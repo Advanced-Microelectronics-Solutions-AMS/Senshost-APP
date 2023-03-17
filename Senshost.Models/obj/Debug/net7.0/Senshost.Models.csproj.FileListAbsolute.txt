@@ -34,3 +34,15 @@
 /Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New/Senshost.Models/obj/Debug/net7.0/refint/Senshost.Models.dll
 /Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New/Senshost.Models/obj/Debug/net7.0/Senshost.Models.pdb
 /Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New/Senshost.Models/obj/Debug/net7.0/ref/Senshost.Models.dll
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/bin/Debug/net7.0/Senshost.Models.deps.json
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/bin/Debug/net7.0/Senshost.Models.dll
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/bin/Debug/net7.0/Senshost.Models.pdb
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/Senshost.Models.csproj.AssemblyReference.cache
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/Senshost.Models.GeneratedMSBuildEditorConfig.editorconfig
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/Senshost.Models.AssemblyInfoInputs.cache
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/Senshost.Models.AssemblyInfo.cs
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/Senshost.Models.csproj.CoreCompileInputs.cache
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/Senshost.Models.dll
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/refint/Senshost.Models.dll
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/Senshost.Models.pdb
+/Users/rakeshjyoti/Documents/Xamarin Projects/Senshost_New2/Senshost.Models/obj/Debug/net7.0/ref/Senshost.Models.dll

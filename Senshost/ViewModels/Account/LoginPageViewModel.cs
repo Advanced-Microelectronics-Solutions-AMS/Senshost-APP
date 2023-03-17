@@ -21,7 +21,6 @@ namespace Senshost.ViewModels
 #if DEBUG
             email = "Demo@gmail.com";
             password = "M@ster12345";
-
 #endif
         }
 
