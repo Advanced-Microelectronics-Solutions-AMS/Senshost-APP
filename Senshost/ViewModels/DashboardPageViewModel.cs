@@ -13,7 +13,7 @@ namespace Senshost.ViewModels
             userStateContext.PropertyChanged += OnUserStatePropertyChanged;
             this.userStateContext = userStateContext;
 
-            
+            GetNotificationCount();
         }
 
         private void OnUserStatePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -31,6 +31,7 @@ namespace Senshost.ViewModels
         {
             var notificationCount = await userStateContext.GetNotificationCount();
             BadgeCount = "" + notificationCount.TotalPending;
+            Senshost.App.BadgeCount = BadgeCount;
         }
     }
 }

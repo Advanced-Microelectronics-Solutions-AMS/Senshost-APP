@@ -36,6 +36,7 @@ public partial class NotificationListPage : ContentPage
         base.OnAppearing();
 
         vm.OnAppearing();
+        vm.BadgeCount = Senshost.App.BadgeCount;
     }
 
     protected override void OnDisappearing()
@@ -58,6 +59,14 @@ public partial class NotificationListPage : ContentPage
                     await InfoCount.ScaleTo(1, 200, Easing.Linear);
                 });
             }
+        }
+    }
+
+    void CollectionView_SelectionChanged(System.Object sender, Microsoft.Maui.Controls.SelectionChangedEventArgs e)
+    {
+        if(listNotification.SelectedItem != null)
+        {
+            listNotification.SelectedItem = null;
         }
     }
 }

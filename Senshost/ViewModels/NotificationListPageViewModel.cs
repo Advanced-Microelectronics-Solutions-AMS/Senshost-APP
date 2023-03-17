@@ -172,6 +172,7 @@ namespace Senshost.ViewModels
             PendingCritialNotificationCount = notificationCount.Critical;
 
             BadgeCount = "" + PendingAllNotificationCount;
+            Senshost.App.BadgeCount = BadgeCount;
 
             return;
         }

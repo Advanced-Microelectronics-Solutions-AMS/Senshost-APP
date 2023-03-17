@@ -24,7 +24,8 @@ namespace Senshost.Services
 
         public async Task<NotificationCount> GetNotificationCount(string accountId, string userId)
         {
-            return await GetAsync<NotificationCount>(Constants.GetNotificationsCountUrl(accountId.ToString(), userId?.ToString()));
+            var notificationCount = await GetAsync<NotificationCount>(Constants.GetNotificationsCountUrl(accountId.ToString(), userId?.ToString()));
+            return notificationCount;
         }
 
         public async Task<DataResponse<IEnumerable<NotificationsDetail>>> GetNotifications(string accountId, string userId, int pageSize, int pageNumber, string sortOrder)

@@ -142,7 +142,9 @@
                 <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" mct:StateView.StateKey="Success">
                     <CollectionView SelectionMode="Single" ItemsSource="{Binding Notifications}" 
                                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
-                                RemainingItemsThreshold="{Binding ItemThreshold}">
+                                RemainingItemsThreshold="{Binding ItemThreshold}"
+                                SelectionChanged="CollectionView_SelectionChanged"
+                                x:Name="listNotification">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="{x:Type viewModel:NotificationDetailPageViewModel}">
                                 <template:NotificationTemplate>

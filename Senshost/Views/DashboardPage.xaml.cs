@@ -30,6 +30,8 @@ public partial class DashboardPage : ContentPage
         }
         else
             await dashboard.FadeTo(1, 1000);
+
+        dashboardPageViewModel.BadgeCount = Senshost.App.BadgeCount;
     }
 
     protected override void OnDisappearing()
