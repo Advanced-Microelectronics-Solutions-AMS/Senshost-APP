@@ -3,7 +3,7 @@ using Senshost.ViewModels;
 namespace Senshost.Views;
 
 
-[XamlCompilation(XamlCompilationOptions.Compile)]
+//[XamlCompilation(XamlCompilationOptions.Compile)]
 
 [QueryProperty("IsToReloadPage", "isToReloadPage")]
 public partial class NotificationListPage : ContentPage

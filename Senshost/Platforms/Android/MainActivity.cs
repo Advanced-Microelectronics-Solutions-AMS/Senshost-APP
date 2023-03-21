@@ -13,7 +13,7 @@ using Senshost.Views;
 
 namespace Senshost;
 
-[Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.Multiple,
+[Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true,
     ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
@@ -73,7 +73,6 @@ public class MainActivity : MauiAppCompatActivity
                     notiFic.Body = idValue;
                 }
                 
-
                 if (key == "NavigationID")
                 {
                     //string idValue = Intent.Extras.GetString(key);
@@ -86,9 +85,9 @@ public class MainActivity : MauiAppCompatActivity
 
             if(!string.IsNullOrEmpty(notiFic.Title) && !string.IsNullOrEmpty(notiFic.Body))
             {
-                //Senshost.App.IsNotificationReceived = true;
-                //Shell.Current.GoToAsync($"//NotificationListPage?isToReloadPage=true", false);
-                //Shell.Current.Navigation.PushAsync(new NotificationDetailPage(new ViewModels.NotificationDetailPageViewModel() { Notification = notiFic }));
+                Senshost.App.IsNotificationReceived = true;
+                Shell.Current.GoToAsync($"//NotificationListPage?isToReloadPage=true", false);
+                Shell.Current.Navigation.PushAsync(new NotificationDetailPage(new ViewModels.NotificationDetailPageViewModel() { Notification = notiFic }));
             }
         }
 

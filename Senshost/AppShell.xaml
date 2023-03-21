@@ -72,11 +72,11 @@
         Route="NotificationDetailPage"
         />-->
 
-    <!--<ShellContent FlyoutItemIsVisible="False" Shell.TabBarIsVisible="False"
+    <ShellContent FlyoutItemIsVisible="False" Shell.TabBarIsVisible="False"
                   Shell.NavBarIsVisible="True" Shell.FlyoutBehavior="Disabled"
-        ContentTemplate="{DataTemplate views:NotificationDetailPage}" Route="tabPages/NotificationDetailPage" >
+        ContentTemplate="{DataTemplate views:NotificationDetailPage}" Route="NotificationDetailPage" >
 
-    </ShellContent>-->
+    </ShellContent>
 
     <!--<Shell.ToolbarItems>
         <ToolbarItem Text="test" IconImageSource="notification" Priority="10">
