@@ -14,15 +14,13 @@ public partial class App : Application
     public static bool IsNotificationReceived;
     public static string BadgeCount;
 
-    //public App()
-    //{
-    //    MainPage = new ContentPage();
-
-    //}
+    public IServiceProvider _serviceProvider;
 
     public App(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+
+        _serviceProvider = serviceProvider;
 
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
         {
@@ -34,11 +32,13 @@ public partial class App : Application
                 handler.PlatformView.SetPadding(40, 0, 40, 0);
 #elif __IOS__
                 handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+                handler.PlatformView.SetPadding(40, 0, 40, 0);
 #endif
             }
         });
 
         //MainPage = new ContentPage();
+
         MainPage = new AppShell(serviceProvider.GetService<AppShellViewModel>());
     }
 

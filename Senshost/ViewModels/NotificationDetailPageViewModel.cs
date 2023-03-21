@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
 using Senshost.Common.Interfaces;
 using Senshost.Models.Constants;
 using Senshost.Models.Notification;
@@ -13,7 +14,7 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         public NotificationStatus? status;
         public string UserNotificationId { get; set; }
-        private readonly INotificationService notificationService;
+        private INotificationService notificationService;
 
 
         public NotificationDetailPageViewModel()
@@ -21,6 +22,13 @@ namespace Senshost.ViewModels
             //this.notificationService = notificationService;
 
             //UpdateNotificationStatus();
+
+            var app = (Senshost.App)Senshost.App.Current;
+            notificationService = app._serviceProvider.GetService<INotificationService>();
+            if(notificationService != null)
+            {
+                UpdateNotificationStatus();
+            }
         }
 
         public void UpdateNotificationStatus()

@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Microsoft.Maui;
 using Senshost.Common.Interfaces;
 using Senshost.Models.Constants;
 //using Plugin.Firebase.CloudMessaging;
@@ -12,7 +13,8 @@ using Senshost.Views;
 
 namespace Senshost;
 
-[Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
+[Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.Multiple,
+    ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
     internal static readonly string Channel_ID = "TestChannel";
@@ -84,10 +86,9 @@ public class MainActivity : MauiAppCompatActivity
 
             if(!string.IsNullOrEmpty(notiFic.Title) && !string.IsNullOrEmpty(notiFic.Body))
             {
-                Senshost.App.IsNotificationReceived = true;
-                Shell.Current.GoToAsync($"//NotificationListPage?isToReloadPage=true", false);
-
-                Shell.Current.Navigation.PushAsync(new NotificationDetailPage(new ViewModels.NotificationDetailPageViewModel() { Notification = notiFic }));
+                //Senshost.App.IsNotificationReceived = true;
+                //Shell.Current.GoToAsync($"//NotificationListPage?isToReloadPage=true", false);
+                //Shell.Current.Navigation.PushAsync(new NotificationDetailPage(new ViewModels.NotificationDetailPageViewModel() { Notification = notiFic }));
             }
         }
 
