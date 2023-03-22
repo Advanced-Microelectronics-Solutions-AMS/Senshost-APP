@@ -1,53 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
-using Senshost.Common.Interfaces;
 using Senshost.Models.Constants;
 using Senshost.Models.Notification;
-using Senshost.Services;
 
 namespace Senshost.ViewModels
 {
     public partial class NotificationDetailPageViewModel : BaseObservableViewModel
     {
-        public Notification Notification { get; set; }
+        public Notification Notification { get; set; } = new();
 
         [ObservableProperty]
         public NotificationStatus? status;
         public string UserNotificationId { get; set; }
-        private INotificationService notificationService;
-
-
-        public NotificationDetailPageViewModel()
-        {
-            //this.notificationService = notificationService;
-
-            //UpdateNotificationStatus();
-
-            var app = (Senshost.App)Senshost.App.Current;
-            notificationService = app._serviceProvider.GetService<INotificationService>();
-            if(notificationService != null)
-            {
-                UpdateNotificationStatus();
-            }
-        }
-
-        public void UpdateNotificationStatus()
-        {            
-
-            if (Status == null)
-            {
-                Status = Models.Constants.NotificationStatus.Read;
-
-                _ = Task.Run(async () =>
-                {
-                    await notificationService.AddUpdateNotificationStatus(new UserNotification()
-                    {
-                        UserId = new Guid(App.UserDetails.UserId ?? App.UserDetails.AccountId),
-                        NotificationId = Notification.Id.Value,
-                        Status = Models.Constants.NotificationStatus.Read
-                    });
-                });
-            }
-        }
     }
 }

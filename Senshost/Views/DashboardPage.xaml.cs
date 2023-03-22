@@ -1,5 +1,3 @@
-using Const = Senshost.Common.Constants;
-using Senshost.Common.Interfaces;
 using Senshost.ViewModels;
 
 namespace Senshost.Views;
@@ -30,8 +28,6 @@ public partial class DashboardPage : ContentPage
         }
         else
             await dashboard.FadeTo(1, 1000);
-
-        dashboardPageViewModel.BadgeCount = Senshost.App.BadgeCount;
     }
 
     protected override void OnDisappearing()

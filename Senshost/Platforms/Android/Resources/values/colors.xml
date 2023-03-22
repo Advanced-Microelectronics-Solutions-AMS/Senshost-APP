@@ -3,4 +3,5 @@
 	<color name="colorPrimary">#2e3742</color>
 	<color name="colorPrimaryDark">#3b4655</color>
 	<color name="colorAccent">#2B0B98</color>
+	<string name="com.crashlytics.android.build_id">1</string>
 </resources>

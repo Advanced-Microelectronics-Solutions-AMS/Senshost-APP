@@ -1,12 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reflection.Metadata;
+using System.ComponentModel;
 //using AndroidX.Startup;
 using CommunityToolkit.Maui.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Senshost.Common.Interfaces;
-using Senshost.Models.Account;
 using Senshost.Models.Common;
 using Senshost.Models.Notification;
 using Senshost.Views;
@@ -17,10 +16,20 @@ namespace Senshost.ViewModels
     {
         private PaginationResult paginationData = new(20);
         private readonly INotificationService notificationService;
+        private readonly UserStateContext userStateContext;
 
-        public NotificationListPageViewModel(INotificationService notificationService)
+        public NotificationListPageViewModel(INotificationService notificationService, UserStateContext userStateContext)
         {
             this.notificationService = notificationService;
+            this.userStateContext=userStateContext;
+            userStateContext.PropertyChanged += OnUserStatePropertyChanged;
+            BadgeCount = userStateContext.BadgeCount;
+
+            WeakReferenceMessenger.Default.Register<string>(this, async (r, m) =>
+            {
+                await InitializeNotificationCount();
+                await InitializeNotifications();
+            });
 
             Initialize();
         }
@@ -49,9 +58,6 @@ namespace Senshost.ViewModels
         {
             IsBusy = true;
             CurrentState = LayoutState.Loading;
-            paginationData = new(20);
-            Notifications = new ObservableCollection<NotificationDetailPageViewModel>();
-            ItemThreshold = 2;
 
             await InitializeNotifications();
             await InitializeNotificationCount();
@@ -62,22 +68,6 @@ namespace Senshost.ViewModels
             IsBusy = false;
             IsRefreshing = false;
         }
-
-        public void OnAppearing()
-        {
-            // Register a message in some module
-            WeakReferenceMessenger.Default.Register<Dictionary<string, string>>(this, (r, m) =>
-            {
-                Refresh();
-            });
-
-        }
-
-        public void OnDisappearing()
-        {
-            WeakReferenceMessenger.Default.Unregister<Dictionary<string, string>>(this);
-        }
-
 
         [RelayCommand]
         public async Task LoadMore()
@@ -113,7 +103,7 @@ namespace Senshost.ViewModels
         [RelayCommand]
         public async Task Detail(NotificationDetailPageViewModel notificationsDetail)
         {
-            await App.Current.MainPage.Navigation.PushAsync(new NotificationDetailPage(notificationsDetail));
+            await App.Current.MainPage.Navigation.PushAsync(new NotificationDetailPage(notificationsDetail.Notification));
 
             if (notificationsDetail.Status == Models.Constants.NotificationStatus.Pending)
             {
@@ -126,6 +116,7 @@ namespace Senshost.ViewModels
                     PendingWarningNotificationCount--;
                 else if (notificationsDetail.Notification.Severity == Models.Constants.SeverityLevel.Critical)
                     PendingCritialNotificationCount--;
+                userStateContext.BadgeCount = PendingAllNotificationCount.ToString(); ;
 
                 _ = Task.Run(async () =>
                 {
@@ -162,7 +153,7 @@ namespace Senshost.ViewModels
             return await notificationService.GetNotificationCount(App.UserDetails.AccountId, App.UserDetails.UserId);
         }
 
-        private async Task InitializeNotificationCount()
+        public async Task InitializeNotificationCount()
         {
             var notificationCount = await GetNotificationCount();
 
@@ -170,15 +161,14 @@ namespace Senshost.ViewModels
             PendingInfoNotificationCount = notificationCount.Info;
             PendingWarningNotificationCount = notificationCount.Warning;
             PendingCritialNotificationCount = notificationCount.Critical;
-
-            BadgeCount = "" + PendingAllNotificationCount;
-            Senshost.App.BadgeCount = BadgeCount;
-
+            userStateContext.BadgeCount = PendingAllNotificationCount.ToString();
             return;
         }
 
-        private async Task InitializeNotifications()
+        public async Task InitializeNotifications()
         {
+            paginationData = new(20);
+            ItemThreshold = 2;
             var notificationsTmp = await GetNotifications(paginationData);
 
             Notifications = new ObservableCollection<NotificationDetailPageViewModel>();
@@ -195,18 +185,15 @@ namespace Senshost.ViewModels
                     });
                 }
             }
-
-
-            //Notifications = new ObservableCollection<NotificationDetailPageViewModel>(notifications.Select(x =>
-            // new NotificationDetailPageViewModel()
-            // {
-            //     Notification = x,
-            //     Status = x.Status,
-            //     UserNotificationId = x.UserNotificationId
-            // }
-            //));
-
             return;
+        }
+
+        private void OnUserStatePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(userStateContext.BadgeCount))
+            {
+                BadgeCount = userStateContext.BadgeCount;
+            }
         }
     }
 }

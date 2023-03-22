@@ -3,13 +3,14 @@ using Senshost.Common.Interfaces;
 using Senshost.Controls;
 using Senshost.Models.Account;
 using Senshost.Views;
-using System.Net.Http.Headers;
 using Const = Senshost.Common.Constants;
 using AppConst = Senshost.Constants;
 using System.Text.Json;
 using Senshost.Models.Notification;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.Messaging;
+using Plugin.Firebase.CloudMessaging;
 
 namespace Senshost.ViewModels
 {
@@ -27,6 +28,12 @@ namespace Senshost.ViewModels
             this.notificationService = notificationService;
             this.storageService = storageService;
             this.authService = authService;
+
+            WeakReferenceMessenger.Default.Register<string>(this, async (r, m) =>
+            {
+                await GetNotificationCount();
+            });
+
         }
 
         [ObservableProperty]
@@ -45,10 +52,12 @@ namespace Senshost.ViewModels
 
             if (IsAuthorized)
             {
+                await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
                 _ = Task.Run(async () =>
                 {
                     await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
                     await SendDeviceTokenToSever();
+                    await GetNotificationCount();
                 });
             }
         }
@@ -82,11 +91,15 @@ namespace Senshost.ViewModels
 
                         if (IsAuthorized)
                         {
+                            await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
+
                             _ = Task.Run(async () =>
                             {
                                 await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
+
                                 if (!Preferences.ContainsKey(AppConst.AppConstants.UserDeviceTokenIdKey))
                                     await SendDeviceTokenToSever();
+                                await GetNotificationCount();
                             });
                         }
 
@@ -108,16 +121,11 @@ namespace Senshost.ViewModels
                         IsAuthorized = true;
 
                         AppShell.Current.FlyoutHeader = new FlyoutHeaderControl();
-                        
-                        await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
 
-                        if (Senshost.App.IsNotificationReceived)
-                        {
-                            await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}/{nameof(NotificationListPage)}", true);
-                        }
+                        await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
                     }
                 }
-                
+
             }
             else
                 await LogoutAsync();
@@ -136,7 +144,6 @@ namespace Senshost.ViewModels
                 IsAuthorized = true;
 
                 AppShell.Current.FlyoutHeader = new FlyoutHeaderControl();
-                await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
             }
             else
                 await AppShell.Current.DisplayAlert("Authentication Failed", "Could not find user account details.", "Close");
@@ -155,20 +162,27 @@ namespace Senshost.ViewModels
 
             if (!string.IsNullOrEmpty(apiToken))
                 storageService.Remove(Const.Constants.ApiSecureStorageToken);
-            await storageService.SetAsync(Const.Constants.ApiSecureStorageToken, token);           
+            await storageService.SetAsync(Const.Constants.ApiSecureStorageToken, token);
         }
 
         private async Task SendDeviceTokenToSever()
         {
             try
             {
+                await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
+                var devicetoken = await CrossFirebaseCloudMessaging.Current.GetTokenAsync();
+                if (Preferences.ContainsKey(AppConst.AppConstants.FCMDeviceTokenKey))
+                    Preferences.Remove(AppConst.AppConstants.FCMDeviceTokenKey);
+
+                Preferences.Set(AppConst.AppConstants.FCMDeviceTokenKey, devicetoken);
+
                 var req = new UserDeviceToken()
                 {
                     AccountId = App.UserDetails.AccountId,
                     UserId = App.UserDetails.UserId,
                     DeviceType = $"{DeviceInfo.Current.Platform} {DeviceInfo.Current.Model} {DeviceInfo.Current.Idiom}",
                     UserDeviceId = getDeviceInfo.GetDeviceID(),
-                    DeviceRegistrationId = Preferences.Get(AppConst.AppConstants.FCMDeviceTokenKey, default(string))
+                    DeviceRegistrationId = devicetoken
                 };
 
                 var result = await notificationService.SaveDeviceToken(req);
@@ -236,9 +250,11 @@ namespace Senshost.ViewModels
             return user;
         }
 
-        public async Task<NotificationCount> GetNotificationCount()
+        public async Task GetNotificationCount()
         {
-            return await notificationService.GetNotificationCount(App.UserDetails.AccountId, App.UserDetails.UserId);
+            var result = await notificationService.GetNotificationCount(App.UserDetails.AccountId, App.UserDetails.UserId);
+            BadgeCount = result.TotalPending.ToString();
         }
+
     }
 }

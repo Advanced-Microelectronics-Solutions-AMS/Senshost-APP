@@ -12,8 +12,7 @@ namespace Senshost.ViewModels
         {
             userStateContext.PropertyChanged += OnUserStatePropertyChanged;
             this.userStateContext = userStateContext;
-
-            GetNotificationCount();
+            BadgeCount = userStateContext.BadgeCount;
         }
 
         private void OnUserStatePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -25,13 +24,10 @@ namespace Senshost.ViewModels
                     UserLoggedOut?.Invoke(this, EventArgs.Empty);
                 }
             }
-        }
-
-        private async void GetNotificationCount()
-        {
-            var notificationCount = await userStateContext.GetNotificationCount();
-            BadgeCount = "" + notificationCount.TotalPending;
-            Senshost.App.BadgeCount = BadgeCount;
+            else if (e.PropertyName == nameof(userStateContext.BadgeCount))
+            {
+                BadgeCount = userStateContext.BadgeCount;
+            }
         }
     }
 }

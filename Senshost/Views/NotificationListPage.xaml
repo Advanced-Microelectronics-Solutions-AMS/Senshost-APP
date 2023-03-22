@@ -173,88 +173,83 @@
 
                         <CollectionView.Header>
                             <Grid x:Name="Stats">
-                                <Border StrokeThickness="0" StrokeShape="RoundRectangle 20">
-                                    <Border.Shadow>
-                                        <Shadow Radius="60" Opacity="0.3" />
-                                    </Border.Shadow>
-                                    <StackLayout >
-                                        <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
+                                <StackLayout >
+                                    <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
                                     Padding="20" RowSpacing="5" >
-                                            <StackLayout Grid.Column="0"  x:Name="CriticalCount" Scale="0">
-                                                <Border 
+                                        <StackLayout Grid.Column="0"  x:Name="CriticalCount" Scale="0">
+                                            <Border 
                                 HeightRequest="100" WidthRequest="100"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
-                                                    <Border.Shadow>
-                                                        <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                    </Border.Shadow>
-                                                    <Border.Background>
-                                                        <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                            <GradientStop Color="Red" Offset="0.2" />
-                                                            <GradientStop Color="Yellow" Offset="1.0" />
-                                                        </RadialGradientBrush>
-                                                    </Border.Background>
-                                                    <Label Text="{Binding PendingCritialNotificationCount}"
+                                                <Border.Shadow>
+                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                                                </Border.Shadow>
+                                                <Border.Background>
+                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                                        <GradientStop Color="Red" Offset="0.2" />
+                                                        <GradientStop Color="Yellow" Offset="1.0" />
+                                                    </RadialGradientBrush>
+                                                </Border.Background>
+                                                <Label Text="{Binding PendingCritialNotificationCount}"
                                    FontAttributes="Bold" 
                                    VerticalTextAlignment="Center" FontSize="30"
                                    TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                                </Border>
-                                            </StackLayout>
-                                            <Label Grid.Row="1" 
+                                            </Border>
+                                        </StackLayout>
+                                        <Label Grid.Row="1" 
                                Grid.Column="0" Text="Critical" FontSize="15" 
                                VerticalTextAlignment="Center" FontAttributes="Bold"
                                HorizontalTextAlignment="Center" />
 
-                                            <StackLayout Grid.Column="1"  x:Name="WarningCount" Scale="0">
-                                                <Border HeightRequest="100"
+                                        <StackLayout Grid.Column="1"  x:Name="WarningCount" Scale="0">
+                                            <Border HeightRequest="100"
                                 WidthRequest="100"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
-                                                    <Border.Shadow>
-                                                        <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                    </Border.Shadow>
-                                                    <Border.Background>
-                                                        <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                            <GradientStop Color="LightGreen" Offset="0.1" />
-                                                            <GradientStop Color="Yellow" Offset="1.0" />
-                                                        </RadialGradientBrush>
-                                                    </Border.Background>
-                                                    <Label  Text="{Binding PendingWarningNotificationCount}" 
+                                                <Border.Shadow>
+                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                                                </Border.Shadow>
+                                                <Border.Background>
+                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                                        <GradientStop Color="LightGreen" Offset="0.1" />
+                                                        <GradientStop Color="Yellow" Offset="1.0" />
+                                                    </RadialGradientBrush>
+                                                </Border.Background>
+                                                <Label  Text="{Binding PendingWarningNotificationCount}" 
                                     FontAttributes="Bold" 
                                    VerticalTextAlignment="Center" FontSize="30"
                                    TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                                </Border>
-                                            </StackLayout>
-                                            <Label Grid.Row="1" Grid.Column="1" Text="Warning" FontSize="15" 
+                                            </Border>
+                                        </StackLayout>
+                                        <Label Grid.Row="1" Grid.Column="1" Text="Warning" FontSize="15" 
                                VerticalTextAlignment="Center" FontAttributes="Bold"
                                HorizontalTextAlignment="Center" />
 
-                                            <StackLayout Grid.Column="2" x:Name="InfoCount" Scale="0">
-                                                <Border  HeightRequest="100"
+                                        <StackLayout Grid.Column="2" x:Name="InfoCount" Scale="0">
+                                            <Border  HeightRequest="100"
                                 WidthRequest="100"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
-                                                    <Border.Shadow>
-                                                        <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                    </Border.Shadow>
-                                                    <Border.Background>
-                                                        <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                            <GradientStop Color="BlueViolet" Offset="0.1" />
-                                                            <GradientStop Color="AliceBlue" Offset="1.0" />
-                                                        </RadialGradientBrush>
-                                                    </Border.Background>
-                                                    <Label  Text="{Binding PendingInfoNotificationCount}" 
+                                                <Border.Shadow>
+                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                                                </Border.Shadow>
+                                                <Border.Background>
+                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                                        <GradientStop Color="BlueViolet" Offset="0.1" />
+                                                        <GradientStop Color="AliceBlue" Offset="1.0" />
+                                                    </RadialGradientBrush>
+                                                </Border.Background>
+                                                <Label  Text="{Binding PendingInfoNotificationCount}" 
                                     FontAttributes="Bold" 
                                    VerticalTextAlignment="Center" FontSize="30"
                                    TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                                </Border>
-                                            </StackLayout>
-                                            <Label Grid.Row="1" Grid.Column="2" Text="Info" FontSize="15" 
+                                            </Border>
+                                        </StackLayout>
+                                        <Label Grid.Row="1" Grid.Column="2" Text="Info" FontSize="15" 
                                VerticalTextAlignment="Center" FontAttributes="Bold"
                                HorizontalTextAlignment="Center" />
-                                        </Grid>
-                                    </StackLayout>
-                                </Border>
+                                    </Grid>
+                                </StackLayout>
                             </Grid>
 
                         </CollectionView.Header>

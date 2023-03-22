@@ -20,8 +20,6 @@ public partial class EventListPage : ContentPage
 
         if (!isFirstLoad)
             await events.FadeTo(1, 1000);
-
-        eventListPageViewModel.BadgeCount = Senshost.App.BadgeCount;
     }
 
     protected override void OnDisappearing()

@@ -41,29 +41,10 @@
                        BackgroundColor="Transparent"
                        VerticalOptions="Center" HorizontalOptions="Center"/>
             </Border>
-
-            <!--<Frame Padding="0" HeightRequest="20" WidthRequest="20"
-                   CornerRadius="10" BorderColor="Transparent"
-                   HorizontalOptions="Center" VerticalOptions="Center"
-                   BackgroundColor="Red">
-
-                <Label Text="21" TextColor="White" Margin="4"
-                       BackgroundColor="Aqua"
-                       VerticalOptions="Center" HorizontalOptions="Center"/>
-            </Frame>
-
-            <Frame HeightRequest="10" WidthRequest="10"
-                   VerticalOptions="Center" HorizontalOptions="Center"
-                   Margin="10" Padding="0">
-
-
-
-            </Frame>-->
-
-
-
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" />
+            </Grid.GestureRecognizers>
         </Grid>
-
     </Grid>
 </ContentView>
 
