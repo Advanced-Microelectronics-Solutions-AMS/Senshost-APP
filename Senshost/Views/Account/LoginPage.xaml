@@ -38,7 +38,8 @@
                         Padding="30,100,30,0" 
                         VerticalOptions="Start">
 
-                    <Image Source="login_logo.png" HeightRequest="75" HorizontalOptions="Center"/>
+                    <Image Source="login_logo.png" HeightRequest="75" HorizontalOptions="Center"
+                           WidthRequest="160"/>
 
                     <VerticalStackLayout Spacing="4">
                         <Label Text="Welcome!" FontSize="30" Style="{StaticResource Welcome}" HorizontalTextAlignment="Center" />

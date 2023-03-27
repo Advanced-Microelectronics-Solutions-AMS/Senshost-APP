@@ -2,16 +2,16 @@
 using System.Globalization;
 
 namespace Senshost.Converters
-{
-    public class StringToBoolConverter : IValueConverter
+{	
+    public class BoolInverseConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && ((string)value).Length > 0)
+            if (value is bool boolValue)
             {
-                return true;
+                return !boolValue;
             }
-            return false;
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

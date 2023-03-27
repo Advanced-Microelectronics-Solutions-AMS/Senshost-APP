@@ -18,6 +18,7 @@ public partial class App : Application
     public static string ApiToken;
     public static bool IsNotificationReceived;
     private readonly IServiceProvider serviceProvider;
+    public static int StatusBarHeight;
 
     public App(IServiceProvider serviceProvider)
     {
@@ -34,7 +35,7 @@ public partial class App : Application
                 handler.PlatformView.SetPadding(40, 0, 40, 0);
 #elif __IOS__
                 handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-                handler.PlatformView.SetPadding(40, 0, 40, 0);
+                //handler.PlatformView.SetPadding(40, 0, 40, 0);
 #endif
             }
         });

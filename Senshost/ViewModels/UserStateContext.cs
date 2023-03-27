@@ -72,6 +72,9 @@ namespace Senshost.ViewModels
             });
 
             await Shell.Current.GoToAsync($"//{nameof(LoginPage)}", true);
+
+            //await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
+
         }
 
         public async Task CheckUserLoginDetails()

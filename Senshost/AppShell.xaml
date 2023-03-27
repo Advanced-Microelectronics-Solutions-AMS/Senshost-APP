@@ -8,7 +8,9 @@
     xmlns:viewModel="clr-namespace:Senshost.ViewModels"
     x:DataType="viewModel:AppShellViewModel"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    FlyoutBackgroundColor="{StaticResource Primary}">
+    FlyoutBackgroundColor="{StaticResource Primary}"
+    BackgroundColor="{StaticResource Primary}"
+    >
 
     <ShellContent FlyoutItemIsVisible="False" Shell.TabBarIsVisible="False"
                   Shell.NavBarIsVisible="False" Shell.FlyoutBehavior="Disabled"

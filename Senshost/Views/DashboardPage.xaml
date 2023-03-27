@@ -4,18 +4,19 @@
              x:Class="Senshost.Views.DashboardPage"
              xmlns:viewModel="clr-namespace:Senshost.ViewModels"
              x:DataType="viewModel:DashboardPageViewModel"
-             Title="Dashboard"
-             xmlns:cuxstomView="clr-namespace:Senshost.CustomView">
-
-    <Shell.TitleView>
+             xmlns:cuxstomView="clr-namespace:Senshost.CustomView"
+             Shell.NavBarIsVisible="False"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="False">
+    <Grid RowDefinitions="auto, *" IgnoreSafeArea="True" BackgroundColor="White">
         <cuxstomView:BadgeView Title="Dashboard"/>
-    </Shell.TitleView>
-    <AbsoluteLayout>
-        <WebView x:Name="dashboard" AbsoluteLayout.LayoutBounds="0,0,1,1"
-              Opacity="0" AbsoluteLayout.LayoutFlags="All" Navigating="WebView_Navigating"  Navigated="WebView_Navigated">
-        </WebView>
+        <AbsoluteLayout Grid.Row="1" IgnoreSafeArea="False">
+            <WebView x:Name="dashboard" AbsoluteLayout.LayoutBounds="0,0,1,1"
+              Opacity="0" AbsoluteLayout.LayoutFlags="All" Navigating="WebView_Navigating"
+              Navigated="WebView_Navigated">
+            </WebView>
 
-        <Button CornerRadius="25"
+            <Button CornerRadius="25"
                 Margin="0,0,10,10"
                 BackgroundColor="{StaticResource Primary}"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -29,17 +30,18 @@
                 FontSize="20"
                 ImageSource="refresh.png"
                 WidthRequest="50">
-        </Button>
-        <StackLayout
+            </Button>
+            <StackLayout
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All"
                     HorizontalOptions="Center" VerticalOptions="Center">
-            <ActivityIndicator 
+                <ActivityIndicator 
                            IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="Center"
                            Color="{StaticResource Primary}"
                            VerticalOptions="Center"/>
-        </StackLayout>
-    </AbsoluteLayout>
+            </StackLayout>
+        </AbsoluteLayout>
+    </Grid>
 </ContentPage>

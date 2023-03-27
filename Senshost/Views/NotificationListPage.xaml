@@ -8,14 +8,16 @@
              xmlns:controls="clr-namespace:Senshost.Controls"
              xmlns:template="clr-namespace:Senshost.Views.Templates"
              Title="Notifications"
-             xmlns:cuxstomView="clr-namespace:Senshost.CustomView">
-
-    <Shell.TitleView>
-        <cuxstomView:BadgeView Title="Notifications"/>
-    </Shell.TitleView>
-
+             xmlns:converter="clr-namespace:Senshost.Converters"
+             xmlns:cuxstomView="clr-namespace:Senshost.CustomView"
+             BackgroundColor="{StaticResource Primary}"
+             Shell.NavBarIsVisible="False"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="False"
+             >
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converter:BoolInverseConverter x:Key="BoolInverseConverter" />
             <Style TargetType="controls:SkeletonView">
                 <Setter Property="Color" Value="#E4E4E4"/>
                 <Setter Property="CornerRadius" Value="4" />
@@ -77,188 +79,176 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="*" IgnoreSafeArea="True"          
-          RowSpacing="15" Padding="20,10,20,15">
+    <Grid RowDefinitions="auto, *" IgnoreSafeArea="True"
+          BackgroundColor="White" RowSpacing="0">
+        <cuxstomView:BadgeView Title="Notifications"/>
 
-        <StackLayout mct:StateContainer.CurrentState="{Binding CurrentState}" Grid.Row="0">
-            <mct:StateContainer.StateViews>
-                <StackLayout mct:StateView.StateKey="Loading">
-                    <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
+        <Grid Grid.Row="1" Padding="20,0,20,15" IgnoreSafeArea="False">
+            <CollectionView SelectionMode="Single" ItemsSource="{Binding Notifications}" 
+                                RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                                RemainingItemsThreshold="{Binding ItemThreshold}"
+                                SelectionChanged="CollectionView_SelectionChanged"
+                                x:Name="listNotification"                                                                        
+                                IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverseConverter}}"
+                                VerticalScrollBarVisibility="Never">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type viewModel:NotificationDetailPageViewModel}">
+                        <template:NotificationTemplate>
+                            <template:NotificationTemplate.Triggers>
+                                <DataTrigger TargetType="template:NotificationTemplate"
+                                             Binding="{Binding Status}"
+                                             Value="Read">
+                                    <Setter Property="Opacity" Value="0.7" />
+                                </DataTrigger>
+                            </template:NotificationTemplate.Triggers>
+                        </template:NotificationTemplate>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.Footer>
+                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}"
+                                 IsVisible="{Binding IsLoadingMore}">
+                        <BindableLayout.ItemsSource>
+                            <x:Array  Type="{x:Type x:Int32}">
+                                <x:Int32>0</x:Int32>
+                            </x:Array>
+                        </BindableLayout.ItemsSource>
+                    </StackLayout>
+                </CollectionView.Footer>
+
+                <CollectionView.Header>
+                    <Grid RowDefinitions="100, 30" ColumnDefinitions="auto,auto,auto"
+                          Padding="20" RowSpacing="5" IgnoreSafeArea="False">
+                        <Border Grid.Column="0"  x:Name="CriticalCount" Scale="0"
+                                HeightRequest="100" WidthRequest="100"
+                                StrokeShape="RoundRectangle 50"
+                                HorizontalOptions="Center">
+                            <Border.Shadow>
+                                <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                            </Border.Shadow>
+                            <Border.Background>
+                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                    <GradientStop Color="Red" Offset="0.2" />
+                                    <GradientStop Color="Yellow" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Border.Background>
+                            <Label Text="{Binding PendingCritialNotificationCount}"
+                                   FontAttributes="Bold" 
+                                   VerticalTextAlignment="Center" FontSize="30"
+                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
+                        </Border>
+                        <Label Grid.Row="1" 
+                               Grid.Column="0" Text="Critical" FontSize="15" 
+                               VerticalTextAlignment="Center" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+
+                        <Border HeightRequest="100" Grid.Column="1"  x:Name="WarningCount" Scale="0"
+                                WidthRequest="100"
+                                StrokeShape="RoundRectangle 50"
+                                HorizontalOptions="Center">
+                            <Border.Shadow>
+                                <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                            </Border.Shadow>
+                            <Border.Background>
+                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                    <GradientStop Color="LightGreen" Offset="0.1" />
+                                    <GradientStop Color="Yellow" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Border.Background>
+                            <Label  Text="{Binding PendingWarningNotificationCount}" 
+                                    FontAttributes="Bold" 
+                                   VerticalTextAlignment="Center" FontSize="30"
+                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
+                        </Border>
+                        <Label Grid.Row="1" Grid.Column="1" Text="Warning" FontSize="15" 
+                               VerticalTextAlignment="Center" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+
+                        <Border  Grid.Column="2" x:Name="InfoCount" Scale="0"
+                                     HeightRequest="100"
+                                WidthRequest="100"
+                                StrokeShape="RoundRectangle 50"
+                                HorizontalOptions="Center">
+                            <Border.Shadow>
+                                <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
+                            </Border.Shadow>
+                            <Border.Background>
+                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                    <GradientStop Color="BlueViolet" Offset="0.1" />
+                                    <GradientStop Color="AliceBlue" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Border.Background>
+                            <Label  Text="{Binding PendingInfoNotificationCount}" 
+                                    FontAttributes="Bold" 
+                                   VerticalTextAlignment="Center" FontSize="30"
+                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
+                        </Border>
+                        <Label Grid.Row="1" Grid.Column="2" Text="Info" FontSize="15" 
+                               VerticalTextAlignment="Center" FontAttributes="Bold"
+                               HorizontalTextAlignment="Center" />
+                    </Grid>
+
+                </CollectionView.Header>
+            </CollectionView>
+
+            <StackLayout IsVisible="{Binding IsBusy}" >
+                <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
                                                   Padding="20" RowSpacing="5">
-                        <controls:SkeletonView Grid.Column="0"
+                    <controls:SkeletonView Grid.Column="0"
                                                    Grid.Row="0"
                                                    HeightRequest="100"
                                                    WidthRequest="100"
                                                    HorizontalOptions="Center" CornerRadius="50">
-                        </controls:SkeletonView>
-                        <controls:SkeletonView Grid.Column="1"
+                    </controls:SkeletonView>
+                    <controls:SkeletonView Grid.Column="1"
                                                    Grid.Row="0"
                                                    HeightRequest="100"
                                                    WidthRequest="100"
                                                    HorizontalOptions="Center" CornerRadius="50">
-                        </controls:SkeletonView>
-                        <controls:SkeletonView Grid.Column="2"
+                    </controls:SkeletonView>
+                    <controls:SkeletonView Grid.Column="2"
                                                    Grid.Row="0"
                                                    HeightRequest="100"
                                                    WidthRequest="100"
                                                    HorizontalOptions="Center" CornerRadius="50">
-                        </controls:SkeletonView>
-                        <controls:SkeletonView Grid.Row="1" 
+                    </controls:SkeletonView>
+                    <controls:SkeletonView Grid.Row="1" 
                                                    Grid.Column="0"
                                                    WidthRequest="50"
                                                    HeightRequest="16"
                                                    HorizontalOptions="Center"
                                                    VerticalOptions="Center"/>
-                        <controls:SkeletonView Grid.Row="1" 
+                    <controls:SkeletonView Grid.Row="1" 
                                                    Grid.Column="1"
                                                    WidthRequest="50"
                                                    HeightRequest="16"
                                                    HorizontalOptions="Center"
                                                    VerticalOptions="Center"/>
-                        <controls:SkeletonView Grid.Row="1" 
+                    <controls:SkeletonView Grid.Row="1" 
                                                    Grid.Column="2"
                                                    WidthRequest="50"
                                                    HeightRequest="16"
                                                    HorizontalOptions="Center"
                                                    VerticalOptions="Center"/>
-                    </Grid>
+                </Grid>
 
-                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}" >
-                        <BindableLayout.ItemsSource>
-                            <x:Array  Type="{x:Type x:Int32}">
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                            </x:Array>
-                        </BindableLayout.ItemsSource>
-                    </StackLayout>
+                <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}" >
+                    <BindableLayout.ItemsSource>
+                        <x:Array  Type="{x:Type x:Int32}">
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                        </x:Array>
+                    </BindableLayout.ItemsSource>
                 </StackLayout>
+            </StackLayout>
 
-                <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" mct:StateView.StateKey="Success">
-                    <CollectionView SelectionMode="Single" ItemsSource="{Binding Notifications}" 
-                                RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
-                                RemainingItemsThreshold="{Binding ItemThreshold}"
-                                SelectionChanged="CollectionView_SelectionChanged"
-                                x:Name="listNotification">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="{x:Type viewModel:NotificationDetailPageViewModel}">
-                                <template:NotificationTemplate>
-                                    <template:NotificationTemplate.Triggers>
-                                        <DataTrigger
-                                                    TargetType="template:NotificationTemplate"
-			                                        Binding="{Binding Status}"
-			                                        Value="Read">
-                                            <Setter Property="Opacity" Value="0.7" />
-                                        </DataTrigger>
-                                    </template:NotificationTemplate.Triggers>
-                                </template:NotificationTemplate>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-
-                        <CollectionView.Footer>
-                            <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}"
-                                 IsVisible="{Binding IsLoadingMore}">
-                                <BindableLayout.ItemsSource>
-                                    <x:Array  Type="{x:Type x:Int32}">
-                                        <x:Int32>0</x:Int32>
-                                    </x:Array>
-                                </BindableLayout.ItemsSource>
-                            </StackLayout>
-                        </CollectionView.Footer>
-
-                        <CollectionView.Header>
-                            <Grid x:Name="Stats">
-                                <StackLayout >
-                                    <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
-                                    Padding="20" RowSpacing="5" >
-                                        <StackLayout Grid.Column="0"  x:Name="CriticalCount" Scale="0">
-                                            <Border 
-                                HeightRequest="100" WidthRequest="100"
-                                StrokeShape="RoundRectangle 50"
-                                HorizontalOptions="Center">
-                                                <Border.Shadow>
-                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                </Border.Shadow>
-                                                <Border.Background>
-                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                        <GradientStop Color="Red" Offset="0.2" />
-                                                        <GradientStop Color="Yellow" Offset="1.0" />
-                                                    </RadialGradientBrush>
-                                                </Border.Background>
-                                                <Label Text="{Binding PendingCritialNotificationCount}"
-                                   FontAttributes="Bold" 
-                                   VerticalTextAlignment="Center" FontSize="30"
-                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                            </Border>
-                                        </StackLayout>
-                                        <Label Grid.Row="1" 
-                               Grid.Column="0" Text="Critical" FontSize="15" 
-                               VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
-
-                                        <StackLayout Grid.Column="1"  x:Name="WarningCount" Scale="0">
-                                            <Border HeightRequest="100"
-                                WidthRequest="100"
-                                StrokeShape="RoundRectangle 50"
-                                HorizontalOptions="Center">
-                                                <Border.Shadow>
-                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                </Border.Shadow>
-                                                <Border.Background>
-                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                        <GradientStop Color="LightGreen" Offset="0.1" />
-                                                        <GradientStop Color="Yellow" Offset="1.0" />
-                                                    </RadialGradientBrush>
-                                                </Border.Background>
-                                                <Label  Text="{Binding PendingWarningNotificationCount}" 
-                                    FontAttributes="Bold" 
-                                   VerticalTextAlignment="Center" FontSize="30"
-                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                            </Border>
-                                        </StackLayout>
-                                        <Label Grid.Row="1" Grid.Column="1" Text="Warning" FontSize="15" 
-                               VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
-
-                                        <StackLayout Grid.Column="2" x:Name="InfoCount" Scale="0">
-                                            <Border  HeightRequest="100"
-                                WidthRequest="100"
-                                StrokeShape="RoundRectangle 50"
-                                HorizontalOptions="Center">
-                                                <Border.Shadow>
-                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                </Border.Shadow>
-                                                <Border.Background>
-                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                        <GradientStop Color="BlueViolet" Offset="0.1" />
-                                                        <GradientStop Color="AliceBlue" Offset="1.0" />
-                                                    </RadialGradientBrush>
-                                                </Border.Background>
-                                                <Label  Text="{Binding PendingInfoNotificationCount}" 
-                                    FontAttributes="Bold" 
-                                   VerticalTextAlignment="Center" FontSize="30"
-                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                            </Border>
-                                        </StackLayout>
-                                        <Label Grid.Row="1" Grid.Column="2" Text="Info" FontSize="15" 
-                               VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
-                                    </Grid>
-                                </StackLayout>
-                            </Grid>
-
-                        </CollectionView.Header>
-                    </CollectionView>
-
-                </RefreshView>
-
-            </mct:StateContainer.StateViews>
-        </StackLayout>
+        </Grid>
     </Grid>
     <!--<ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
