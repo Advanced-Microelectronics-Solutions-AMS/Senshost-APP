@@ -1,6 +1,6 @@
-﻿namespace Senshost.Common.Constants
+﻿namespace Senshost.Constants
 {
-    public static class Constants
+    public static class APIConstants
     {
         public const string ApiSecureStorageToken = "api-token";
         public static string LoginUrl => "api/auth/login";

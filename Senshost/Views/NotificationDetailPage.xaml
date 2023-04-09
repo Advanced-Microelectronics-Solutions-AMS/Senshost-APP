@@ -49,7 +49,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid Padding="20" RowDefinitions="auto, *">
+    <Grid Padding="20" RowDefinitions="auto, *" BackgroundColor="White">
         <HorizontalStackLayout>
             <Grid HeightRequest="80" WidthRequest="80"
               VerticalOptions="Start" HorizontalOptions="Start"
@@ -104,12 +104,12 @@
 
             <VerticalStackLayout BackgroundColor="Transparent">
                 <Label Text="{Binding Title}" Margin="10,2,10,0"
-                   FontSize="22" FontAttributes="Bold"/>
+                   FontSize="22" FontAttributes="Bold" TextColor="Black"/>
 
                 <Label Text="{Binding CreationDate, Converter={StaticResource DateToStringConverter}}" Margin="10,4,10,0"
-                   FontSize="14" FontAttributes="Bold"/>
+                   FontSize="14" FontAttributes="Bold" TextColor="Black"/>
                 <Label Text="{Binding Severity, StringFormat='{0}'}" Margin="10,4,10,20"
-                   FontSize="14" FontAttributes="Bold"/>
+                   FontSize="14" FontAttributes="Bold" TextColor="Black"/>
             </VerticalStackLayout>
         </HorizontalStackLayout>
 

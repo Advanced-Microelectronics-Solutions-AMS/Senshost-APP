@@ -13,10 +13,37 @@ public class AppDelegate : MauiUIApplicationDelegate
     {
         base.FinishedLaunching(application, launchOptions);
 
-        Senshost.App.StatusBarHeight = (int)UIApplication.SharedApplication.StatusBarFrame.Height;
+        try
+        {
 
+            Senshost.App.StatusBarHeight = (int)UIApplication.SharedApplication.StatusBarFrame.Height;
+
+        }
+        catch (Exception ex)
+        {
+
+        }
 
         return true;
     }
+
+    //[Export("application:didRegisterUserNotificationSettings:")]
+    //public void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)
+    //{
+
+    //}
+
+    //[Foundation.Export("application:didRegisterForRemoteNotificationsWithDeviceToken:")]
+    //public virtual void RegisteredForRemoteNotifications(UIKit.UIApplication application, NSData deviceToken)
+    //{
+    //}
+
+    //[Export("application:didFailToRegisterForRemoteNotificationsWithError:")]
+    //public void FailedToRegisterForRemoteNotifications(UIKit.UIApplication application, NSError error)
+    //{
+    //    int x = 0;
+    //}
+
+
 }
 

@@ -4,6 +4,7 @@ using Senshost.Platforms;
 using Microsoft.Maui.LifecycleEvents;
 using Plugin.Firebase.Auth;
 using Plugin.Firebase.Shared;
+using Plugin.Firebase.CloudMessaging;
 #if IOS
 using Plugin.Firebase.iOS;
 #else
@@ -18,6 +19,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .RegisterFirebaseServices()
             .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
@@ -27,7 +29,9 @@ public static class MauiProgram
 
         builder.Services.RegisterPlatformDependencies();
 
-
+//#if IOS
+//  FirebaseCloudMessagingImplementation.Initialize();
+//#endif
 
 #if DEBUG
         builder.Logging.AddDebug();
@@ -52,6 +56,7 @@ public static class MauiProgram
         });
 
         builder.Services.AddSingleton(_ => CrossFirebaseAuth.Current);
+
         return builder;
     }
 

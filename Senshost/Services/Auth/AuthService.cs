@@ -1,5 +1,5 @@
-﻿using Senshost.Common.Constants;
-using Senshost.Common.Interfaces;
+﻿using Senshost.Common.Interfaces;
+using Senshost.Constants;
 using Senshost.Models.Account;
 using Senshost.Services.Common;
 using System.Net.Http.Headers;
@@ -20,7 +20,7 @@ namespace Senshost.Services.Auth
 
         public async Task<AuthenticationResponse> LoginAsync(string username, string password)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, Constants.LoginUrl);
+            var request = new HttpRequestMessage(HttpMethod.Get, APIConstants.LoginUrl);
             request.Headers.Add("CallerType", "Mobile");
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));

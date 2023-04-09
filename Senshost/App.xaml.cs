@@ -23,6 +23,9 @@ public partial class App : Application
     public App(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+
+        MainPage = new ContentPage() { BackgroundColor = Color.FromArgb("#453544")};
+
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
         {
             if (view is BorderlessEntry)
@@ -40,7 +43,6 @@ public partial class App : Application
             }
         });
 
-        //MainPage = new ContentPage();
 
         MainPage = new AppShell(serviceProvider.GetService<AppShellViewModel>());
         this.serviceProvider=serviceProvider;

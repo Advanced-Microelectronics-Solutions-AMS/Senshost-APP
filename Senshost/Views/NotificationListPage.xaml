@@ -89,7 +89,6 @@
                                 RemainingItemsThreshold="{Binding ItemThreshold}"
                                 SelectionChanged="CollectionView_SelectionChanged"
                                 x:Name="listNotification"                                                                        
-                                IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverseConverter}}"
                                 VerticalScrollBarVisibility="Never">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type viewModel:NotificationDetailPageViewModel}">
@@ -117,10 +116,11 @@
                 </CollectionView.Footer>
 
                 <CollectionView.Header>
-                    <Grid RowDefinitions="100, 30" ColumnDefinitions="auto,auto,auto"
-                          Padding="20" RowSpacing="5" IgnoreSafeArea="False">
+                    <Grid RowDefinitions="100, 30" ColumnDefinitions="auto,*,auto"
+                          Padding="20" RowSpacing="5" IgnoreSafeArea="False"
+                          IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverseConverter}}">
                         <Border Grid.Column="0"  x:Name="CriticalCount" Scale="0"
-                                HeightRequest="100" WidthRequest="100"
+                                HeightRequest="90" WidthRequest="90"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
                             <Border.Shadow>
@@ -140,10 +140,10 @@
                         <Label Grid.Row="1" 
                                Grid.Column="0" Text="Critical" FontSize="15" 
                                VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
+                               HorizontalTextAlignment="Center" TextColor="Black"/>
 
-                        <Border HeightRequest="100" Grid.Column="1"  x:Name="WarningCount" Scale="0"
-                                WidthRequest="100"
+                        <Border Grid.Column="1"  x:Name="WarningCount" Scale="0"
+                                HeightRequest="90" WidthRequest="90"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
                             <Border.Shadow>
@@ -162,11 +162,10 @@
                         </Border>
                         <Label Grid.Row="1" Grid.Column="1" Text="Warning" FontSize="15" 
                                VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
+                               HorizontalTextAlignment="Center" TextColor="Black"/>
 
                         <Border  Grid.Column="2" x:Name="InfoCount" Scale="0"
-                                     HeightRequest="100"
-                                WidthRequest="100"
+                                HeightRequest="90" WidthRequest="90"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
                             <Border.Shadow>
@@ -185,13 +184,13 @@
                         </Border>
                         <Label Grid.Row="1" Grid.Column="2" Text="Info" FontSize="15" 
                                VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
+                               HorizontalTextAlignment="Center"
+                               TextColor="Black"/>
                     </Grid>
 
                 </CollectionView.Header>
             </CollectionView>
-
-            <StackLayout IsVisible="{Binding IsBusy}" >
+            <StackLayout IsVisible="{Binding IsBusy}" BackgroundColor="White">
                 <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
                                                   Padding="20" RowSpacing="5">
                     <controls:SkeletonView Grid.Column="0"

@@ -3,7 +3,6 @@ using Senshost.Common.Interfaces;
 using Senshost.Controls;
 using Senshost.Models.Account;
 using Senshost.Views;
-using Const = Senshost.Common.Constants;
 using AppConst = Senshost.Constants;
 using System.Text.Json;
 using Senshost.Models.Notification;
@@ -11,6 +10,7 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Messaging;
 using Plugin.Firebase.CloudMessaging;
+using Senshost.Constants;
 
 namespace Senshost.ViewModels
 {
@@ -64,6 +64,8 @@ namespace Senshost.ViewModels
 
         public async Task LogoutAsync()
         {
+            await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
+
             IsAuthorized = false;
             _ = Task.Run(async () =>
             {
@@ -81,7 +83,7 @@ namespace Senshost.ViewModels
         {
             var name = nameof(App.UserDetails);
             string userDetailsStr = Preferences.Get(name, default(string));
-            var token = await storageService.GetAsync(Const.Constants.ApiSecureStorageToken);
+            var token = await storageService.GetAsync(APIConstants.ApiSecureStorageToken);
 
             if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(userDetailsStr))
             {
@@ -161,11 +163,11 @@ namespace Senshost.ViewModels
                 Preferences.Remove(name);
             Preferences.Set(name, userDetailStr);
 
-            var apiToken = await storageService.GetAsync(Const.Constants.ApiSecureStorageToken);
+            var apiToken = await storageService.GetAsync(APIConstants.ApiSecureStorageToken);
 
             if (!string.IsNullOrEmpty(apiToken))
-                storageService.Remove(Const.Constants.ApiSecureStorageToken);
-            await storageService.SetAsync(Const.Constants.ApiSecureStorageToken, token);
+                storageService.Remove(APIConstants.ApiSecureStorageToken);
+            await storageService.SetAsync(APIConstants.ApiSecureStorageToken, token);
         }
 
         private async Task SendDeviceTokenToSever()
@@ -198,7 +200,7 @@ namespace Senshost.ViewModels
                     Preferences.Set(AppConst.AppConstants.UserDeviceTokenIdKey, result.Id.Value.ToString());
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 if (Preferences.ContainsKey(AppConst.AppConstants.UserDeviceTokenIdKey))
                     Preferences.Remove(AppConst.AppConstants.UserDeviceTokenIdKey);
@@ -210,9 +212,9 @@ namespace Senshost.ViewModels
             if (Preferences.ContainsKey(nameof(App.UserDetails)))
                 Preferences.Remove(nameof(App.UserDetails));
 
-            var apiToken = await storageService.GetAsync(Const.Constants.ApiSecureStorageToken);
+            var apiToken = await storageService.GetAsync(APIConstants.ApiSecureStorageToken);
             if (!string.IsNullOrEmpty(apiToken))
-                storageService.Remove(Const.Constants.ApiSecureStorageToken);
+                storageService.Remove(APIConstants.ApiSecureStorageToken);
         }
 
         private async Task RemoveDeviceTokenFromSever()
