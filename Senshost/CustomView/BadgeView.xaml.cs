@@ -45,4 +45,9 @@ public partial class BadgeView : ContentView
     {
         Shell.Current.FlyoutIsPresented = true;
     }
+
+    void Button_Clicked(System.Object sender, System.EventArgs e)
+    {
+        Shell.Current.FlyoutIsPresented = true;
+    }
 }

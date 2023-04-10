@@ -25,6 +25,10 @@ public partial class NotificationListPage : ContentPage
             {
                 Task.Run(async () =>
                 {
+                    CriticalCount.Scale = 0;
+                    WarningCount.Scale = 0;
+                    InfoCount.Scale = 0;
+
                     await CriticalCount.ScaleTo(1, 200, Easing.Linear);
                     await WarningCount.ScaleTo(1, 200, Easing.Linear);
                     await InfoCount.ScaleTo(1, 200, Easing.Linear);

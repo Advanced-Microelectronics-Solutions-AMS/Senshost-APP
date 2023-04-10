@@ -115,7 +115,7 @@
 
         <ScrollView Grid.Row="1" BackgroundColor="Transparent">
             <VerticalStackLayout>
-                <Label Text="{Binding Body}" Margin="10,10,10,0"
+                <Label Text="{Binding Body}" Margin="10,10,10,0" TextColor="Black" 
                    FontSize="14" FontAttributes="Bold" BackgroundColor="Transparent"/>
             </VerticalStackLayout>
         </ScrollView>

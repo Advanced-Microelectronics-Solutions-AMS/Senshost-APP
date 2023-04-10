@@ -83,7 +83,7 @@
           BackgroundColor="White" RowSpacing="0">
         <cuxstomView:BadgeView Title="Notifications"/>
 
-        <Grid Grid.Row="1" Padding="20,0,20,15" IgnoreSafeArea="False">
+        <Grid Grid.Row="1" Padding="20,10,20,15" IgnoreSafeArea="False">
             <CollectionView SelectionMode="Single" ItemsSource="{Binding Notifications}" 
                                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
                                 RemainingItemsThreshold="{Binding ItemThreshold}"
@@ -117,9 +117,9 @@
 
                 <CollectionView.Header>
                     <Grid RowDefinitions="100, 30" ColumnDefinitions="auto,*,auto"
-                          Padding="20" RowSpacing="5" IgnoreSafeArea="False"
+                          Padding="20" RowSpacing="5" IgnoreSafeArea="False" BackgroundColor="Transparent"
                           IsVisible="{Binding IsBusy, Converter={StaticResource BoolInverseConverter}}">
-                        <Border Grid.Column="0"  x:Name="CriticalCount" Scale="0"
+                        <Border Grid.Column="0"  x:Name="CriticalCount" Scale="1"
                                 HeightRequest="90" WidthRequest="90"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
@@ -142,7 +142,7 @@
                                VerticalTextAlignment="Center" FontAttributes="Bold"
                                HorizontalTextAlignment="Center" TextColor="Black"/>
 
-                        <Border Grid.Column="1"  x:Name="WarningCount" Scale="0"
+                        <Border Grid.Column="1"  x:Name="WarningCount" Scale="1"
                                 HeightRequest="90" WidthRequest="90"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
@@ -164,7 +164,7 @@
                                VerticalTextAlignment="Center" FontAttributes="Bold"
                                HorizontalTextAlignment="Center" TextColor="Black"/>
 
-                        <Border  Grid.Column="2" x:Name="InfoCount" Scale="0"
+                        <Border  Grid.Column="2" x:Name="InfoCount" Scale="1"
                                 HeightRequest="90" WidthRequest="90"
                                 StrokeShape="RoundRectangle 50"
                                 HorizontalOptions="Center">
@@ -187,7 +187,6 @@
                                HorizontalTextAlignment="Center"
                                TextColor="Black"/>
                     </Grid>
-
                 </CollectionView.Header>
             </CollectionView>
             <StackLayout IsVisible="{Binding IsBusy}" BackgroundColor="White">
