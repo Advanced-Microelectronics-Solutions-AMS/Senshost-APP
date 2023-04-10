@@ -24,7 +24,7 @@
                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
             </Image.GestureRecognizers>
         </Image>
-        <Button BackgroundColor="Transparent" Clicked="Button_Clicked"/>
+        <Button BackgroundColor="Transparent" Clicked="Button_Clicked"/> 
 
         <Label x:Name="lblTitle" Text="" Grid.Column="1"
                FontSize="18" FontAttributes="Bold"
