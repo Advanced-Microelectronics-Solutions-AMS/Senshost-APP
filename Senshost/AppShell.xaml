@@ -4,21 +4,23 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Senshost"
+    xmlns:ctrls="clr-namespace:Senshost.Controls"
     xmlns:views="clr-namespace:Senshost.Views"
     xmlns:viewModel="clr-namespace:Senshost.ViewModels"
     x:DataType="viewModel:AppShellViewModel"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    FlyoutBackgroundColor="{StaticResource Primary}"
-    BackgroundColor="{StaticResource Primary}"
+    FlyoutHeaderBehavior="Fixed"
+    FlyoutBehavior="Flyout"
     >
-
+    <Shell.FlyoutBackground>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="{StaticResource Primary}" Offset="0.4" />
+            <GradientStop Color="{StaticResource Secondary}" Offset="1" />
+        </LinearGradientBrush>
+    </Shell.FlyoutBackground>
     <ShellContent FlyoutItemIsVisible="False" Shell.TabBarIsVisible="False"
                   Shell.NavBarIsVisible="False" Shell.FlyoutBehavior="Disabled"
         ContentTemplate="{DataTemplate views:LoadingPage}" Route="LoadingPage" >
-
     </ShellContent>
-
-
 
     <ShellContent
         Title="Login Page"
@@ -29,26 +31,62 @@
         ContentTemplate="{DataTemplate views:LoginPage}"
         Route="LoginPage" />
 
-    <FlyoutItem FlyoutIcon="dashboard.png" Title="Dashboard" FlyoutDisplayOptions="AsMultipleItems" Route="tabPages">
-
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
         Title="Dashboard"
         Icon="dashboard.png"
+        Shell.FlyoutBehavior="Flyout"
+        Shell.TabBarIsVisible="True"
+        Shell.NavBarIsVisible="True"
         ContentTemplate="{DataTemplate views:DashboardPage}"
-        Route="DashboardPage" />
-
-        <ShellContent 
-        Icon="notification.png"
-        Title="Notifications"            
-        ContentTemplate="{DataTemplate views:NotificationListPage}"
-        Route="NotificationListPage"
-           
-            >
+        Route="DashboardPage">
         </ShellContent>
+
+        <Tab 
+            Icon="notification.png"
+            Title="Notifications"
+            ctrls:Badge.BackgroundColor="Red"
+            ctrls:Badge.Text="{Binding BadgeCount}">
+            <ShellContent 
+                Title="All"
+                Shell.FlyoutBehavior="Flyout"
+                Shell.TabBarIsVisible="True"
+                Shell.NavBarIsVisible="True"
+                ContentTemplate="{DataTemplate views:NotificationListPage}"
+                Route="NotificationListPage">
+            </ShellContent>
+            <ShellContent 
+                Title="Critical"
+                Shell.FlyoutBehavior="Flyout"
+                Shell.TabBarIsVisible="True"
+                Shell.NavBarIsVisible="True"
+                ContentTemplate="{DataTemplate views:NotificationListPage}"
+                Route="NotificationListPage2">
+            </ShellContent>
+            <ShellContent 
+                Title="Warning"
+                Shell.FlyoutBehavior="Flyout"
+                Shell.TabBarIsVisible="True"
+                Shell.NavBarIsVisible="True"
+                ContentTemplate="{DataTemplate views:NotificationListPage}"
+                Route="NotificationListPage3">
+            </ShellContent>
+            <ShellContent 
+                Title="Info"
+                Shell.FlyoutBehavior="Flyout"
+                Shell.TabBarIsVisible="True"
+                Shell.NavBarIsVisible="True"
+                ContentTemplate="{DataTemplate views:NotificationListPage}"
+                Route="NotificationListPage4">
+            </ShellContent>
+        </Tab>
 
         <ShellContent
         Icon="events.png"
         Title="Events"
+        Shell.FlyoutBehavior="Flyout"
+        Shell.TabBarIsVisible="True"
+        Shell.NavBarIsVisible="True"
         ContentTemplate="{DataTemplate views:EventListPage}"
         Route="EventListPage" />
 
@@ -67,27 +105,9 @@
         Route="ContactUsPage"
         />
 
-    <!--<ShellContent 
-        Icon="contact_us.png" 
-        Title="Notification Details" 
-        ContentTemplate="{DataTemplate views:NotificationDetailPage}"
-        Route="NotificationDetailPage"
-        />-->
-
-    <ShellContent FlyoutItemIsVisible="False" Shell.TabBarIsVisible="False"
-                  Shell.NavBarIsVisible="True" Shell.FlyoutBehavior="Disabled"
-        ContentTemplate="{DataTemplate views:NotificationDetailPage}" Route="NotificationDetailPage" >
-
-    </ShellContent>
-
-    <!--<Shell.ToolbarItems>
-        <ToolbarItem Text="test" IconImageSource="notification" Priority="10">
-        </ToolbarItem>
-    </Shell.ToolbarItems>-->
-
     <Shell.FlyoutFooter>
         <StackLayout>
-            <Button Text="Sign Out" Command="{Binding LogOutCommand}"  />
+            <Button Text="Sign Out" CornerRadius="0" Command="{Binding LogOutCommand}"  />
         </StackLayout>
     </Shell.FlyoutFooter>
 </Shell>

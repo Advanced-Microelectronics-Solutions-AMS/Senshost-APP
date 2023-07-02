@@ -5,122 +5,86 @@
              xmlns:controls="clr-namespace:Senshost.Controls"
              Title="Notification Details"
              FlyoutItem.IsVisible="False"
-             NavigationPage.HasBackButton="False"
+             NavigationPage.HasBackButton="True"
              xmlns:converter="clr-namespace:Senshost.Converters"
-             Shell.TabBarIsVisible="False">
-     <ContentPage.Resources>
+             Shell.TabBarIsVisible="False"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Shell.PresentationMode="ModalAnimated"
+             Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
         <ResourceDictionary>
             <converter:DateToStringConverter x:Key="DateToStringConverter" />
-        
-            <Style x:Key="ImageContainerStyle" TargetType="Grid">
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HeightRequest" Value="72" />
-                <Setter Property="WidthRequest" Value="72" />
-            </Style>
-
-            <Style x:Key="EllipseStyle" TargetType="Border">
-                <Setter Property="HeightRequest" Value="72" />
-                <Setter Property="WidthRequest" Value="72" />
-            </Style>
-
-            <Style x:Key="ImageStyle" TargetType="Image">
-                <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HeightRequest" Value="35" />
-                <Setter Property="Margin" Value="10" />
-            </Style>
-
-            <Color x:Key="TimeColor">#B2ACBE</Color>
-            
-            <Style TargetType="Grid">
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Selected">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor"
-                                Value="Gray" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
-            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid Padding="20" RowDefinitions="auto, *" BackgroundColor="White">
-        <HorizontalStackLayout>
-            <Grid HeightRequest="80" WidthRequest="80"
-              VerticalOptions="Start" HorizontalOptions="Start"
-                Style="{StaticResource ImageContainerStyle}">
-                <Border
-                    Style="{StaticResource EllipseStyle}" StrokeShape="RoundRectangle 50">
-                    <Border.Triggers>
-                        <DataTrigger
-                                                    TargetType="Border"
-			                                        Binding="{Binding Severity}"
-			                                        Value="Warning">
-                            <Setter Property="Background">
-                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                    <GradientStop Color="LightGreen" Offset="0.1" />
-                                    <GradientStop Color="Yellow" Offset="1.0" />
-                                </RadialGradientBrush>
-                            </Setter>
-                        </DataTrigger>
-                        <DataTrigger
-                                                    TargetType="Border"
-			                                        Binding="{Binding Severity}"
-			                                        Value="Info">
-                            <Setter Property="Background">
-                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                    <GradientStop Color="BlueViolet" Offset="0.1" />
-                                    <GradientStop Color="AliceBlue" Offset="1.0" />
-                                </RadialGradientBrush>
-                            </Setter>
-                        </DataTrigger>
-                        <DataTrigger
-                                                    TargetType="Border"
-			                                        Binding="{Binding Severity}"
-			                                        Value="Critical">
-                            <Setter Property="Background">
-                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                    <GradientStop Color="Red" Offset="0.2" />
-                                    <GradientStop Color="Yellow" Offset="1.0" />
-                                </RadialGradientBrush>
-                            </Setter>
-                        </DataTrigger>
-                    </Border.Triggers>
-                </Border>
+    <Grid RowDefinitions="auto,auto, *" BackgroundColor="White">
+        <Grid Padding="15,0" x:Name="topTitleBar" RowDefinitions="48" Margin="0">
+            <Border     HorizontalOptions="Start"
+                        BackgroundColor="Transparent"
+                StrokeThickness="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8,8,8,8" />
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </Border.GestureRecognizers>
+
                 <Image
-                    Source="notification.png"
-                    Style="{StaticResource ImageStyle}"
-                HeightRequest="40" WidthRequest="40">
-                    <!--<Image.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="Red" />
-                    </Image.Behaviors>-->
+                            HeightRequest="30"
+                            HorizontalOptions="Center"
+                            Source="svg_circle_arrow_backward_outline.png"
+                            VerticalOptions="Center"
+                            WidthRequest="30">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource White}" />
+                    </Image.Behaviors>
                 </Image>
-            </Grid>
+            </Border>
+            <StackLayout BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal"
+                        Spacing="6"
+                        VerticalOptions="Center">
 
-            <VerticalStackLayout BackgroundColor="Transparent">
-                <Label Text="{Binding Title}" Margin="10,2,10,0"
-                   FontSize="22" FontAttributes="Bold" TextColor="Black"/>
-
-                <Label Text="{Binding CreationDate, Converter={StaticResource DateToStringConverter}}" Margin="10,4,10,0"
-                   FontSize="14" FontAttributes="Bold" TextColor="Black"/>
-                <Label Text="{Binding Severity, StringFormat='{0}'}" Margin="10,4,10,20"
-                   FontSize="14" FontAttributes="Bold" TextColor="Black"/>
-            </VerticalStackLayout>
-        </HorizontalStackLayout>
-
-        <ScrollView Grid.Row="1" BackgroundColor="Transparent">
+                <Label Text="Notification Detail" BackgroundColor="Transparent" TextColor="{StaticResource White}" FontSize="20" FontAttributes="Bold" />
+            </StackLayout>
+        </Grid>
+        <Border Grid.Row="1" Padding="20,30,20,100" StrokeThickness="0" x:Name="borderNotification" Margin="-5,-5,-5,0">
             <VerticalStackLayout>
-                <Label Text="{Binding Body}" Margin="10,10,10,0" TextColor="Black" 
-                   FontSize="14" FontAttributes="Bold" BackgroundColor="Transparent"/>
-            </VerticalStackLayout>
-        </ScrollView>
+                <Grid ColumnDefinitions="auto,*">
+                    <Image VerticalOptions="Start"
+                    Source="notification.png" Margin="0,5,10,0"
+                HeightRequest="20" WidthRequest="20">
+                    </Image>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label  Text="{Binding Title}" VerticalOptions="Start" FontSize="20" 
+                       FontAttributes="Bold" LineBreakMode="WordWrap" TextColor="{StaticResource White}"/>
 
-        <!--<controls:AnimatedBackgroundButton HeightRequest="50" WidthRequest="200">
-        </controls:AnimatedBackgroundButton>-->
+                        <Label Text="{Binding CreationDate, Converter={StaticResource DateToStringConverter}}" Margin="0,5,10,20"
+                   FontSize="13" FontAttributes="Bold" TextColor="{StaticResource White}"/>
+
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+        <Border Grid.Row="2" ZIndex="10" Margin="10,-100,10,0" StrokeShape="RoundRectangle 30,30,0,0" Padding="20" StrokeThickness="0">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource Gray200}" Opacity="0.7" Offset="5,20" Radius="20"/>
+            </Border.Shadow>
+            <ScrollView  BackgroundColor="White" VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+                <VerticalStackLayout>
+                    <Grid ColumnDefinitions="*, *">
+                        <Label Text="Alert Message" FontSize="20" HorizontalOptions="Fill" HorizontalTextAlignment="Start" Margin="0,10,0,10" FontAttributes="Bold" TextColor="{StaticResource Black}"/>
+                        <Border Grid.Column="1" x:Name="lblType" HorizontalOptions="End" StrokeShape="RoundRectangle 10" Padding="5" Margin="10">
+                            <Label Text="{Binding Severity, StringFormat='{0}'}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                                   VerticalOptions="Center"
+                                FontSize="12" FontAttributes="Bold" TextColor="{StaticResource White}"/>
+                        </Border>
+                    </Grid>
+                    <Label Text="{Binding Body}" Margin="10,10,10,0" TextColor="{StaticResource Gray500}" 
+                   FontSize="16" FontAttributes="Bold" LineBreakMode="WordWrap" BackgroundColor="Transparent"/>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
     </Grid>
 </ContentPage>

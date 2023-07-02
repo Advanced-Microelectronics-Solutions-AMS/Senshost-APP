@@ -2,46 +2,36 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Senshost.Views.DashboardPage"
+             xmlns:views="clr-namespace:Senshost.Views"
              xmlns:viewModel="clr-namespace:Senshost.ViewModels"
              x:DataType="viewModel:DashboardPageViewModel"
-             xmlns:cuxstomView="clr-namespace:Senshost.CustomView"
-             Shell.NavBarIsVisible="False"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              ios:Page.UseSafeArea="False">
-    <Grid RowDefinitions="auto, *" IgnoreSafeArea="True" BackgroundColor="White">
-        <cuxstomView:BadgeView Title="Dashboard"/>
-        <AbsoluteLayout Grid.Row="1" IgnoreSafeArea="False">
-            <WebView x:Name="dashboard" AbsoluteLayout.LayoutBounds="0,0,1,1"
-              Opacity="0" AbsoluteLayout.LayoutFlags="All" Navigating="WebView_Navigating"
+        <Grid IgnoreSafeArea="True">
+        <WebView x:Name="dashboard" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+              Opacity="0" Navigating="WebView_Navigating"
               Navigated="WebView_Navigated">
-            </WebView>
-
-            <Button CornerRadius="25"
-                Margin="0,0,10,10"
-                BackgroundColor="{StaticResource Primary}"
+        </WebView>
+            <AbsoluteLayout>
+                <Button CornerRadius="25"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
+                Margin="0,0,10,10"
                 Clicked="ImageButton_Clicked"
                 HorizontalOptions="End"
                 VerticalOptions="End"
                 HeightRequest="50"
-                TextColor="White"
                 Padding="5,5"
                 FontSize="20"
                 ImageSource="refresh.png"
                 WidthRequest="50">
-            </Button>
-            <StackLayout
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All"
-                    HorizontalOptions="Center" VerticalOptions="Center">
-                <ActivityIndicator 
+                </Button>
+            </AbsoluteLayout>
+            <ActivityIndicator
                            IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="Center"
                            Color="{StaticResource Primary}"
                            VerticalOptions="Center"/>
-            </StackLayout>
-        </AbsoluteLayout>
-    </Grid>
+        </Grid>
 </ContentPage>

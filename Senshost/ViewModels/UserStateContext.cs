@@ -39,6 +39,9 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         bool isAuthorized;
 
+        [ObservableProperty]
+        string badgeCount;
+
         public async Task LoginAsync(string email, string password)
         {
             try
@@ -97,7 +100,7 @@ namespace Senshost.ViewModels
                         if (IsAuthorized)
                         {
                             await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
-
+                            BadgeCount = "0";
                             _ = Task.Run(async () =>
                             {
                                 await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
@@ -200,7 +203,7 @@ namespace Senshost.ViewModels
                     Preferences.Set(AppConst.AppConstants.UserDeviceTokenIdKey, result.Id.Value.ToString());
                 }
             }
-            catch(Exception ex)
+            catch
             {
                 if (Preferences.ContainsKey(AppConst.AppConstants.UserDeviceTokenIdKey))
                     Preferences.Remove(AppConst.AppConstants.UserDeviceTokenIdKey);

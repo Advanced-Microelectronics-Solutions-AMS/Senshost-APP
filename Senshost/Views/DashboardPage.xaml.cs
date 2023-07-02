@@ -135,4 +135,29 @@ public partial class DashboardPage : ContentPage
         isReload = true;
         dashboard.Reload();
     }
+
+//    private void dashboard_Loaded(object sender, EventArgs e)
+//    {
+//#if ANDROID
+//        var view = sender as WebView;
+//        var handler = view.Handler;
+//        var webview = handler?.PlatformView as Android.Webkit.WebView;
+//        if (webview is not null)
+//        {
+//            webview.ScrollChange
+//                += (sender, args) =>
+//                {
+//                   Shell.SetNavBarIsVisible(this, false);
+//                };
+//            webview.LayoutParameters = new(
+//                Android.Views.ViewGroup.LayoutParams.MatchParent,
+//                Android.Views.ViewGroup.LayoutParams.MatchParent)
+//            {
+//                Height = (int)dashboard.Height
+//            };
+
+//        }
+//#endif
+//    }
+
 }

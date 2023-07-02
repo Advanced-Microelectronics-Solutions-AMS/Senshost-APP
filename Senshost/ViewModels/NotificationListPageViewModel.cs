@@ -1,6 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-//using AndroidX.Startup;
 using CommunityToolkit.Maui.Converters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -22,9 +20,6 @@ namespace Senshost.ViewModels
         {
             this.notificationService = notificationService;
             this.userStateContext=userStateContext;
-            userStateContext.PropertyChanged += OnUserStatePropertyChanged;
-            BadgeCount = userStateContext.BadgeCount;
-
             WeakReferenceMessenger.Default.Register<string>(this, async (r, m) =>
             {
                 await InitializeNotificationCount();
@@ -186,14 +181,6 @@ namespace Senshost.ViewModels
                 }
             }
             return;
-        }
-
-        private void OnUserStatePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(userStateContext.BadgeCount))
-            {
-                BadgeCount = userStateContext.BadgeCount;
-            }
         }
     }
 }

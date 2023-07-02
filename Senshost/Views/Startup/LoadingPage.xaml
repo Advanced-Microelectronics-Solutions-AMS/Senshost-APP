@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Senshost.Views.LoadingPage"
              Title="LoadingPage">
-    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-        <ActivityIndicator IsRunning="True" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" VerticalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="*" BackgroundColor="{StaticResource Primary}">
+        <Image Source="login_logo.png" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit" Margin="0,-150,0,00"
+               IsAnimationPlaying="True">
+        </Image>
+        <ActivityIndicator IsRunning="True" WidthRequest="60" HeightRequest="60" Color="{StaticResource White}"></ActivityIndicator>
+    </Grid>
 </ContentPage>

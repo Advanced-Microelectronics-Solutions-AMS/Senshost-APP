@@ -9,12 +9,11 @@
              xmlns:template="clr-namespace:Senshost.Views.Templates"
              Title="Notifications"
              xmlns:converter="clr-namespace:Senshost.Converters"
-             xmlns:cuxstomView="clr-namespace:Senshost.CustomView"
              BackgroundColor="{StaticResource Primary}"
-             Shell.NavBarIsVisible="False"
+             Shell.NavBarIsVisible="True"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              ios:Page.UseSafeArea="False"
-             >
+             Shell.BackgroundColor="{StaticResource Primary}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:BoolInverseConverter x:Key="BoolInverseConverter" />
@@ -79,10 +78,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="auto, *" IgnoreSafeArea="True"
+    <Grid RowDefinitions="*" IgnoreSafeArea="True"
           BackgroundColor="White" RowSpacing="0">
-        <cuxstomView:BadgeView Title="Notifications"/>
-
         <Grid Grid.Row="1" Padding="20,10,20,15" IgnoreSafeArea="False">
             <CollectionView SelectionMode="Single" ItemsSource="{Binding Notifications}" 
                                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"

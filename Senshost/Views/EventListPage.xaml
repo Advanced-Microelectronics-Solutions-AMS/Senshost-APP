@@ -5,14 +5,11 @@
              xmlns:viewModel="clr-namespace:Senshost.ViewModels"
              x:DataType="viewModel:EventListPageViewModel"
              Title="Events"
-             xmlns:cuxstomView="clr-namespace:Senshost.CustomView"
-             Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource Primary}"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              ios:Page.UseSafeArea="False">
 
-    <Grid RowDefinitions="auto, *" IgnoreSafeArea="True" BackgroundColor="White">
-        <cuxstomView:BadgeView Title="Events"/>
+    <Grid RowDefinitions="*" IgnoreSafeArea="True" BackgroundColor="White">
         <AbsoluteLayout Grid.Row="1">
             <WebView x:Name="events" AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All" Opacity="0"

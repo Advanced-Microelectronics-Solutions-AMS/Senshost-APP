@@ -15,8 +15,6 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         private bool isInitialized;
 
-        [ObservableProperty]
-        string badgeCount;
         public bool IsNotBusy => !IsBusy;
 
 
@@ -36,9 +34,6 @@ namespace Senshost.ViewModels
 
         [ObservableProperty]
         private bool isInitialized;
-
-        [ObservableProperty]
-        string badgeCount;
 
         public bool IsNotBusy => !IsBusy;
     }
