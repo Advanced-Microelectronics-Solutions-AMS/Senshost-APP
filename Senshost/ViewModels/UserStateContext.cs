@@ -55,7 +55,7 @@ namespace Senshost.ViewModels
 
             if (IsAuthorized)
             {
-                await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
+                await Shell.Current.GoToAsync($"//{nameof(NotificationListPage)}", true);
                 _ = Task.Run(async () =>
                 {
                     await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
@@ -77,9 +77,6 @@ namespace Senshost.ViewModels
             });
 
             await Shell.Current.GoToAsync($"//{nameof(LoginPage)}", true);
-
-            //await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
-
         }
 
         public async Task CheckUserLoginDetails()
@@ -93,23 +90,30 @@ namespace Senshost.ViewModels
                 var userInfo = JsonSerializer.Deserialize<LogedInUserDetails>(userDetailsStr);
                 if (userInfo != null)
                 {
+                    IsAuthorized = true;
+
                     try
                     {
-                        await HandleLoginAsync(userInfo.Email, userInfo.Password);
+                        App.UserDetails = userInfo;
+                        App.ApiToken = token;
 
-                        if (IsAuthorized)
+                        await Shell.Current.GoToAsync($"//{nameof(NotificationListPage)}", true);
+                        _ = Task.Run(() =>
                         {
-                            await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
-                            BadgeCount = "0";
-                            _ = Task.Run(async () =>
+                            Application.Current.Dispatcher.Dispatch(async () =>
                             {
-                                await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
+                                await HandleLoginAsync(userInfo.Email, userInfo.Password);
+                                BadgeCount = "0";
+                                if (IsAuthorized)
+                                {
+                                    await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
 
-                                if (!Preferences.ContainsKey(AppConst.AppConstants.UserDeviceTokenIdKey))
-                                    await SendDeviceTokenToSever();
-                                await GetNotificationCount();
+                                    if (!Preferences.ContainsKey(AppConst.AppConstants.UserDeviceTokenIdKey))
+                                        await SendDeviceTokenToSever();
+                                    await GetNotificationCount();
+                                }
                             });
-                        }
+                        });
 
                     }
                     catch (HttpRequestException)
@@ -130,7 +134,7 @@ namespace Senshost.ViewModels
 
                         AppShell.Current.FlyoutHeader = new FlyoutHeaderControl();
 
-                        await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
+                        await Shell.Current.GoToAsync($"//{nameof(NotificationListPage)}", true);
                     }
                 }
 
@@ -260,8 +264,8 @@ namespace Senshost.ViewModels
 
         public async Task GetNotificationCount()
         {
-            var result = await notificationService.GetNotificationCount(App.UserDetails.AccountId, App.UserDetails.UserId);
-            BadgeCount = result.TotalPending.ToString();
+            var notificationCount = await notificationService.GetNotificationCount(App.UserDetails.AccountId, App.UserDetails.UserId);
+            BadgeCount = notificationCount.TotalPending.ToString();
         }
 
     }

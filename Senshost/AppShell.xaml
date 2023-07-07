@@ -48,36 +48,11 @@
             ctrls:Badge.BackgroundColor="Red"
             ctrls:Badge.Text="{Binding BadgeCount}">
             <ShellContent 
-                Title="All"
                 Shell.FlyoutBehavior="Flyout"
                 Shell.TabBarIsVisible="True"
                 Shell.NavBarIsVisible="True"
                 ContentTemplate="{DataTemplate views:NotificationListPage}"
                 Route="NotificationListPage">
-            </ShellContent>
-            <ShellContent 
-                Title="Critical"
-                Shell.FlyoutBehavior="Flyout"
-                Shell.TabBarIsVisible="True"
-                Shell.NavBarIsVisible="True"
-                ContentTemplate="{DataTemplate views:NotificationListPage}"
-                Route="NotificationListPage2">
-            </ShellContent>
-            <ShellContent 
-                Title="Warning"
-                Shell.FlyoutBehavior="Flyout"
-                Shell.TabBarIsVisible="True"
-                Shell.NavBarIsVisible="True"
-                ContentTemplate="{DataTemplate views:NotificationListPage}"
-                Route="NotificationListPage3">
-            </ShellContent>
-            <ShellContent 
-                Title="Info"
-                Shell.FlyoutBehavior="Flyout"
-                Shell.TabBarIsVisible="True"
-                Shell.NavBarIsVisible="True"
-                ContentTemplate="{DataTemplate views:NotificationListPage}"
-                Route="NotificationListPage4">
             </ShellContent>
         </Tab>
 

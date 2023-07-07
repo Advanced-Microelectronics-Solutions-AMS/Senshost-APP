@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Senshost.Common.Interfaces;
 using Senshost.Models.Common;
+using Senshost.Models.Constants;
 using Senshost.Models.Notification;
 using Senshost.Views;
 
@@ -19,7 +20,7 @@ namespace Senshost.ViewModels
         public NotificationListPageViewModel(INotificationService notificationService, UserStateContext userStateContext)
         {
             this.notificationService = notificationService;
-            this.userStateContext=userStateContext;
+            this.userStateContext = userStateContext;
             WeakReferenceMessenger.Default.Register<string>(this, async (r, m) =>
             {
                 await InitializeNotificationCount();
@@ -31,6 +32,8 @@ namespace Senshost.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<NotificationDetailPageViewModel> notifications = new();
+        [ObservableProperty]
+        private NotificationDetailPageViewModel selectedNotification;
         [ObservableProperty]
         private int pendingAllNotificationCount;
         [ObservableProperty]
@@ -46,7 +49,15 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         bool isRefreshing;
         [ObservableProperty]
-        int itemThreshold = 2;
+        int itemThreshold = 5;
+        [ObservableProperty]
+        SeverityLevel? severityLevel;
+        [ObservableProperty]
+        NotificationStatus? notificationStatus = Models.Constants.NotificationStatus.Pending;
+        [ObservableProperty]
+        int selectedTabIndex = 0;
+        [ObservableProperty]
+        bool isAllChecked;
 
         //[RelayCommand]
         public async void Initialize()
@@ -62,6 +73,27 @@ namespace Senshost.ViewModels
             IsInitialized = true;
             IsBusy = false;
             IsRefreshing = false;
+        }
+
+        partial void OnSelectedTabIndexChanged(int value)
+        {
+            switch (value)
+            {
+                case 0: SeverityLevel = null; break;
+                case 1: SeverityLevel = Models.Constants.SeverityLevel.Critical; break;
+                case 2: SeverityLevel = Models.Constants.SeverityLevel.Warning; break;
+                case 3: SeverityLevel = Models.Constants.SeverityLevel.Info; break;
+            }
+            Initialize();
+        }
+
+        partial void OnIsAllCheckedChanged(bool value)
+        {
+            if (value)
+                NotificationStatus = null;
+            else
+                NotificationStatus = Models.Constants.NotificationStatus.Pending;
+            Initialize();
         }
 
         [RelayCommand]
@@ -98,6 +130,7 @@ namespace Senshost.ViewModels
         [RelayCommand]
         public async Task Detail(NotificationDetailPageViewModel notificationsDetail)
         {
+            SelectedNotification = notificationsDetail;
             await App.Current.MainPage.Navigation.PushAsync(new NotificationDetailPage(notificationsDetail.Notification));
 
             if (notificationsDetail.Status == Models.Constants.NotificationStatus.Pending)
@@ -123,13 +156,16 @@ namespace Senshost.ViewModels
                     });
                 });
             }
+
+            SelectedNotification = null;
         }
 
         private async Task<IEnumerable<NotificationsDetail>> GetNotifications(Pagination pagination)
         {
             var task = await Task.Run(async () =>
             {
-                var result = await notificationService.GetNotifications(App.UserDetails.AccountId, App.UserDetails.UserId, pagination.PageSize, pagination.PageNumber, pagination.Sort.ToString());
+                var result = await notificationService.GetNotifications(App.UserDetails.AccountId, App.UserDetails.UserId,
+                    SeverityLevel, NotificationStatus, pagination.PageSize, pagination.PageNumber, pagination.Sort.ToString());
 
                 paginationData = result.Pagination;
 
@@ -163,7 +199,7 @@ namespace Senshost.ViewModels
         public async Task InitializeNotifications()
         {
             paginationData = new(20);
-            ItemThreshold = 2;
+            ItemThreshold = 5;
             var notificationsTmp = await GetNotifications(paginationData);
 
             Notifications = new ObservableCollection<NotificationDetailPageViewModel>();

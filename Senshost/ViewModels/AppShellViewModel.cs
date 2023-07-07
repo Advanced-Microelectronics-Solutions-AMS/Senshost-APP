@@ -18,7 +18,8 @@ namespace Senshost.ViewModels
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
             userStateContext.PropertyChanged += OnUserStatePropertyChanged;
             BadgeCount = userStateContext.BadgeCount;
-            this.userStateContext=userStateContext;
+
+            this.userStateContext = userStateContext;
         }
 
         [RelayCommand]

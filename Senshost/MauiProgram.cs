@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Senshost.Platforms;
+using Sharpnado.Tabs;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace Senshost;
 
@@ -11,7 +13,9 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseSkiaSharp()
             .UseMauiCommunityToolkit()
+            .UseSharpnadoTabs(loggerEnable: false)
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

@@ -23,7 +23,7 @@ public partial class DashboardPage : ContentPage
         base.OnAppearing();
         if (isFirstLoad)
         {
-            dashboard.Source = "https://bat-services.netlify.app/#/home/dashboard";
+            dashboard.Source = "https://senshost.com/#/home/dashboard";
             isFirstLoad = false;
         }
         else

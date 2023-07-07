@@ -43,4 +43,7 @@
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
     <Color x:Key="Transparent">#00FFFFFF</Color>
 
+    <Color x:Key="InfoNotificationColor">#5695f0</Color>
+    <Color x:Key="WarningNotificationColor">#f09c26</Color>
+    <Color x:Key="CriticalNotificationColor">#e26e79</Color>
 </ResourceDictionary>

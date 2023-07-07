@@ -1,9 +1,7 @@
-﻿using System;
-using System.Globalization;
-using Senshost.Models.Account;
+﻿using System.Globalization;
 
 namespace Senshost.Converters
-{	
+{
     public class DateToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -15,7 +13,15 @@ namespace Senshost.Converters
                 TimeZoneInfo systemTimeZone = TimeZoneInfo.Local;
                 DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, systemTimeZone);
 
-                return localDateTime.ToString("dd-MMM-yyyy h:mm tt");
+                if(parameter?.ToString() == "true")
+                    return localDateTime.ToString("dd-MMM-yyyy h:mm tt");
+
+                if (localDateTime.Date == DateTime.Now.Date)
+                    return localDateTime.ToString("h:mm tt");
+                else if (localDateTime.Date == DateTime.Now.AddDays(-1).Date)
+                    return "Yesterday";
+                else
+                    return localDateTime.ToString("dd-MMM-yyyy");
             }
             return "";
         }

@@ -13,7 +13,7 @@
         <AbsoluteLayout Grid.Row="1">
             <WebView x:Name="events" AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All" Opacity="0"
-                 Source="https://bat-services.netlify.app/#/home/events" Navigating="WebView_Navigating"  Navigated="WebView_Navigated">
+                 Source="https://senshost.com/#/home/events" Navigating="WebView_Navigating"  Navigated="WebView_Navigated">
             </WebView>
 
             <Button CornerRadius="25"

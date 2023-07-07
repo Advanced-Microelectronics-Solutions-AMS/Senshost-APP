@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Extensions;
 using Senshost.Constants;
 using Senshost.Models.Notification;
 
@@ -23,40 +22,39 @@ public partial class NotificationDetailPage : ContentPage
         Notification = notification;
         string color = GetColor(notification);
 
-        topTitleBar.BackgroundColor = Color.FromArgb(color);
+        //topTitleBar.BackgroundColor = Color.FromArgb(color);
         lblType.BackgroundColor = Color.FromArgb(color);
-        borderNotification.BackgroundColor = Color.FromArgb(color);
+        //borderNotification.BackgroundColor = Color.FromArgb(color);
     }
 
-    
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-        var notification = BindingContext as Notification;
-        string color = GetColor(notification);
+    //    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    //    {
+    //        base.OnNavigatedTo(args);
+    //        var notification = BindingContext as Notification;
+    //        string color = GetColor(notification);
 
-        this.Behaviors.Add(new StatusBarBehavior
-        {
-            StatusBarColor = Color.FromArgb(color),
-            StatusBarStyle = StatusBarStyle.LightContent
-        });
-#if ANDROID
-        Microsoft.Maui.ApplicationModel.Platform.CurrentActivity.Window.SetNavigationBarColor(Android.Graphics.Color.ParseColor(color));
-#endif
-    }
+    //        this.Behaviors.Add(new StatusBarBehavior
+    //        {
+    //            StatusBarColor = Color.FromArgb(color),
+    //            StatusBarStyle = StatusBarStyle.LightContent
+    //        });
+    //#if ANDROID
+    //        Microsoft.Maui.ApplicationModel.Platform.CurrentActivity.Window.SetNavigationBarColor(Android.Graphics.Color.ParseColor(color));
+    //#endif
+    //    }
 
-    protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
-    {
-        base.OnNavigatedFrom(args);
-        this.Behaviors.Add(new StatusBarBehavior
-        {
-            StatusBarColor = Color.FromArgb(AppConstants.primaryColor),
-            StatusBarStyle = StatusBarStyle.LightContent
-        });
-#if ANDROID
-        Microsoft.Maui.ApplicationModel.Platform.CurrentActivity.Window.SetNavigationBarColor(Android.Graphics.Color.ParseColor(AppConstants.primaryColor));
-#endif
-    }
+    //    protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+    //    {
+    //        base.OnNavigatedFrom(args);
+    //        this.Behaviors.Add(new StatusBarBehavior
+    //        {
+    //            StatusBarColor = Color.FromArgb(AppConstants.primaryColor),
+    //            StatusBarStyle = StatusBarStyle.LightContent
+    //        });
+    //#if ANDROID
+    //        Microsoft.Maui.ApplicationModel.Platform.CurrentActivity.Window.SetNavigationBarColor(Android.Graphics.Color.ParseColor(AppConstants.primaryColor));
+    //#endif
+    //    }
 
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {

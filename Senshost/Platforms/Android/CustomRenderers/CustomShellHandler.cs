@@ -6,10 +6,10 @@ namespace Senshost.Platforms.Android.CustomRenderers
 {
     class CustomShellHandler : ShellRenderer
     {
-        protected override IShellBottomNavViewAppearanceTracker CreateBottomNavViewAppearanceTracker(ShellItem shellItem)
-        {
-            return new CustomShellBottomNavViewAppearanceTracker(this, shellItem.CurrentItem);
-        }
+        //protected override IShellBottomNavViewAppearanceTracker CreateBottomNavViewAppearanceTracker(ShellItem shellItem)
+        //{
+        //    return new CustomShellBottomNavViewAppearanceTracker(this, shellItem.CurrentItem);
+        //}
 
         protected override IShellToolbarAppearanceTracker CreateToolbarAppearanceTracker()
         {
