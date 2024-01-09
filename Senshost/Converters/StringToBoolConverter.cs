@@ -3,13 +3,6 @@ using System.Globalization;
 
 namespace Senshost.Converters
 {
-	//public class StringToBoolConverter
-	//{
-	//	public StringToBoolConverter()
-	//	{
-	//	}
-	//}
-
     public class StringToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

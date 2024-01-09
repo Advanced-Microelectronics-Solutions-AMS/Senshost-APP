@@ -3,7 +3,6 @@ using Senshost.Common.Interfaces;
 using Senshost.Controls;
 using Senshost.Models.Account;
 using Senshost.Views;
-using Const = Senshost.Common.Constants;
 using AppConst = Senshost.Constants;
 using System.Text.Json;
 using Senshost.Models.Notification;
@@ -11,6 +10,7 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Messaging;
 using Plugin.Firebase.CloudMessaging;
+using Senshost.Constants;
 
 namespace Senshost.ViewModels
 {
@@ -39,6 +39,9 @@ namespace Senshost.ViewModels
         [ObservableProperty]
         bool isAuthorized;
 
+        [ObservableProperty]
+        string badgeCount;
+
         public async Task LoginAsync(string email, string password)
         {
             try
@@ -52,7 +55,7 @@ namespace Senshost.ViewModels
 
             if (IsAuthorized)
             {
-                await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
+                await Shell.Current.GoToAsync($"//{nameof(NotificationListPage)}", true);
                 _ = Task.Run(async () =>
                 {
                     await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
@@ -64,6 +67,8 @@ namespace Senshost.ViewModels
 
         public async Task LogoutAsync()
         {
+            await CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
+
             IsAuthorized = false;
             _ = Task.Run(async () =>
             {
@@ -78,30 +83,37 @@ namespace Senshost.ViewModels
         {
             var name = nameof(App.UserDetails);
             string userDetailsStr = Preferences.Get(name, default(string));
-            var token = await storageService.GetAsync(Const.Constants.ApiSecureStorageToken);
+            var token = await storageService.GetAsync(APIConstants.ApiSecureStorageToken);
 
             if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(userDetailsStr))
             {
                 var userInfo = JsonSerializer.Deserialize<LogedInUserDetails>(userDetailsStr);
                 if (userInfo != null)
                 {
+                    IsAuthorized = true;
+
                     try
                     {
-                        await HandleLoginAsync(userInfo.Email, userInfo.Password);
+                        App.UserDetails = userInfo;
+                        App.ApiToken = token;
 
-                        if (IsAuthorized)
+                        await Shell.Current.GoToAsync($"//{nameof(NotificationListPage)}", true);
+                        _ = Task.Run(() =>
                         {
-                            await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
-
-                            _ = Task.Run(async () =>
+                            Application.Current.Dispatcher.Dispatch(async () =>
                             {
-                                await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
+                                await HandleLoginAsync(userInfo.Email, userInfo.Password);
+                                BadgeCount = "0";
+                                if (IsAuthorized)
+                                {
+                                    await SaveUserDetailsLocally(App.UserDetails, App.ApiToken);
 
-                                if (!Preferences.ContainsKey(AppConst.AppConstants.UserDeviceTokenIdKey))
-                                    await SendDeviceTokenToSever();
-                                await GetNotificationCount();
+                                    if (!Preferences.ContainsKey(AppConst.AppConstants.UserDeviceTokenIdKey))
+                                        await SendDeviceTokenToSever();
+                                    await GetNotificationCount();
+                                }
                             });
-                        }
+                        });
 
                     }
                     catch (HttpRequestException)
@@ -122,7 +134,7 @@ namespace Senshost.ViewModels
 
                         AppShell.Current.FlyoutHeader = new FlyoutHeaderControl();
 
-                        await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}", true);
+                        await Shell.Current.GoToAsync($"//{nameof(NotificationListPage)}", true);
                     }
                 }
 
@@ -158,11 +170,11 @@ namespace Senshost.ViewModels
                 Preferences.Remove(name);
             Preferences.Set(name, userDetailStr);
 
-            var apiToken = await storageService.GetAsync(Const.Constants.ApiSecureStorageToken);
+            var apiToken = await storageService.GetAsync(APIConstants.ApiSecureStorageToken);
 
             if (!string.IsNullOrEmpty(apiToken))
-                storageService.Remove(Const.Constants.ApiSecureStorageToken);
-            await storageService.SetAsync(Const.Constants.ApiSecureStorageToken, token);
+                storageService.Remove(APIConstants.ApiSecureStorageToken);
+            await storageService.SetAsync(APIConstants.ApiSecureStorageToken, token);
         }
 
         private async Task SendDeviceTokenToSever()
@@ -207,9 +219,9 @@ namespace Senshost.ViewModels
             if (Preferences.ContainsKey(nameof(App.UserDetails)))
                 Preferences.Remove(nameof(App.UserDetails));
 
-            var apiToken = await storageService.GetAsync(Const.Constants.ApiSecureStorageToken);
+            var apiToken = await storageService.GetAsync(APIConstants.ApiSecureStorageToken);
             if (!string.IsNullOrEmpty(apiToken))
-                storageService.Remove(Const.Constants.ApiSecureStorageToken);
+                storageService.Remove(APIConstants.ApiSecureStorageToken);
         }
 
         private async Task RemoveDeviceTokenFromSever()
@@ -252,8 +264,8 @@ namespace Senshost.ViewModels
 
         public async Task GetNotificationCount()
         {
-            var result = await notificationService.GetNotificationCount(App.UserDetails.AccountId, App.UserDetails.UserId);
-            BadgeCount = result.TotalPending.ToString();
+            var notificationCount = await notificationService.GetNotificationCount(App.UserDetails.AccountId, App.UserDetails.UserId);
+            BadgeCount = notificationCount.TotalPending.ToString();
         }
 
     }

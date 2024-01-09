@@ -1,11 +1,8 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using Senshost.Common.Interfaces;
-using Senshost.Models.Notification;
-using Senshost.Services;
-using Senshost.Views;
+using System.ComponentModel;
 
 namespace Senshost.ViewModels
 {
@@ -13,10 +10,16 @@ namespace Senshost.ViewModels
     {
         private readonly UserStateContext userStateContext;
 
+        [ObservableProperty]
+        string badgeCount;
+
         public AppShellViewModel(UserStateContext userStateContext)
         {
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
-            this.userStateContext=userStateContext;
+            userStateContext.PropertyChanged += OnUserStatePropertyChanged;
+            BadgeCount = userStateContext.BadgeCount;
+
+            this.userStateContext = userStateContext;
         }
 
         [RelayCommand]
@@ -36,6 +39,14 @@ namespace Senshost.ViewModels
             {
                 var toast = Toast.Make("Back online", ToastDuration.Long);
                 await toast.Show();
+            }
+        }
+
+        private void OnUserStatePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(userStateContext.BadgeCount))
+            {
+                BadgeCount = userStateContext.BadgeCount;
             }
         }
     }

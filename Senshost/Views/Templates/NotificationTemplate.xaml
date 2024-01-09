@@ -4,54 +4,43 @@
              x:Class="Senshost.Views.Templates.NotificationTemplate"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:Senshost.ViewModels"
-             xmlns:converter="clr-namespace:Senshost.Converters">
+             xmlns:converter="clr-namespace:Senshost.Converters"
+             BackgroundColor="{StaticResource Tertiary}">
     <ContentView.Resources>
         <ResourceDictionary>
             <converter:DateToStringConverter x:Key="DateToStringConverter" />
 
             <Style x:Key="ImageContainerStyle" TargetType="Grid">
                 <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HeightRequest" Value="72" />
-                <Setter Property="WidthRequest" Value="72" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="50" />
             </Style>
 
             <Style x:Key="EllipseStyle" TargetType="Border">
-                <Setter Property="HeightRequest" Value="72" />
-                <Setter Property="WidthRequest" Value="72" />
-            </Style>
-
-            <Style x:Key="ImageStyle" TargetType="Image">
-                <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="HeightRequest" Value="35" />
-                <Setter Property="Margin" Value="10" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="50" />
             </Style>
 
             <Style x:Key="TitleTextStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="Black" />
-                <Setter Property="FontSize" Value="15" />
-                <Setter Property="FontFamily" Value="Metropolis Regular" />
+                <Setter Property="TextColor" Value="White" />
                 <Setter Property="LineBreakMode" Value="TailTruncation" />
+                <Setter Property="FontSize" Value="16" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="Margin" Value="12,0, 0, 0" />
+                <Setter Property="Margin" Value="15,0, 0, 0" />
             </Style>
 
             <Style x:Key="MessageTextStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="Gray" />
+                <Setter Property="TextColor" Value="{StaticResource Gray200}" />
                 <Setter Property="FontSize" Value="14" />
-                <Setter Property="FontFamily" Value="Metropolis Regular" />
                 <Setter Property="LineBreakMode" Value="TailTruncation" />
-                <Setter Property="MaxLines" Value="1" />
-                <Setter Property="Margin" Value="12, 5, 0, 0" />
+                <Setter Property="Margin" Value="15, 5, 10, 0" />
             </Style>
 
-            <Color x:Key="TimeColor">#B2ACBE</Color>
-
             <Style x:Key="TimeTextStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource TimeColor}" />
+                <Setter Property="TextColor" Value="{StaticResource Gray100}" />
                 <Setter Property="FontFamily" Value="Metropolis Regular" />
                 <Setter Property="FontSize" Value="12" />
-                <Setter Property="Margin" Value="12, 5, 0, 0" />
+                <Setter Property="Margin" Value="15, 0, 5, 0" />
             </Style>
             <Style TargetType="Grid">
                 <Setter Property="VisualStateManager.VisualStateGroups">
@@ -69,117 +58,105 @@
             </Style>
         </ResourceDictionary>
     </ContentView.Resources>
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer                
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:NotificationListPageViewModel}}, Path=DetailCommand}"      
+                    CommandParameter="{Binding}"/>
+    </ContentView.GestureRecognizers>
     <ContentView.Content>
         <Grid
-          ColumnDefinitions="Auto, *"
-          RowSpacing="0"
-          Padding="0, 10"
-          x:Name="mainGridBG">
-
-            <!--<VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" >
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="Transparent" />
-                        </VisualState.Setters>
-                    </VisualState>
-
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="Lime" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>-->
-
-            <Grid.GestureRecognizers>
-                <TapGestureRecognizer                
-                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:NotificationListPageViewModel}}, Path=DetailCommand}"      
-                    CommandParameter="{Binding}"
-                    Tapped="TapGestureRecognizer_Tapped"/>
-            </Grid.GestureRecognizers>
-            <Grid
-                Style="{StaticResource ImageContainerStyle}">
+                ColumnDefinitions="Auto, *"
+                Padding="10"
+                HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+            <Grid Style="{StaticResource ImageContainerStyle}">
                 <Border
-                    Style="{StaticResource EllipseStyle}" StrokeShape="RoundRectangle 36">
+                    Style="{StaticResource EllipseStyle}" StrokeShape="RoundRectangle 25" StrokeThickness="0">
                     <Border.Triggers>
                         <DataTrigger
                                                     TargetType="Border"
 			                                        Binding="{Binding Notification.Severity}"
+			                                        Value="Critical">
+                            <Setter Property="BackgroundColor" Value="{StaticResource CriticalNotificationColor}">
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger
+                                                    TargetType="Border"
+			                                        Binding="{Binding Notification.Severity}"
 			                                        Value="Warning">
-                            <Setter Property="Background">
-                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                    <GradientStop Color="LightGreen" Offset="0.1" />
-                                    <GradientStop Color="Yellow" Offset="1.0" />
-                                </RadialGradientBrush>
+                            <Setter Property="BackgroundColor" Value="{StaticResource WarningNotificationColor}">
                             </Setter>
                         </DataTrigger>
                         <DataTrigger
                                                     TargetType="Border"
 			                                        Binding="{Binding Notification.Severity}"
 			                                        Value="Info">
-                            <Setter Property="Background">
-                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                    <GradientStop Color="BlueViolet" Offset="0.1" />
-                                    <GradientStop Color="AliceBlue" Offset="1.0" />
-                                </RadialGradientBrush>
-                            </Setter>
-                        </DataTrigger>
-                        <DataTrigger
-                                                    TargetType="Border"
-			                                        Binding="{Binding Notification.Severity}"
-			                                        Value="Critical">
-                            <Setter Property="Background">
-                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                    <GradientStop Color="Red" Offset="0.2" />
-                                    <GradientStop Color="Yellow" Offset="1.0" />
-                                </RadialGradientBrush>
+                            <Setter Property="BackgroundColor" Value="{StaticResource InfoNotificationColor}">
                             </Setter>
                         </DataTrigger>
                     </Border.Triggers>
                 </Border>
-                <Image
-                    Source="notification.png"
-                    Style="{StaticResource ImageStyle}">
-                    <!--<Image.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="Red" />
-                    </Image.Behaviors>-->
-                </Image>
+                <Label FontSize="20" FontAttributes="Bold" TextColor="{StaticResource White}" 
+                       HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label.Triggers>
+                        <DataTrigger
+                                        TargetType="Label"
+			                            Binding="{Binding Notification.Severity}"
+			                            Value="Critical">
+                            <Setter Property="Text" Value="C">
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger
+                                        TargetType="Label"
+			                            Binding="{Binding Notification.Severity}"
+			                            Value="Warning">
+                            <Setter Property="Text" Value="W">
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger
+                                        TargetType="Label"
+			                            Binding="{Binding Notification.Severity}"
+			                            Value="Info">
+                            <Setter Property="Text" Value="I">
+                            </Setter>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
             </Grid>
-            <Grid
-                Grid.Column="1"
-                ColumnDefinitions="*,*"
-                RowDefinitions="Auto,*">
-                <StackLayout Grid.Column="0" Grid.ColumnSpan="2">
+            <StackLayout Grid.Column="1">
+                <Grid ColumnDefinitions="*,Auto">
                     <Label        
-                        Text="{Binding Notification.Title}"
-                        Style="{StaticResource TitleTextStyle}">
-                        <Label.Triggers>
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding Notification.Title}"
+                            Style="{StaticResource TitleTextStyle}">
+                    </Label>
+                    <Label 
+                            Grid.Column="1"
+                            Text="{Binding Notification.CreationDate, 
+                            Converter={StaticResource DateToStringConverter}}"
+                        VerticalOptions="Center"
+                            Style="{StaticResource TimeTextStyle}"/>
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label         
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding Notification.Body}"
+                            Style="{StaticResource MessageTextStyle}"/>
+
+                    <Border Grid.Column="1" StrokeShape="RoundRectangle 8" VerticalOptions="Center" HorizontalOptions="Start" 
+                            Margin="0,0,10,0" BackgroundColor="LightGreen" 
+                            HeightRequest="16" WidthRequest="16">
+                        <Border.Triggers>
                             <DataTrigger
-                                                    TargetType="Label"
+                                                    TargetType="Border"
 			                                        Binding="{Binding Status}"
 			                                        Value="Read">
-                                <Setter Property="Opacity" Value="0.7" />
+                                <Setter Property="IsVisible" Value="false" />
                             </DataTrigger>
-                        </Label.Triggers>
-                    </Label>
-                    <Label         
-                        Text="{Binding Notification.Body}"
-                        Style="{StaticResource MessageTextStyle}"/>
-                </StackLayout>
-                <Label 
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    HorizontalTextAlignment="Start"
-                    Text="{Binding Notification.Severity}"
-                    Style="{StaticResource TimeTextStyle}"/>
-                <Label 
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    HorizontalTextAlignment="End"
-                    Text="{Binding Notification.CreationDate, Converter={StaticResource DateToStringConverter}}"
-                    Style="{StaticResource TimeTextStyle}"/>
-            </Grid>
+                        </Border.Triggers>
+                    </Border>
+                </Grid>
+            </StackLayout>
         </Grid>
     </ContentView.Content>
 </ContentView>
+    

@@ -16,12 +16,14 @@ public partial class App : Application
 {
     public static LogedInUserDetails UserDetails;
     public static string ApiToken;
-    public static bool IsNotificationReceived;
     private readonly IServiceProvider serviceProvider;
 
     public App(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+
+        MainPage = new ContentPage() { BackgroundColor = Color.FromArgb("#453544") };
+
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
         {
             if (view is BorderlessEntry)
@@ -34,15 +36,14 @@ public partial class App : Application
                 handler.PlatformView.SetPadding(40, 0, 40, 0);
 #elif __IOS__
                 handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
-                handler.PlatformView.SetPadding(40, 0, 40, 0);
+                //handler.PlatformView.SetPadding(40, 0, 40, 0);
 #endif
             }
         });
 
-        //MainPage = new ContentPage();
 
         MainPage = new AppShell(serviceProvider.GetService<AppShellViewModel>());
-        this.serviceProvider=serviceProvider;
+        this.serviceProvider = serviceProvider;
     }
 
     protected override async void OnStart()
@@ -54,8 +55,6 @@ public partial class App : Application
 
         CrossFirebaseCloudMessaging.Current.NotificationTapped += async (sender, e) =>
         {
-            IsNotificationReceived = true;
-
             var notiFic = new Models.Notification.Notification();
             foreach (var keyValue in e.Notification.Data)
             {
@@ -129,13 +128,12 @@ public partial class App : Application
 
     protected override void OnResume()
     {
-        Console.WriteLine("onresume");
         base.OnResume();
+        WeakReferenceMessenger.Default.Send("notification-check");
     }
 
     protected override void OnSleep()
     {
-        Console.WriteLine("OnSleep");
         base.OnSleep();
     }
 

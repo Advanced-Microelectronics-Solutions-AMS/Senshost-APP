@@ -2,8 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Senshost.Views.LoadingPage"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              Title="LoadingPage">
-    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-        <ActivityIndicator IsRunning="True" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" VerticalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="*" BackgroundColor="{StaticResource Primary}">
+        <Image Source="login_logo.png" HorizontalOptions="Center" VerticalOptions="Start" Aspect="AspectFit" Margin="0,150,0,00"
+               IsAnimationPlaying="False">
+        </Image>
+        <skia:SKLottieView
+                  Source="loading.json"
+                  RepeatCount="-1"
+                  VerticalOptions="Center"
+                  HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

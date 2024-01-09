@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="colorPrimary">#2e3742</color>
+	<color name="colorPrimary">#3b4655</color>
 	<color name="colorPrimaryDark">#3b4655</color>
 	<color name="colorAccent">#2B0B98</color>
 	<string name="com.crashlytics.android.build_id">1</string>
+
+	<style name="SplashTheme" parent="@style/Maui.SplashTheme">
+		<item name="android:statusBarColor">#3b4655</item>
+		<item name="android:navigationBarColor">#3b4655</item>
+	</style>
 </resources>

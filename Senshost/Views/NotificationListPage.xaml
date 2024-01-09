@@ -7,15 +7,15 @@
              xmlns:mct ="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:controls="clr-namespace:Senshost.Controls"
              xmlns:template="clr-namespace:Senshost.Views.Templates"
-             Title="Notifications"
-             xmlns:cuxstomView="clr-namespace:Senshost.CustomView">
-
-    <Shell.TitleView>
-        <cuxstomView:BadgeView Title="Notifications"/>
-    </Shell.TitleView>
-
+             xmlns:converter="clr-namespace:Senshost.Converters"
+             Shell.NavBarIsVisible="True"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="False"
+             xmlns:tabs="http://sharpnado.com"
+             xmlns:helper="clr-namespace:Senshost.Helpers">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converter:BoolInverseConverter x:Key="BoolInverseConverter" />
             <Style TargetType="controls:SkeletonView">
                 <Setter Property="Color" Value="#E4E4E4"/>
                 <Setter Property="CornerRadius" Value="4" />
@@ -29,242 +29,175 @@
             </Style>
 
             <DataTemplate x:Key="EmptyUserTemplate">
-                <Grid ColumnDefinitions="Auto, *"
-                          RowDefinitions="Auto, Auto, Auto, 1"
-                          ColumnSpacing="10"
-                          RowSpacing="5"
-                          Padding="0,10">
+                <Grid ColumnDefinitions="Auto, *, Auto"
+                          RowDefinitions="Auto, Auto"
+                          Padding="10"
+                          BackgroundColor="Transparent">
 
                     <controls:SkeletonView Grid.Column="0"
                                                    Grid.Row="0"
                                                    Grid.RowSpan="3"
-                                                   Margin="20,0,0,10"
-                                                   HeightRequest="70"
-                                                   WidthRequest="70"
+                                                   HeightRequest="50"
+                                                   WidthRequest="50"
                                                    HorizontalOptions="Center"
                                                    VerticalOptions="Center">
                         <controls:SkeletonView.Clip>
                             <EllipseGeometry
-                                                Center="35,35"
-                                                RadiusX="35"
-                                                RadiusY="35"/>
+                                                Center="25,25"
+                                                RadiusX="25"
+                                                RadiusY="25"/>
                         </controls:SkeletonView.Clip>
 
                     </controls:SkeletonView>
 
                     <controls:SkeletonView Grid.Column="1"
+                                           Grid.ColumnSpan="1"
                                                    Grid.Row="0"
                                                    HeightRequest="16"
-                                                   WidthRequest="150"/>
+                                                   Margin="15,0,0,0"
+                                                   HorizontalOptions="FillAndExpand"/>
+
+                    <controls:SkeletonView Grid.Column="2"
+                                           Grid.ColumnSpan="1"
+                                                   Grid.Row="0"
+                                                   HeightRequest="16"
+                                                   Margin="15,0,5,0"
+                                                   WidthRequest="80"
+                                                   HorizontalOptions="End"/>
 
                     <controls:SkeletonView Grid.Column="1"
                                                    Grid.Row="1"
-                                                   HeightRequest="16"
-                                                   WidthRequest="250"/>
+                                                   Grid.ColumnSpan="2"
+                                                   HeightRequest="14"
+                                                    Margin="15,10,0,0"
+                                                   HorizontalOptions="FillAndExpand" />
 
-                    <controls:SkeletonView Grid.Column="1"
-                                                   Grid.Row="2"
-                                                   WidthRequest="150"
-                                                   HeightRequest="16"
-                                                   VerticalOptions="Start"/>
-
-                    <BoxView Style="{StaticResource SeparatorLine}"
+                    <!--<BoxView Style="{StaticResource SeparatorLine}"
                                      Grid.Column="0"
                                      Grid.Row="3"
-                                     Grid.ColumnSpan="2"/>
+                                     Grid.ColumnSpan="3"/>-->
                 </Grid>
             </DataTemplate>
+            <Style x:Key="MaterialTabStyle" TargetType="tabs:UnderlinedTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource White}" />
+                <Setter Property="LabelSize" Value="14" />
+                <Setter Property="UnderlineAllTab" Value="False" />
+                <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="*" IgnoreSafeArea="True"          
-          RowSpacing="15" Padding="20,10,20,15">
-
-        <StackLayout mct:StateContainer.CurrentState="{Binding CurrentState}" Grid.Row="0">
-            <mct:StateContainer.StateViews>
-                <StackLayout mct:StateView.StateKey="Loading">
-                    <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
-                                                  Padding="20" RowSpacing="5">
-                        <controls:SkeletonView Grid.Column="0"
-                                                   Grid.Row="0"
-                                                   HeightRequest="100"
-                                                   WidthRequest="100"
-                                                   HorizontalOptions="Center" CornerRadius="50">
-                        </controls:SkeletonView>
-                        <controls:SkeletonView Grid.Column="1"
-                                                   Grid.Row="0"
-                                                   HeightRequest="100"
-                                                   WidthRequest="100"
-                                                   HorizontalOptions="Center" CornerRadius="50">
-                        </controls:SkeletonView>
-                        <controls:SkeletonView Grid.Column="2"
-                                                   Grid.Row="0"
-                                                   HeightRequest="100"
-                                                   WidthRequest="100"
-                                                   HorizontalOptions="Center" CornerRadius="50">
-                        </controls:SkeletonView>
-                        <controls:SkeletonView Grid.Row="1" 
-                                                   Grid.Column="0"
-                                                   WidthRequest="50"
-                                                   HeightRequest="16"
-                                                   HorizontalOptions="Center"
-                                                   VerticalOptions="Center"/>
-                        <controls:SkeletonView Grid.Row="1" 
-                                                   Grid.Column="1"
-                                                   WidthRequest="50"
-                                                   HeightRequest="16"
-                                                   HorizontalOptions="Center"
-                                                   VerticalOptions="Center"/>
-                        <controls:SkeletonView Grid.Row="1" 
-                                                   Grid.Column="2"
-                                                   WidthRequest="50"
-                                                   HeightRequest="16"
-                                                   HorizontalOptions="Center"
-                                                   VerticalOptions="Center"/>
-                    </Grid>
-
-                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}" >
-                        <BindableLayout.ItemsSource>
-                            <x:Array  Type="{x:Type x:Int32}">
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                                <x:Int32>0</x:Int32>
-                            </x:Array>
-                        </BindableLayout.ItemsSource>
-                    </StackLayout>
-                </StackLayout>
-
-                <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" mct:StateView.StateKey="Success">
-                    <CollectionView SelectionMode="Single" ItemsSource="{Binding Notifications}" 
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="*,Auto">
+            <Label Text="Notifications" TextColor="White" FontSize="20" FontAttributes="Bold"
+               TextType="Text" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Label>
+            <HorizontalStackLayout Grid.Column="1">
+                <CheckBox Color="White" IsChecked="{Binding IsAllChecked}" VerticalOptions="Center" />
+                <Label Text="Show All" FontAttributes="Bold" TextColor="{StaticResource White}" 
+                       Margin="0,0,20,0" FontSize="16" HorizontalOptions="Start" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </Grid>
+    </Shell.TitleView>
+    <Grid RowDefinitions="auto,*" IgnoreSafeArea="True" RowSpacing="0" BackgroundColor="{StaticResource Tertiary}">
+        <tabs:TabHostView x:Name="TabHostBadge"
+                          Grid.Row="0"
+                          HeightRequest="48"
+                          SelectedIndex="{Binding SelectedTabIndex}"
+                          BackgroundColor="{StaticResource Primary}">
+            <tabs:UnderlinedTabItem Label="ALL" Style="{StaticResource MaterialTabStyle}">
+                <tabs:TabItem.Badge>
+                    <tabs:BadgeView TextSize="14" BackgroundColor="BlueViolet"  Text="{Binding PendingAllNotificationCount}" />
+                </tabs:TabItem.Badge>
+            </tabs:UnderlinedTabItem>
+            <tabs:UnderlinedTabItem Label="CRITICAL" Style="{StaticResource MaterialTabStyle}">
+                <tabs:TabItem.Badge>
+                    <tabs:BadgeView TextSize="14" BackgroundColor="{StaticResource CriticalNotificationColor}" Text="{Binding PendingCritialNotificationCount}" />
+                </tabs:TabItem.Badge>
+            </tabs:UnderlinedTabItem>
+            <tabs:UnderlinedTabItem  Label="WARNING" Style="{StaticResource MaterialTabStyle}">
+                <tabs:TabItem.Badge>
+                    <tabs:BadgeView TextSize="14" BackgroundColor="{StaticResource WarningNotificationColor}" Text="{Binding PendingWarningNotificationCount}" />
+                </tabs:TabItem.Badge>
+            </tabs:UnderlinedTabItem>
+            <tabs:UnderlinedTabItem Label="INFO" Style="{StaticResource MaterialTabStyle}">
+                <tabs:TabItem.Badge>
+                    <tabs:BadgeView TextSize="14" BackgroundColor="{StaticResource InfoNotificationColor}" Text="{Binding PendingInfoNotificationCount}" />
+                </tabs:TabItem.Badge>
+            </tabs:UnderlinedTabItem>
+        </tabs:TabHostView>
+        <Grid Grid.Row="1" IgnoreSafeArea="False">
+            <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+                <CollectionView SelectionMode="Single" ItemsSource="{Binding Notifications}" 
                                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
                                 RemainingItemsThreshold="{Binding ItemThreshold}"
-                                SelectionChanged="CollectionView_SelectionChanged"
-                                x:Name="listNotification">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="{x:Type viewModel:NotificationDetailPageViewModel}">
-                                <template:NotificationTemplate>
-                                    <template:NotificationTemplate.Triggers>
-                                        <DataTrigger
-                                                    TargetType="template:NotificationTemplate"
-			                                        Binding="{Binding Status}"
-			                                        Value="Read">
-                                            <Setter Property="Opacity" Value="0.7" />
-                                        </DataTrigger>
-                                    </template:NotificationTemplate.Triggers>
-                                </template:NotificationTemplate>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-
-                        <CollectionView.Footer>
-                            <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}"
-                                 IsVisible="{Binding IsLoadingMore}">
-                                <BindableLayout.ItemsSource>
-                                    <x:Array  Type="{x:Type x:Int32}">
-                                        <x:Int32>0</x:Int32>
-                                    </x:Array>
-                                </BindableLayout.ItemsSource>
-                            </StackLayout>
-                        </CollectionView.Footer>
-
-                        <CollectionView.Header>
-                            <Grid x:Name="Stats">
-                                <StackLayout >
-                                    <Grid RowDefinitions="100, 30" ColumnDefinitions="*,*,*"
-                                    Padding="20" RowSpacing="5" >
-                                        <StackLayout Grid.Column="0"  x:Name="CriticalCount" Scale="0">
-                                            <Border 
-                                HeightRequest="100" WidthRequest="100"
-                                StrokeShape="RoundRectangle 50"
-                                HorizontalOptions="Center">
-                                                <Border.Shadow>
-                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                </Border.Shadow>
-                                                <Border.Background>
-                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                        <GradientStop Color="Red" Offset="0.2" />
-                                                        <GradientStop Color="Yellow" Offset="1.0" />
-                                                    </RadialGradientBrush>
-                                                </Border.Background>
-                                                <Label Text="{Binding PendingCritialNotificationCount}"
-                                   FontAttributes="Bold" 
-                                   VerticalTextAlignment="Center" FontSize="30"
-                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                            </Border>
-                                        </StackLayout>
-                                        <Label Grid.Row="1" 
-                               Grid.Column="0" Text="Critical" FontSize="15" 
-                               VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
-
-                                        <StackLayout Grid.Column="1"  x:Name="WarningCount" Scale="0">
-                                            <Border HeightRequest="100"
-                                WidthRequest="100"
-                                StrokeShape="RoundRectangle 50"
-                                HorizontalOptions="Center">
-                                                <Border.Shadow>
-                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                </Border.Shadow>
-                                                <Border.Background>
-                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                        <GradientStop Color="LightGreen" Offset="0.1" />
-                                                        <GradientStop Color="Yellow" Offset="1.0" />
-                                                    </RadialGradientBrush>
-                                                </Border.Background>
-                                                <Label  Text="{Binding PendingWarningNotificationCount}" 
-                                    FontAttributes="Bold" 
-                                   VerticalTextAlignment="Center" FontSize="30"
-                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                            </Border>
-                                        </StackLayout>
-                                        <Label Grid.Row="1" Grid.Column="1" Text="Warning" FontSize="15" 
-                               VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
-
-                                        <StackLayout Grid.Column="2" x:Name="InfoCount" Scale="0">
-                                            <Border  HeightRequest="100"
-                                WidthRequest="100"
-                                StrokeShape="RoundRectangle 50"
-                                HorizontalOptions="Center">
-                                                <Border.Shadow>
-                                                    <Shadow Radius="30" Opacity="0.3" Offset="0,20" />
-                                                </Border.Shadow>
-                                                <Border.Background>
-                                                    <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
-                                                        <GradientStop Color="BlueViolet" Offset="0.1" />
-                                                        <GradientStop Color="AliceBlue" Offset="1.0" />
-                                                    </RadialGradientBrush>
-                                                </Border.Background>
-                                                <Label  Text="{Binding PendingInfoNotificationCount}" 
-                                    FontAttributes="Bold" 
-                                   VerticalTextAlignment="Center" FontSize="30"
-                                   TextColor="{StaticResource White}" HorizontalTextAlignment="Center" />
-                                            </Border>
-                                        </StackLayout>
-                                        <Label Grid.Row="1" Grid.Column="2" Text="Info" FontSize="15" 
-                               VerticalTextAlignment="Center" FontAttributes="Bold"
-                               HorizontalTextAlignment="Center" />
-                                    </Grid>
-                                </StackLayout>
-                            </Grid>
-
-                        </CollectionView.Header>
-                    </CollectionView>
-
-                </RefreshView>
-
-            </mct:StateContainer.StateViews>
-        </StackLayout>
+                                x:Name="listNotification"
+                                VerticalScrollBarVisibility="Never" 
+                                SelectedItem="{Binding SelectedNotification}" CanReorderItems="True">
+                    <CollectionView.EmptyView>
+                        <Label VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"
+                               HorizontalOptions="Center" Text="No record to display." TextColor="White"/>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type viewModel:NotificationDetailPageViewModel}">
+                            <template:NotificationTemplate x:Name="tmpl" HeightRequest="70">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Normal"></VisualState>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{StaticResource Transparent}"></Setter>
+                                                <Setter Property="BackgroundColor" Value="{StaticResource Transparent}"></Setter>
+                                                <Setter Property="Scale" Value="0.98"></Setter>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <template:NotificationTemplate.Behaviors>
+                                    <mct:AnimationBehavior>
+                                        <mct:AnimationBehavior.AnimationType>
+                                            <mct:FadeAnimation Opacity="0.7" />
+                                        </mct:AnimationBehavior.AnimationType>
+                                    </mct:AnimationBehavior>
+                                </template:NotificationTemplate.Behaviors>
+                                <!--<template:NotificationTemplate.Triggers>
+                                    <DataTrigger TargetType="template:NotificationTemplate"
+                                             Binding="{Binding Status}"
+                                             Value="Read">
+                                        <Setter Property="Opacity" Value="0.8" />
+                                    </DataTrigger>
+                                </template:NotificationTemplate.Triggers>-->
+                            </template:NotificationTemplate>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}" IsVisible="{Binding IsLoadingMore}">
+                            <BindableLayout.ItemsSource>
+                                <x:Array  Type="{x:Type x:Int32}">
+                                    <x:Int32>0</x:Int32>
+                                </x:Array>
+                            </BindableLayout.ItemsSource>
+                        </StackLayout>
+                    </CollectionView.Footer>
+                </CollectionView>
+            </RefreshView>
+            <StackLayout IsVisible="{Binding IsBusy}" BackgroundColor="{StaticResource Tertiary}">
+                <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}" >
+                    <BindableLayout.ItemsSource>
+                        <x:Array Type="{x:Type x:Int32}">
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                            <x:Int32>0</x:Int32>
+                        </x:Array>
+                    </BindableLayout.ItemsSource>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
     </Grid>
-    <!--<ActivityIndicator IsVisible="{Binding IsBusy}"
-                           IsRunning="{Binding IsBusy}"
-                           HorizontalOptions="Fill"
-                           VerticalOptions="Center"
-			   Color="{StaticResource Primary}"
-                           Grid.RowSpan="2"
-                           Grid.ColumnSpan="2"/>-->
 </ContentPage>

@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Color x:Key="Primary">#3b4655</Color>
-    <Color x:Key="Secondary">#6d7e94</Color>
+    <Color x:Key="Secondary">#8899af</Color>
     <Color x:Key="Tertiary">#2b3440</Color>
     <Color x:Key="ErrorColor">#e87272</Color>
     <Color x:Key="White">White</Color>
@@ -41,5 +41,9 @@
     <Color x:Key="Blue100Accent">#3E8EED</Color>
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
+    <Color x:Key="Transparent">#00FFFFFF</Color>
 
+    <Color x:Key="InfoNotificationColor">#5695f0</Color>
+    <Color x:Key="WarningNotificationColor">#f09c26</Color>
+    <Color x:Key="CriticalNotificationColor">#e26e79</Color>
 </ResourceDictionary>
