@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Senshost_APP.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Senshost_APP.Views"
+    xmlns:ctrls ="clr-namespace:Senshost_APP.Controls"
+    xmlns:viewModel="clr-namespace:Senshost_APP.ViewModels"
+    x:DataType="viewModel:UserStateContext"
+    Shell.FlyoutBehavior="Flyout"
+    FlyoutHeaderBehavior="Fixed"
+    Title="Senshost"
+    BackgroundColor="{StaticResource Primary}">
+
+    <Shell.FlyoutBackground>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="{StaticResource Primary}" Offset="0.4" />
+            <GradientStop Color="{StaticResource Secondary}" Offset="1" />
+        </LinearGradientBrush>
+    </Shell.FlyoutBackground>
+    
+    <Shell.Resources>
+        <Style TargetType="Label"
+       Class="FlyoutItemLabelStyle">
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
+        </Style>
+    </Shell.Resources>
+    
+    <ShellContent 
+        FlyoutItemIsVisible="False" 
+        Shell.TabBarIsVisible="False"
+        Shell.NavBarIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate views:LoadingPage}" 
+        Route="LoadingPage">
+    </ShellContent>
+
+    <ShellContent
+        Title="Login Page"
+        FlyoutItemIsVisible="False" 
+        Shell.FlyoutBehavior="Disabled"
+        Shell.TabBarIsVisible="False"
+        Shell.NavBarIsVisible="False"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage" />
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+
+        <ShellContent
+            Title="Dashboard"
+            Icon="dashboard.png"
+            Shell.FlyoutBehavior="Flyout"
+            Shell.TabBarIsVisible="True"
+            Shell.NavBarIsVisible="True"
+            ContentTemplate="{DataTemplate views:DashboardPage}"
+            Route="DashboardPage">
+        </ShellContent>
+
+        <Tab 
+            Icon="notification.png"
+            Title="Notifications"
+            ctrls:Badge.BackgroundColor="Red"
+            ctrls:Badge.Text="{Binding BadgeCount}">
+            <ShellContent 
+                Shell.FlyoutBehavior="Flyout"
+                Shell.TabBarIsVisible="True"
+                Shell.NavBarIsVisible="True"
+                Route="NotificationListPage"
+                ContentTemplate="{DataTemplate views:NotificationListPage}">
+            </ShellContent>
+        </Tab>
+
+        <ShellContent
+            Icon="events.png"
+            Title="Events"
+            Shell.FlyoutBehavior="Flyout"
+            Shell.TabBarIsVisible="True"
+            Shell.NavBarIsVisible="True"
+            ContentTemplate="{DataTemplate views:EventListPage}"
+            Route="EventListPage" />
+
+    </FlyoutItem>
+
+    <ShellContent 
+        Icon="asset.png" 
+        Title="Asset Management" 
+        ContentTemplate="{DataTemplate views:AssetManagementPage}"
+        Route="AssetManagementPage"/>
+    
+    <ShellContent 
+        Icon="about_us.png" 
+        Title="About Us" 
+        ContentTemplate="{DataTemplate views:AboutUsPage}"
+        Route="AboutUsPage"/>
+
+    <ShellContent 
+        Icon="contact_us.png" 
+        Title="Contact Us" 
+        ContentTemplate="{DataTemplate views:ContactUsPage}"
+        Route="ContactUsPage"
+    />
+
+    <Shell.FlyoutFooter>
+        <StackLayout>
+            <Button Text="Sign Out" CornerRadius="0" Command="{Binding LogoutCommand}"  />
+        </StackLayout>
+    </Shell.FlyoutFooter>
+</Shell>

@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Senshost_APP.Views.Templates.NotificationTemplate"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:Senshost_APP.ViewModels"
+             xmlns:converter="clr-namespace:Senshost_APP.Converters"
+             x:DataType="viewmodel:NotificationDetailPageViewModel"
+             BackgroundColor="{StaticResource Tertiary}">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:DateToStringConverter x:Key="DateToStringConverter" />
+
+            <Style x:Key="ImageContainerStyle" TargetType="Grid">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="50" />
+            </Style>
+
+            <Style x:Key="GridContainerStyle" TargetType="Grid">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="Margin" Value="15,0,0,0" />
+            </Style>
+
+            <Style x:Key="EllipseStyle" TargetType="Border">
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="50" />
+            </Style>
+
+            <Style x:Key="TitleTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="LineBreakMode" Value="TailTruncation" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style x:Key="MessageTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Gray200}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="LineBreakMode" Value="TailTruncation" />
+            </Style>
+
+            <Style x:Key="TimeTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Gray100}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Padding" Value="10, 0, 5, 0" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid
+                ColumnDefinitions="50, *"
+                Padding="10"
+                HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+            <Grid Style="{StaticResource ImageContainerStyle}">
+                <Border
+                    Style="{StaticResource EllipseStyle}" StrokeShape="RoundRectangle 100" StrokeThickness="0">
+                    <Border.Triggers>
+                        <DataTrigger
+                                                    TargetType="Border"
+			                                        Binding="{Binding Notification.Severity}"
+			                                        Value="Critical">
+                            <Setter Property="BackgroundColor" Value="{StaticResource CriticalNotificationColor}">
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger
+                                                    TargetType="Border"
+			                                        Binding="{Binding Notification.Severity}"
+			                                        Value="Warning">
+                            <Setter Property="BackgroundColor" Value="{StaticResource WarningNotificationColor}">
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger
+                                                    TargetType="Border"
+			                                        Binding="{Binding Notification.Severity}"
+			                                        Value="Info">
+                            <Setter Property="BackgroundColor" Value="{StaticResource InfoNotificationColor}">
+                            </Setter>
+                        </DataTrigger>
+                    </Border.Triggers>
+                </Border>
+                <Label FontSize="20" FontAttributes="Bold" TextColor="{StaticResource White}" 
+                       HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label.Triggers>
+                        <DataTrigger
+                                        TargetType="Label"
+			                            Binding="{Binding Notification.Severity}"
+			                            Value="Critical">
+                            <Setter Property="Text" Value="C">
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger
+                                        TargetType="Label"
+			                            Binding="{Binding Notification.Severity}"
+			                            Value="Warning">
+                            <Setter Property="Text" Value="W">
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger
+                                        TargetType="Label"
+			                            Binding="{Binding Notification.Severity}"
+			                            Value="Info">
+                            <Setter Property="Text" Value="I">
+                            </Setter>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Grid>
+
+            <Grid Style="{StaticResource GridContainerStyle}" 
+                  Grid.Column="1" 
+                  RowDefinitions="25,25">
+                <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                    <Label  
+                            Text="{Binding Notification.Title}"
+                            Style="{StaticResource TitleTextStyle}">
+                    </Label>
+                    <Label 
+                            Grid.Column="1"
+                            Text="{Binding Notification.CreationDate, 
+                            Converter={StaticResource DateToStringConverter}}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="End"
+                            Style="{StaticResource TimeTextStyle}"/>
+                </Grid>
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto" VerticalOptions="Start">
+                    <Label  
+                            Text="{Binding Notification.Body}"
+                            Style="{StaticResource MessageTextStyle}"/>
+
+                    <Border Grid.Column="1" StrokeShape="RoundRectangle 100" 
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Start" 
+                            BackgroundColor="LightGreen" 
+                            Margin="10,0,5,0" 
+                            HeightRequest="14" WidthRequest="14">
+                        <Border.Triggers>
+                            <DataTrigger
+                                                    TargetType="Border"
+			                                        Binding="{Binding Status}"
+			                                        Value="Read">
+                                <Setter Property="IsVisible" Value="false" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </ContentView.Content>
+</ContentView>
+    

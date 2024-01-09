@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Senshost_APP.Views.NotificationListPage"
+             xmlns:viewModel="clr-namespace:Senshost_APP.ViewModels"
+             x:DataType="viewModel:NotificationListPageViewModel"
+             xmlns:mct ="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:Senshost_APP.Controls"
+             xmlns:template="clr-namespace:Senshost_APP.Views.Templates"
+             xmlns:converter="clr-namespace:Senshost_APP.Converters"
+             xmlns:tabs="http://sharpnado.com"
+             Shell.NavBarIsVisible="True"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="False"
+             Style="{StaticResource ContentPageStyle}"
+             Loaded="ContentPage_Loaded">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:BoolInverseConverter x:Key="BoolInverseConverter" />
+            <Style TargetType="controls:SkeletonView">
+                <Setter Property="Color" Value="#E4E4E4"/>
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+            </Style>
+            <DataTemplate x:Key="EmptyUserTemplate">
+                <Grid ColumnDefinitions="Auto, *, Auto"
+                          RowDefinitions="Auto, Auto"
+                          Padding="10"
+                          BackgroundColor="Transparent">
+
+                    <controls:SkeletonView Grid.Column="0"
+                                                   Grid.Row="0"
+                                                   Grid.RowSpan="3"
+                                                   HeightRequest="50"
+                                                   WidthRequest="50"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center">
+                        <controls:SkeletonView.Clip>
+                            <EllipseGeometry
+                                                Center="25,25"
+                                                RadiusX="25"
+                                                RadiusY="25"/>
+                        </controls:SkeletonView.Clip>
+
+                    </controls:SkeletonView>
+
+                    <controls:SkeletonView Grid.Column="1"
+                                           Grid.ColumnSpan="1"
+                                                   Grid.Row="0"
+                                                   HeightRequest="16"
+                                                   Margin="15,0,0,0"
+                                                   HorizontalOptions="FillAndExpand"/>
+
+                    <controls:SkeletonView Grid.Column="2"
+                                           Grid.ColumnSpan="1"
+                                                   Grid.Row="0"
+                                                   HeightRequest="16"
+                                                   Margin="15,0,5,0"
+                                                   WidthRequest="80"
+                                                   HorizontalOptions="End"/>
+
+                    <controls:SkeletonView Grid.Column="1"
+                                                   Grid.Row="1"
+                                                   Grid.ColumnSpan="2"
+                                                   HeightRequest="14"
+                                                    Margin="15,5,5,0"
+                                                   HorizontalOptions="FillAndExpand" />
+                </Grid>
+            </DataTemplate>
+            <Style x:Key="MaterialTabStyle" TargetType="tabs:UnderlinedTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource White}" />
+                <Setter Property="LabelSize" Value="14" />
+                <Setter Property="UnderlineAllTab" Value="False" />
+                <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Shell.TitleView>
+        <controls:TitleView Title="Notifications" Icon="notification.png">
+            <controls:TitleView.ToolBarItems>
+                <Grid>
+                    <Button  CornerRadius="25"
+                         Command="{Binding RefreshCommand}"
+                         HorizontalOptions="End"
+                         VerticalOptions="Center"
+                         HeightRequest="50"
+                         Padding="5,5"
+                         FontSize="20"
+                         ImageSource="refresh.png"
+                         WidthRequest="50">
+                    </Button>
+                </Grid>
+            </controls:TitleView.ToolBarItems>
+        </controls:TitleView>
+    </Shell.TitleView>
+
+    <Grid>
+        <Grid RowDefinitions="auto,*" IgnoreSafeArea="True" RowSpacing="0" BackgroundColor="{StaticResource Primary}">
+            <tabs:TabHostView x:Name="TabHostBadge"
+                          Grid.Row="0"
+                          HeightRequest="40"
+                          Padding="10,0"
+                          SelectedIndex="{Binding SelectedTabIndex}"
+                          BackgroundColor="{StaticResource Primary}">
+                <tabs:UnderlinedTabItem Label="ALL" Style="{StaticResource MaterialTabStyle}">
+                    <tabs:TabItem.Badge>
+                        <tabs:BadgeView TextSize="12" StrokeShape="RoundRectangle 100" BadgePadding="3,0,3,0"
+                                    BackgroundColor="BlueViolet"  Text="{Binding PendingAllNotificationCount}" />
+                    </tabs:TabItem.Badge>
+                </tabs:UnderlinedTabItem>
+                <tabs:UnderlinedTabItem Label="CRITICAL" Style="{StaticResource MaterialTabStyle}">
+                    <tabs:TabItem.Badge>
+                        <tabs:BadgeView TextSize="12" StrokeShape="RoundRectangle 100" BadgePadding="3,0,3,0"
+                                    BackgroundColor="{StaticResource CriticalNotificationColor}" Text="{Binding PendingCritialNotificationCount}" />
+                    </tabs:TabItem.Badge>
+                </tabs:UnderlinedTabItem>
+                <tabs:UnderlinedTabItem  Label="WARNING" Style="{StaticResource MaterialTabStyle}">
+                    <tabs:TabItem.Badge>
+                        <tabs:BadgeView TextSize="12" StrokeShape="RoundRectangle 100" BadgePadding="3,0,3,0"
+                                    BackgroundColor="{StaticResource WarningNotificationColor}" 
+                                    Text="{Binding PendingWarningNotificationCount}" />
+                    </tabs:TabItem.Badge>
+                </tabs:UnderlinedTabItem>
+                <tabs:UnderlinedTabItem Label="INFO" Style="{StaticResource MaterialTabStyle}">
+                    <tabs:TabItem.Badge>
+                        <tabs:BadgeView TextSize="12" StrokeShape="RoundRectangle 100" BadgePadding="3,0,3,0"
+                                    BackgroundColor="{StaticResource InfoNotificationColor}" Text="{Binding PendingInfoNotificationCount}" />
+                    </tabs:TabItem.Badge>
+                </tabs:UnderlinedTabItem>
+            </tabs:TabHostView>
+            <Grid Grid.Row="1" IgnoreSafeArea="False" BackgroundColor="{StaticResource Tertiary}">
+                <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+                    <CollectionView SelectionMode="Single" 
+                                ItemsSource="{Binding Notifications}" 
+                                RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                                RemainingItemsThreshold="{Binding ItemThreshold}"
+                                x:Name="listNotification"
+                                VerticalScrollBarVisibility="Never" 
+                                SelectedItem="{Binding SelectedNotification}"
+                                CanReorderItems="False" ItemSizingStrategy="MeasureAllItems">
+                        <CollectionView.EmptyView>
+                            <Label VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"
+                               HorizontalOptions="Center" Text="No record to display." TextColor="White"/>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="{x:Type viewModel:NotificationDetailPageViewModel}">
+                                <template:NotificationTemplate HeightRequest="70">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Normal"></VisualState>
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="Background" Value="{StaticResource Transparent}"></Setter>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource Transparent}"></Setter>
+                                                    <Setter Property="Scale" Value="0.98"></Setter>
+                                                    <Setter Property="Opacity" Value="0.7"></Setter>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <!--<template:NotificationTemplate.Behaviors>
+                                    <mct:AnimationBehavior>
+                                        <mct:AnimationBehavior.AnimationType>
+                                            <mct:FadeAnimation Opacity="0.3"  />
+                                        </mct:AnimationBehavior.AnimationType>
+                                    </mct:AnimationBehavior>
+                                </template:NotificationTemplate.Behaviors>
+                                <template:NotificationTemplate.Triggers>
+                                    <DataTrigger TargetType="template:NotificationTemplate"
+                                             Binding="{Binding Status}"
+                                             Value="Read">
+                                        <Setter Property="Opacity" Value="0.8" />
+                                    </DataTrigger>
+                                </template:NotificationTemplate.Triggers>-->
+                                </template:NotificationTemplate>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.Footer>
+                            <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}" IsVisible="{Binding IsLoadingMore}">
+                                <BindableLayout.ItemsSource>
+                                    <x:Array  Type="{x:Type x:Int32}">
+                                        <x:Int32>0</x:Int32>
+                                    </x:Array>
+                                </BindableLayout.ItemsSource>
+                            </StackLayout>
+                        </CollectionView.Footer>
+                    </CollectionView>
+                </RefreshView>
+                <StackLayout IsVisible="{Binding IsBusy}" BackgroundColor="{StaticResource Tertiary}">
+                    <StackLayout BindableLayout.ItemTemplate="{DynamicResource EmptyUserTemplate}" >
+                        <BindableLayout.ItemsSource>
+                            <x:Array Type="{x:Type x:Int32}">
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                                <x:Int32>0</x:Int32>
+                            </x:Array>
+                        </BindableLayout.ItemsSource>
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </Grid>
+
+        <mct:Expander HorizontalOptions="End"
+		                VerticalOptions="End"
+		                Margin="0,0,10,30"
+                        x:Name="Expender"
+                        IsExpanded="{Binding IsOptionExpended}"
+		                Direction="Up">
+            <mct:Expander.Header>
+                <ImageButton
+                        Opacity="0.9"
+                        HeightRequest="30"
+						HorizontalOptions="End"
+						VerticalOptions="End" Source="add.png">
+                    <ImageButton.Behaviors>
+                        <mct:IconTintColorBehavior TintColor="White" />
+                    </ImageButton.Behaviors>
+                </ImageButton>
+            </mct:Expander.Header>
+            <mct:Expander.Content>
+                <VerticalStackLayout Spacing="10" Margin="0,10,0,10" BackgroundColor="{StaticResource Primary}">
+                    <HorizontalStackLayout>
+                        <CheckBox Color="White" IsChecked="{Binding IsAllChecked}" VerticalOptions="Center" />
+                        <Label Text="Show All" FontAttributes="Bold"
+                                               FontSize="14" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray400}"/>
+                    <Button ImageSource="mark_read.png" Text="Mark All as Read" Command="{Binding MarkAllReadCommand}">
+                        <Button.Behaviors>
+                            <mct:IconTintColorBehavior TintColor="White" />
+                        </Button.Behaviors>
+                    </Button>
+                </VerticalStackLayout>
+            </mct:Expander.Content>
+        </mct:Expander>
+    </Grid>
+</ContentPage>

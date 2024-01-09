@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Senshost_APP.Views.LoadingPage"
+             Title="LoadingPage"
+             Style="{StaticResource ContentPageStyle}">
+    <Grid RowDefinitions="*">
+        <Image x:Name="LogoImage"
+               Source="login_logo.png" HorizontalOptions="Center" 
+               VerticalOptions="Start" Aspect="AspectFit" Margin="0,150,0,00"
+               IsAnimationPlaying="False">
+        </Image>
+        <ActivityIndicator
+                IsVisible="true"
+                IsRunning="true"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"/>
+    </Grid>
+</ContentPage>

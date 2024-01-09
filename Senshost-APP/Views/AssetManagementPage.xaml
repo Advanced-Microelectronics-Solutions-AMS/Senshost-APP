@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Senshost_APP.Views.AssetManagementPage"
+             xmlns:viewModel="clr-namespace:Senshost_APP.ViewModels"
+             x:DataType="viewModel:AssetManagementPageViewModel"
+             xmlns:controls="clr-namespace:Senshost_APP.Controls"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="False"
+             Loaded="ContentPage_Loaded">
+    <Shell.TitleView>
+        <controls:TitleView Title="Asset Management" Icon="asset.png">
+            <controls:TitleView.ToolBarItems>
+                <Grid>
+                    <Button  CornerRadius="25"
+                     Clicked="ImageButton_Clicked"
+                     HorizontalOptions="End"
+                     VerticalOptions="Center"
+                     HeightRequest="50"
+                     Padding="5,5"
+                     FontSize="20"
+                     ImageSource="refresh.png"
+                     WidthRequest="50">
+                    </Button>
+                </Grid>
+            </controls:TitleView.ToolBarItems>
+        </controls:TitleView>
+    </Shell.TitleView>
+    <Grid IgnoreSafeArea="True">
+        <WebView x:Name="assetManagementWebView" Opacity="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                 Source="https://senshost.com/#/home/bats" Navigating="WebView_Navigating"  Navigated="WebView_Navigated">
+        </WebView>
+        <ActivityIndicator
+                   IsVisible="{Binding IsBusy}"
+                   IsRunning="{Binding IsBusy}"
+                   HorizontalOptions="Center"
+                   Color="{StaticResource Primary}"
+                   VerticalOptions="Center"/>
+    </Grid>
+</ContentPage>

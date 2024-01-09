@@ -1,0 +1,99 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0-android</TargetFrameworks>
+		<!--<TargetFrameworks>net8.0-ios</TargetFrameworks>-->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>Senshost_APP</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>Senshost</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.AMS.senshost</ApplicationId>
+		<ApplicationIdGuid>f3d24624-7231-4eb4-9ac9-ba8b96f07077</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>-->
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<AndroidSigningKeyStore>Senshost.keystore</AndroidSigningKeyStore>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<TargetFrameworkVersion>34</TargetFrameworkVersion>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<PublishTrimmed>False</PublishTrimmed>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningStorePass>M@ster12345</AndroidSigningStorePass>
+		<AndroidSigningKeyAlias>Senshost</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>M@ster12345</AndroidSigningKeyPass>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidSigningStorePass>M@ster12345</AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias>Senshost</AndroidSigningKeyAlias>
+	  <AndroidSigningKeyPass>M@ster12345</AndroidSigningKeyPass>
+	</PropertyGroup>
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Microsoft.Maui.Controls.Compatibility" RootMode="library" />
+	</ItemGroup>
+	<ItemGroup>
+
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#3b4655" TintColor="#FFFFFF">
+		</MauiSplashScreen>
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dashboard.svg" BaseSize="26,26" />
+		<MauiImage Update="Resources\Images\events.svg" BaseSize="26,26" />
+		<MauiImage Update="Resources\Images\notification.svg" BaseSize="26,26" />
+		<MauiImage Update="Resources\Images\login_logo.png" BaseSize="253,77" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Platforms\Android\google-services.json" />
+		<None Remove="Resources\Images\asset.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<GoogleServicesJson Include="Platforms\Android\google-services.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Sharpnado.Tabs.Maui" Version="3.0.1" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="Plugin.Firebase" Version="2.0.9" />
+		<PackageReference Include="Plugin.Firebase.Crashlytics" Version="2.0.1" />
+
+		<PackageReference Include="Xamarin.AndroidX.Preference" Version="1.2.1.2" />
+		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.10.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AssetManagementPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+</Project>

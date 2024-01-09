@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:mct ="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Senshost_APP.Controls.TitleView">
+    <Grid ColumnDefinitions="*,Auto">
+        <HorizontalStackLayout>
+            <Image HeightRequest="20" Margin="0,0,10,0" x:Name="icon">
+                <Image.Behaviors>
+                    <mct:IconTintColorBehavior TintColor="White" />
+                </Image.Behaviors>
+            </Image>
+            <Label x:Name="lblTitle"
+               FontSize="20" 
+               TextColor="White"
+               FontAttributes="Bold"
+               VerticalTextAlignment="Center" 
+               HorizontalOptions="FillAndExpand" 
+               VerticalOptions="Center"></Label>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Grid.Column="1" x:Name="toolbarParant">
+        </HorizontalStackLayout>
+    </Grid>
+</ContentView>

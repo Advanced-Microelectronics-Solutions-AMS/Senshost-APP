@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Senshost_APP.Controls"
+             x:Class="Senshost_APP.Views.AboutUsPage"
+             Title="About Us">
+    <Shell.TitleView>
+        <controls:TitleView Title="About Us" Icon="about_us.png" />
+    </Shell.TitleView>
+    <Grid>
+        <WebView x:Name="aboutUs" 
+                 Opacity="0"
+                 Source="https://www.amsolutions.my/about-7" 
+                 Navigating="WebView_Navigating"  Navigated="WebView_Navigated">
+        </WebView>
+        <ActivityIndicator 
+                           x:Name="loading"
+                           HorizontalOptions="Center"
+                           Color="{StaticResource Primary}"
+                           VerticalOptions="Center"/>
+    </Grid>
+</ContentPage>

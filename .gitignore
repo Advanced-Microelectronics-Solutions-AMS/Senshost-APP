@@ -3,11 +3,5 @@
 ################################################################################
 
 /.vs
-/Senshost/.vs/ProjectEvaluation
-/Senshost/bin/Debug
-/Senshost/obj
-/Senshost.Common/bin
-/Senshost.Common/obj
-/Senshost.Models/bin
-/Senshost.Services/bin
-/Senshost.Services/obj
+/Senshost-APP/bin/Debug/net8.0-android
+/Senshost-APP/obj
